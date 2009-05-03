@@ -1,0 +1,286 @@
+body { background: rgb(213, 214, 215) url('../img/kubrickbgcolor.jpg') repeat; font-size: 62.5%; font-family: 'Lucida Grande',Verdana,Arial,Sans-Serif; color: rgb(51, 51, 51); text-align: center; }
+#page { border: 1px solid rgb(149, 149, 150); background-color: white; text-align: left; }
+#header { background: rgb(115, 160, 197) url('../img/kubrickheader.jpg') no-repeat scroll center bottom; }
+#headerimg { margin: 7px 9px 0pt; height: 192px; width: 740px; }
+#content { font-size: 1.2em; }
+.widecolumn .entry p { font-size: 1.05em; }
+.narrowcolumn .entry, .widecolumn .entry { line-height: 1.4em; }
+.widecolumn { line-height: 1.6em; }
+.narrowcolumn .postmetadata { text-align: center; }
+.alt { border-top: 1px solid rgb(221, 221, 221); border-bottom: 1px solid rgb(221, 221, 221); background-color: rgb(248, 248, 248); }
+#footer { border: medium none ; background: rgb(238, 238, 238) url('../img/kubrickfooter.jpg') no-repeat scroll center top; }
+small { font-family: "Arial"; font-size: 0.9em; line-height: 1.5em; display:block; margin-bottom:15px; }
+h1, h2, h3 { font-family: 'Trebuchet MS','Lucida Grande',Verdana,Arial,Sans-Serif; font-weight: bold; }
+h1 { font-size: 4em; text-align: center; }
+#headerimg .description { font-size: 1.2em; text-align: center; }
+h2 { font-size: 1.6em; }
+h2.pagetitle { font-size: 1.6em; }
+#sidebar h2 { font-family: 'Lucida Grande',Verdana,Sans-Serif; font-size: 1.2em; }
+h3 { font-size: 1.3em; }
+h1, h1 a, h1 a:hover, h1 a:visited, #headerimg .description { text-decoration: none; color: white; }
+h2, h2 a, h2 a:visited, h3, h3 a, h3 a:visited { color: rgb(51, 51, 51); }
+h2, h2 a, h2 a:hover, h2 a:visited, h3, h3 a, h3 a:hover, h3 a:visited, #sidebar h2, #wp-calendar caption, cite { text-decoration: none; }
+/*.entry p a:visited { color: rgb(184, 91, 90); }*/
+.commentlist li, #commentform input, #commentform textarea { font-family: 'Lucida Grande',Verdana,Arial,Sans-Serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 0.9em; line-height: normal; font-size-adjust: none; font-stretch: normal; }
+.commentlist li { font-weight: bold; }
+.commentlist cite, .commentlist cite a { font-weight: bold; font-style: normal; font-size: 1.1em; }
+.commentlist p { font-weight: normal; line-height: 1.5em; text-transform: none; }
+#commentform p { font-family: 'Lucida Grande',Verdana,Arial,Sans-Serif; }
+.commentmetadata { font-weight: normal; }
+#sidebar { font-family: 'Lucida Grande',Verdana,Arial,Sans-Serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 1em; line-height: normal; font-size-adjust: none; font-stretch: normal; }
+small, #sidebar ul ul li, #sidebar ul ol li, .nocomments, .postmetadata, blockquote, strike { color: rgb(119, 119, 119); }
+code { font-family: 'Courier New',Courier,Fixed; font-style: normal; font-variant: normal; font-weight: normal; font-size: 1.1em; line-height: normal; font-size-adjust: none; font-stretch: normal; }
+acronym, abbr, span.caps { font-size: 0.9em; letter-spacing: 0.07em; }
+a, h2 a:hover, h3 a:hover { color: rgb(0, 102, 204); text-decoration: none; }
+a:hover { color: rgb(17, 68, 119); text-decoration: underline; }
+#wp-calendar #prev a, #wp-calendar #next a { font-size: 9pt; }
+#wp-calendar a { text-decoration: none; }
+#wp-calendar caption { font-family: 'Lucida Grande',Verdana,Arial,Sans-Serif; font-style: normal; font-variant: normal; font-weight: bold; font-size: 1.3em; line-height: normal; font-size-adjust: none; font-stretch: normal; text-align: center; }
+#wp-calendar th { font-style: normal; text-transform: capitalize; }
+body { margin: 0pt 0pt 20px; padding: 0pt; }
+#page { border: 1px solid rgb(149, 149, 150); margin: 20px auto; padding: 0pt; background-color: white; width: 760px; }
+#header { margin: 0pt 0pt 0pt 1px; padding: 0pt; background-color: rgb(115, 160, 197); height: 200px; width: 758px; }
+#headerimg { margin: 0pt; height: 200px; width: 100%; }
+.narrowcolumn { margin: 0px 0pt 0pt; padding: 0pt 0pt 20px 45px; float: none; width: 650px; } /* edit */
+.widecolumn { margin: 5px 0pt 0pt 150px; padding: 10px 0pt 20px; width: 450px; }
+.post { margin: 0pt 0pt 40px; text-align: justify; }
+.post hr { display: block; }
+.widecolumn .post { margin: 0pt; }
+.narrowcolumn .postmetadata { padding-top: 5px; }
+.widecolumn .postmetadata { margin: 30px 0pt; }
+.widecolumn .smallattachment { margin: 5px 5px 5px 0px; text-align: center; float: left; width: 128px; }
+.widecolumn .attachment { margin: 5px 0px; text-align: center; }
+.postmetadata { clear: left; }
+#footer { margin: 0pt auto; padding: 0pt; width: 760px; clear: both; }
+#footer p { margin: 0pt; padding: 25px 0pt; text-align: center; }
+h1 { margin: 0pt; padding-top: 70px; }
+h2 { margin: 30px 0pt 0pt; }
+h2.pagetitle { margin-top: 30px; text-align: center; }
+#sidebar h2 { margin: 5px 0pt 0pt; padding: 0pt; }
+h3 { margin: 30px 0pt 0pt; padding: 0pt; }
+h3.comments { margin: 40px auto 20px; padding: 0pt; }
+p img { padding: 0pt; max-width: 100%; }
+img.centered { display: block; margin-left: auto; margin-right: auto; }
+img.alignright { margin: 0pt 0pt 2px 7px; padding: 4px; display: inline; }
+img.alignleft { margin: 0pt 7px 2px 0pt; padding: 4px; display: inline; }
+.alignright { float: right; }
+.alignleft { float: left; }
+/*html > body .entry ul { padding: 0pt 0pt 0pt 10px; margin-left: 0px; list-style-type: none; list-style-image: none; list-style-position: outside; text-indent: -10px; }
+html > body .entry li { margin: 7px 0pt 8px 10px; }
+.entry ul li:before,*/ #sidebar ul ul li:before { content: "> "; }
+.entry ol { margin: 0pt; padding: 0pt 0pt 0pt 35px; }
+.entry ol li { margin: 0pt; padding: 0pt; }
+.postmetadata ul, .postmetadata li { display: inline; list-style-type: none; list-style-image: none; }
+#sidebar ul, #sidebar ul ol { margin: 0pt; padding: 0pt; }
+#sidebar ul li { list-style-type: none; list-style-image: none; margin-bottom: 15px; }
+#sidebar ul p, #sidebar ul select { margin: 5px 0pt 8px; }
+#sidebar ul ul, #sidebar ul ol { margin: 5px 0pt 0pt 10px; }
+#sidebar ul ul ul, #sidebar ul ol { margin: 0pt 0pt 0pt 10px; }
+/*ol li,*/ #sidebar ul ol li { list-style-type: decimal; list-style-image: none; list-style-position: outside; }
+#sidebar ul ul li, #sidebar ul ol li { margin: 3px 0pt 0pt; padding: 0pt; }
+#searchform { margin: 10px auto; padding: 5px 3px; text-align: center; }
+#sidebar #searchform #s { padding: 2px; width: 108px; }
+#sidebar #searchsubmit { padding: 1px; }
+.entry form { text-align: center; }
+select { width: 130px; }
+#commentform input { margin: 5px 5px 1px 0pt; padding: 2px; width: 170px; }
+#commentform textarea { padding: 2px; width: 100%; }
+#commentform #submit { margin: 0pt; float: right; }
+.alt { margin: 0pt; padding: 10px; }
+.commentlist { padding: 0pt; text-align: justify; }
+.commentlist li { margin: 15px 0pt 3px; padding: 5px 10px 3px; list-style-type: none; list-style-image: none; list-style-position: outside; }
+.commentlist p { margin: 10px 5px 10px 0pt; }
+#commentform p { margin: 5px 0pt; }
+.nocomments { margin: 0pt; padding: 0pt; text-align: center; }
+.commentmetadata { margin: 0pt; display: block; }
+#sidebar { padding: 20px 0pt 10px; margin-left: 545px; width: 190px; }
+#sidebar form { margin: 0pt; }
+#wp-calendar { margin: 10px auto 0pt; empty-cells: show; width: 155px; }
+#wp-calendar #next a { padding-right: 10px; text-align: right; }
+#wp-calendar #prev a { padding-left: 10px; text-align: left; }
+#wp-calendar a { display: block; }
+#wp-calendar caption { text-align: center; width: 100%; }
+#wp-calendar td { padding: 3px 0pt; text-align: center; }
+#wp-calendar td.pad:hover { background-color: rgb(255, 255, 255); }
+acronym, abbr, span.caps { cursor: help; }
+acronym, abbr { border-bottom: 1px dashed rgb(153, 153, 153); }
+blockquote { border-left: 5px solid rgb(221, 221, 221); margin: 15px 30px 0pt 10px; padding-left: 20px; }
+blockquote cite { margin: 5px 0pt 0pt; display: block; }
+.center { text-align: center; }
+hr { display: none; }
+a img { border: medium none ; }
+.navigation { display: block; text-align: center; margin-top: 10px; margin-bottom: 60px; }
+
+#page { border: medium none ; background: transparent url('../img/kubrickbg-ltr_inst.jpg') repeat-y scroll center top; }
+
+
+.login,
+.login input,
+.login button
+{
+	margin: 2px;
+	padding: 2px;
+	font-size: 10px;
+	background-color: white;
+	text-align: center;
+}
+
+.login input
+{
+	/*background-color: #FFFFFF;
+	border: solid 1px;
+	text-align: center;*/
+	width: 90%;
+}
+
+#login
+{
+	/*border: solid 1px;
+	text-align: center;
+	align: right;
+	margin: auto;
+	width: 60px;*/
+}
+
+.loginbox
+{
+/*	background:		url('../img/inputbox_bg.png');*/
+	width:			285px;
+	height:			182px;
+	align:			center;
+	text-align:		center;
+	margin:			auto;
+	margin-top:		50px;
+}
+
+.inputbox
+{
+	width:			95%;
+	align:			center;
+	margin:			auto;
+	margin-top:		50px;
+}
+
+.input label
+{
+	display:		block;
+	font-weight:	bold;
+}
+
+.error-message
+{
+	color: #ff0000;
+}
+
+.editor_area
+{
+	width:	440px;
+	height:	400px;
+}
+
+.description_area
+{
+	width:	440px;
+	height:	200px;
+}
+
+div.input
+{
+	margin-bottom: 10px;
+}
+
+.SaveMessage,
+.message
+{
+	display:		block;
+	color:			#FF0000;
+	margin-top:		0px;
+	margin-bottom:	0px;
+	float:			right;
+}
+
+h5
+{
+	display:		inline;
+}
+
+.rss
+{
+	display:		inline;
+	text-align:		left;
+}
+
+.comment
+{
+	margin-top: 2px;
+	border-top: 1px solid #bbbbbb;
+	border-left: 1px solid #bbbbbb;
+	border-bottom: 4px double #bbbbbb;
+	border-right: 4px double #bbbbbb;
+}
+
+.comment_article_author
+{
+	margin-top: 2px;
+	border-top: 1px solid #000000;
+	border-left: 1px solid #000000;
+	border-bottom: 4px double #000000;
+	border-right: 4px double #000000;
+}
+
+.comment_header
+{
+	background-color: #eeeeff;
+	padding: 2px;
+
+}
+
+.comment_author_name
+{
+	font-weight:	bold;
+}
+
+.comment_content
+{
+	padding-left: 5px;
+	margin: 10px;
+}
+
+.comment_area
+{
+	width:	440px;
+	height:	160px;
+}
+
+.searchBox
+{
+	padding: 0 0 6px 8px;
+}
+
+.searchInput
+{
+	border:		1px solid #dddddd;
+	padding:	4px;
+	width:		140px;
+}
+
+.searchButton
+{
+	background:	url(../img/search.gif) no-repeat left bottom;
+	border:		none;
+	height:		27px;
+	width:		27px;
+}
+
+.search_highlight
+{
+	background-color: #FFFF00;
+}
+
+.title
+{
+	font-family: 'Courier New';
+	text-align: center;
+	font-size: 3em;
+	font-weight: bold;
+}

@@ -1,0 +1,66 @@
+#wizard-title
+{
+}
+
+.wizard-done
+{
+}
+
+.wizard-current
+{
+	font-weight:		bold !important;
+}
+
+.wizard-pending
+{
+	color:				#CCCCCC !important;
+}
+
+.install-inputbox
+{
+	margin:				15px;
+}
+
+#neutrino-skip
+{
+	text-align:			center;
+}
+
+
+#UserUsername,
+#UserPassword,
+#UserEmail,
+#UserFirstName,
+#UserLastName,
+#ConfigurationSiteTitle,
+#ConfigurationSiteDescription,
+#ConfigurationSiteKeywords,
+#ConfigurationCaptchaSidenote,
+#ConfigurationSiteCopyrightNotice,
+#ConfigurationTheme,
+#ConfigurationGoogleWebmasterToolsVerificationCode,
+#ConfigurationGoogleAnalyticsAccountCode
+{
+	width:				100%;
+}
+
+/*----------------------UPDATE----------------------*/
+
+#neutrino-update
+{
+	text-align:			center;
+}
+
+/*----------------------ERROR----------------------*/
+
+.error-image-container
+{
+	float:				left;
+}
+
+.error-image-container img
+{
+	background-color:	transparent;
+	border:				1px none #0f0f0f;
+	margin:				10px;
+}

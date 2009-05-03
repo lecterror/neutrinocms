@@ -1,0 +1,353 @@
+/************************************************ GENERAL ************************************************/
+
+#flash-wrap
+{
+	color:				#ff0000;
+	background-color:	#FFFF00 /*#EFF0F1*/;
+	font-size:			larger;
+	text-align:			center;
+	width:				100%;
+}
+
+.error-message,
+.warning-message
+{
+	color:				#ff0000;
+}
+
+input:focus,
+textarea:focus
+{
+	border:				1px solid #AAAAAA;
+}
+
+.form-error
+{
+	background-color:	#EDFDCE;
+}
+
+#SearchPhrase
+{
+	padding:			2px;
+	height:				19px;
+	font-size:			14px;
+	font-weight:		bold;
+}
+
+.rss-image
+{
+	background-color:	#FAFAFA;
+	border:				1px none #EDFDCE;
+	padding:			0px;
+	float:				right;
+}
+
+.loginbox,
+.commentbox,
+.article-inputbox,
+.article-deletebox,
+.article-category-inputbox,
+.article-category-deletebox
+{
+	margin:				15px;
+}
+
+/************************************************ ARTICLE ************************************************/
+
+.article
+{
+	border:				1px dashed #EFF0F1;
+	margin-bottom:		5px;
+}
+
+.article-actions
+{
+	font-size:			x-small;
+}
+
+.article p,
+.article li
+{
+	font-size:			larger;
+}
+
+.article .intro-small
+{
+	margin:				15px 25px 15px 25px;
+	text-align:			left;
+	font-family:		Verdana, Tahoma, Arial;
+	border:				1px solid #EFF0F1;
+}
+
+.article code
+{
+	font-size:			12px;
+	display:			block;
+	background:			inherit;
+}
+
+.article .intro
+{
+	margin:				15px;
+	text-align:			left;
+}
+
+.article p
+{
+	text-align:			justify;
+}
+
+.article .search_highlight
+{
+	background-color:	#FFFF00;
+	cursor:				default;
+}
+
+.article .read-more
+{
+	background:			url(../img/page.gif) no-repeat left center;
+	padding-left:		20px;
+	float:				left;
+}
+
+.article-header
+{
+	background-color:	#FAFAFA;
+	padding:			5px;
+	margin:				-5px 10px 0 10px;
+	border:				1px solid #f2f2f2;
+	font-size:			95%;
+}
+
+.article-footer
+{
+	background-color:	#FAFAFA;
+	padding:			5px;
+	margin:				20px 10px 0 10px;
+	border:				1px solid #f2f2f2;
+	font-size:			95%;
+}
+
+.article-footer .date,
+.article-header .date
+{
+	background:			url(../img/clock.gif) no-repeat left center;
+	padding-left:		20px;
+	padding-top:		1px;
+	padding-bottom:		1px;
+	margin:				0px 10px 0px 5px;
+}
+
+.article-footer .comments
+{
+	background:			url(../img/comment.gif) no-repeat left center;
+	padding-left:		20px;
+	margin:				0px 10px 0px 5px;
+}
+
+.post-footer .readmore
+{
+	background:			url(../img/page.gif) no-repeat left center;
+	padding-left:		20px;
+	margin:				0px 10px 0px 5px;
+}
+
+/************************************************ COMMENTS ************************************************/
+
+.comment-controls
+{
+	width:				95%;
+	text-align:			center;
+	padding:			15px 15px 0px 15px;
+}
+
+#comments-inner-wrap
+{
+	width:				95%;
+	text-align:			center;
+	padding:			0px 15px 0px 15px;
+}
+
+.comments-form-wrap
+{
+	width:				100%;
+	text-align:			left;
+}
+
+.comment-controls div
+{
+	display:			inline;
+}
+
+.comment-controls h3
+{
+	text-align:			left;
+}
+
+.article-comment
+{
+	width:				500px !important;
+	background:			#FFFFFF url(../img/comment_content.png) repeat-y center top;
+	margin:				0 auto;
+	text-align:			left;
+}
+
+.article-comment a,
+.article-comment a:hover,
+.article-comment a:visited
+{
+	color:				#E5E5E5;
+	background-color:	inherit;
+	text-decoration:	none;
+	border-bottom:		1px dashed #E5E5E5;
+}
+
+.article-comment .comment-header
+{
+	width:				500px !important;
+	position:			relative;
+	height:				20px;
+	background:			#FFFFFF url(../img/comment_header.png) no-repeat center top;
+	padding:			0;
+	color:				#FFFFFF;
+	padding-left:		0px;
+	padding-top:		15px;
+}
+
+.article-comment .comment-footer
+{
+	width:				500px !important;
+	color:				#FFFFFF;
+	background:			#FFFFFF url(../img/comment_footer.png) no-repeat center top;
+	clear:				both;
+	height:				25px;
+	text-align:			center;
+	font-size:			92%;
+}
+
+.article-comment .author-name
+{
+	font-weight:		bold;
+	margin-left:		25px;
+}
+
+.article-comment .content
+{
+	text-align:			justify;
+	padding-left:		5px;
+	margin-left:		20px;
+	margin-right:		21px;
+}
+
+.authors-comment .content
+{
+	background-color:	#EDFDCE;
+	margin-left:		20px;
+	margin-right:		21px;
+}
+
+.article-comment .comment-admin
+{
+	float:				right;
+	margin-right:		25px;
+}
+
+.article-inputbox #title,
+.article-inputbox #intro,
+.article-inputbox #content
+{
+	width:				460px;
+}
+
+.article-inputbox #content
+{
+	height:				350px;
+}
+
+.article-inputbox .button
+{
+	margin-top:			15px;
+}
+
+.article-deletebox .submit
+{
+	display:			inline;
+}
+
+.article-deletebox .button
+{
+	margin-top:			20px;
+}
+
+/************************************************ COMMENTS PAGINATION ************************************************/
+
+.comment-paginate-counter
+{
+	float:				left;
+}
+
+.comment-paginate-numbers
+{
+	float:				right;
+}
+
+/************************************************ ARTICLE CATEGORY ************************************************/
+
+.article-category
+{
+}
+
+.article-category-title
+{
+	background:			none;
+	text-transform:		none;
+	font-size:			x-large;
+}
+
+.article-category-header
+{
+	background-color:	#FAFAFA;
+	padding:			5px;
+	margin:				-5px 10px 30px 10px;
+	border:				1px solid #f2f2f2;
+	font-size:			95%;
+}
+
+.article-category-description
+{
+	background:			url(../img/folder.png) no-repeat left center;
+	padding-left:		20px;
+	padding-top:		1px;
+	padding-bottom:		1px;
+	margin:				0px 10px 0px 5px;
+}
+
+.article-category-actions
+{
+	font-size:			x-small;
+}
+
+.article-category-inputbox #name
+{
+	width:				250px;
+}
+
+.article-category-inputbox #description
+{
+	width:				460px;
+}
+
+.article-category-inputbox .button
+{
+	margin-top:			15px;
+}
+
+.article-category-deletebox .submit
+{
+	display:			inline;
+}
+
+.article-category-deletebox .button
+{
+	margin-top:			20px;
+}

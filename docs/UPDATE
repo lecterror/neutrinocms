@@ -1,0 +1,32 @@
+
+	NeutrinoCMS Update Guide
+	------------------------
+
+	* Extract the new version of NeutrinoCMS over the existing version
+	and overwrite all the files
+
+		***
+		If you have changed the application settings in ~/app/config/core.php
+		exclude that file from the update.
+		***
+
+	* Clear the application cache, this means
+	deleting all the files in:
+		: ~/app/tmp/cache/
+		: ~/app/tmp/cache/models/
+		: ~/app/tmp/cache/persistent/
+		: ~/app/tmp/cache/views/
+
+		***
+		This step is very important, if the cache is not cleared, NeutrinoCMS
+		will not be aware of the update and will end up in an infinite loop!
+		***
+
+	* In your browser, open
+		http://<yoursite>/
+		or
+		http://<yoursite>/setup/update
+
+	* Follow the on-screen instructions
+
+	* Done!

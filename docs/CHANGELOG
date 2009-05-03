@@ -1,0 +1,21 @@
+# 0.1 beta #
+
+* updated install/update instructions
+* added star rating system for articles and downloads (Starbox)
+* improved validation
+* query optimization with the new Containable behavior
+* extended the fields for meta tags (content description and keywords)
+* added Markdown syntax help for articles (with Shadowbox)
+* fixed a huge bug in comments pagination (thanks Miljenko Barbir)
+* removed usage of obsolete Cake functions (like renderElement => element)
+* updated Prototype and Scriptaculous
+* fixed a bug in the menu (install compatibility)
+* a huge CSS cleanup
+* new theme added (Blue Pigment)
+* added Google integration (Analytics and Webmaster tools)
+* added most popular, most commented and highest rated elements
+* fixed some relational dependencies with article/download model
+* added new settings for the site (removed some hard-coded stuff)
+* fixed sitemap to please Googlebot
+* added robots.txt route to exclude comment paging links
+* many minor bugs fixed..

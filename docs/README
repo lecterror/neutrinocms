@@ -1,0 +1,79 @@
+###############################
+# NeutrinoCMS 0.1-beta README #
+###############################
+
+Thank you for trying out NeutrinoCMS!
+
+For a list of changes in this release, please read the CHANGELOG file.
+
+Please send your comments and suggestions to <neutrinocms[at]gmail.com>
+
+###########
+# CREDITS #
+###########
+
+NeutrinoCMS is using the following code (in random order):
+
+	* Markdown Extra *
+		A text-to-HTML conversion tool for web writers
+		Copyright (c) 2004-2007 Michel Fortin
+		<http://www.michelf.com/projects/php-markdown/>
+
+	* Original Markdown
+		Copyright (c) 2004-2006 John Gruber
+		<http://daringfireball.net/projects/markdown/>
+
+	* PhpCaptcha *
+		A visual and audio CAPTCHA generation library
+		Copyright (c) 2005-2006, Edward Eliot
+		<http://www.ejeliot.com/pages/2>
+
+	* Polymorphic Behavior *
+		Allow the model to be associated with any other model object
+		Copyright (c) Andy Dawson (AD7six)
+		<http://bakery.cakephp.org/articles/view/polymorphic-behavior>
+
+	* Sluggable Behavior *
+		Model behavior to support generation of slugs for models
+		Copyright (c) Mariano Iglesias
+		<http://cake-syrup.sourceforge.net/ingredients/sluggable-behavior/>
+
+	* dp.SyntaxHighlighter *
+		Client side syntax highlighter
+		Copyright (c) 2004-2007 Alex Gorbatchev
+		<http://www.dreamprojections.com/syntaxhighlighter/?ref=NeutrinoCMS>
+
+	* Shadowbox *
+		A media-viewer script for web pages that allows content to be
+		viewed without navigating away from the original linking page
+		Copyright (c) 2007 Michael J. I. Jackson
+		<http://www.mjijackson.com/shadowbox/>
+
+	* Starbox *
+		Starbox allows you to easily create all kinds of rating boxes
+		using just one PNG image
+		Copyright (c) 2007 Nick Stakenburg
+		<http://www.nickstakenburg.com/projects/starbox/>
+
+If I forgot to mention anyone in the credits,
+please e-mail me and I will update it in the next release.
+
+
+###########
+# LICENCE #
+###########
+
+Copyright (C) 2008-3827 lecterror
+
+NeutrinoCMS is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+NeutrinoCMS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with NeutrinoCMS.  If not, see <http://www.gnu.org/licenses/>.

@@ -1,0 +1,546 @@
+/************************************************ GENERAL ************************************************/
+
+#flash-wrap
+{
+	color:				#ff0000;
+	background-color:	#FFFF00;
+	font-size:			larger;
+	text-align:			center;
+	width:				100%;
+}
+
+.error-message,
+.warning-message
+{
+	color:				#ff0000;
+}
+
+input:focus,
+textarea:focus
+{
+	border:				1px solid #AAAAAA;
+}
+
+.form-error
+{
+	background-color:	#EDFDCE;
+}
+
+.menu-separator
+{
+}
+
+#SearchPhrase
+{
+	padding:			2px;
+	height:				19px;
+	font-size:			14px;
+	font-weight:		bold;
+}
+
+#SearchPhrase:hover,
+#SearchPhrase:focus
+{
+	border:				1px solid #AAAAAA;
+}
+
+.rss-image
+{
+	background-color:	#FAFAFA;
+	border:				1px none #EDFDCE;
+	padding:			0px;
+	float:				right;
+}
+
+#working
+{
+	float:				right;
+}
+
+#working img
+{
+	background:			transparent;
+	border:				0px none;
+}
+
+.loginbox,
+.commentbox,
+.article-inputbox,
+.article-deletebox,
+.article-category-inputbox,
+.article-category-deletebox,
+.upload-inputbox,
+.download-inputbox,
+.download-deletebox,
+.file-deletebox,
+.download-category-inputbox,
+.download-category-deletebox
+{
+	margin:				15px;
+}
+
+/************************************************ ARTICLE ************************************************/
+
+.article
+{
+	border:				1px dashed #EFF0F1;
+	margin-bottom:		5px;
+}
+
+.article-actions,
+.download-actions
+{
+	font-size:			x-small;
+}
+
+.article p,
+.article li
+{
+	font-size:			larger;
+}
+
+.article .intro-small
+{
+	margin:				15px 25px 15px 25px;
+	text-align:			left;
+	font-family:		Verdana, Tahoma, Arial;
+	border:				1px solid #EFF0F1;
+}
+
+.article pre code
+{
+	font-size:			12px;
+	display:			block;
+	margin:				5px;
+	padding:			0.2em;
+	background-color:	#FAFAFA;
+}
+
+.article code
+{
+	font-size:			12px;
+	background-color:	#FAFAFA;
+	margin:				0px;
+	padding-top:		5px;
+	padding-bottom:		5px;
+}
+
+.article .intro
+{
+	margin:				15px;
+	text-align:			left;
+}
+
+.article p
+{
+	text-align:			justify;
+}
+
+.article .search_highlight
+{
+	background-color:	#FFFF00;
+	cursor:				default;
+}
+
+.article .read-more
+{
+	background:			url(../img/page.gif) no-repeat left center;
+	padding-left:		20px;
+	float:				left;
+}
+
+.article-header
+{
+	background-color:	#FAFAFA;
+	padding:			5px;
+	margin:				-5px 10px 0 10px;
+	border:				1px solid #f2f2f2;
+	font-size:			95%;
+}
+
+.article-footer
+{
+	background-color:	#FAFAFA;
+	padding:			5px;
+	margin:				20px 10px 0 10px;
+	border:				1px solid #f2f2f2;
+	font-size:			95%;
+}
+
+.article-footer .date,
+.article-header .date
+{
+	background:			url(../img/clock.gif) no-repeat left center;
+	padding-left:		20px;
+	padding-top:		1px;
+	padding-bottom:		1px;
+	margin:				0px 10px 0px 5px;
+}
+
+.article-footer .comments
+{
+	background:			url(../img/comment.gif) no-repeat left center;
+	padding-left:		20px;
+	margin:				0px 10px 0px 5px;
+}
+
+.post-footer .readmore
+{
+	background:			url(../img/page.gif) no-repeat left center;
+	padding-left:		20px;
+	margin:				0px 10px 0px 5px;
+}
+
+/************************************************ COMMENTS ************************************************/
+
+.comment-controls
+{
+	width:				95%;
+	text-align:			center;
+	padding:			15px 15px 0px 15px;
+}
+
+#comments-outer-warp
+{
+}
+
+#comments-inner-wrap
+{
+	width:				95%;
+	text-align:			center;
+	padding:			0px 15px 0px 15px;
+}
+
+.comments-form-wrap
+{
+	width:				100%;
+	text-align:			left;
+}
+
+.comments-form-wrap #CommentName,
+.comments-form-wrap #CommentWebsite,
+.comments-form-wrap #CommentEmail,
+.comments-form-wrap #CommentComment,
+.comments-form-wrap #CommentComment
+{
+	width:				100%;
+}
+
+.comments-form-wrap #CommentComment
+{
+	margin-bottom:		5px;
+}
+
+.comment-controls div
+{
+	display:			inline;
+}
+
+.commentbox .button
+{
+	margin-top:			15px;
+}
+
+.comment-controls h3
+{
+	text-align:			left;
+}
+
+.article-comment
+{
+	width:				500px !important;
+	color:				inherit;
+	background-color:	#FFFFFF;
+	margin:				0 auto;
+	text-align:			left;
+}
+
+.article-comment a,
+.article-comment a:hover,
+.article-comment a:visited
+{
+	color:				#E5E5E5;
+	background-color:	inherit;
+	text-decoration:	none;
+	border-bottom:		1px dashed #E5E5E5;
+}
+
+.article-comment .comment-header
+{
+	width:				500px !important;
+	position:			relative;
+	height:				20px;
+	background-color:	#43A2DE;
+	padding:			0px;
+	color:				#FFFFFF;
+	padding-left:		0px;
+	padding-top:		3px;
+}
+
+.article-comment .comment-footer
+{
+	background-color:	#43A2DE;
+	margin-bottom:		5px;
+	width:				500px !important;
+	clear:				both;
+	height:				5px;
+	text-align:			center;
+	font-size:			92%;
+}
+
+.article-comment .author-name
+{
+	font-weight:		bold;
+	margin-left:		5px;
+}
+
+.article-comment .content
+{
+	text-align:			justify;
+	padding-left:		5px;
+	padding-right:		5px;
+	border-left:		1px solid #43A2DE;
+	border-right:		1px solid #43A2DE;
+}
+
+.authors-comment .content
+{
+	background-color:	#EDFDCE;
+	padding-left:		5px;
+	padding-right:		5px;
+}
+
+.article-comment .comment-admin
+{
+	float:				right;
+	margin-right:		5px;
+}
+
+.article-inputbox #ArticleArticleCategoryId,
+.article-inputbox #ArticleTitle,
+.article-inputbox #ArticleIntro,
+.article-inputbox #ArticleContent,
+.article-inputbox #ArticleContentDescription,
+.article-inputbox #ArticleContentKeywords
+{
+	width:				460px;
+}
+
+.article-inputbox #ArticleContent
+{
+	height:				350px;
+}
+
+.article-inputbox .button
+{
+	margin-top:			15px;
+}
+
+.article-deletebox .submit,
+.download-deletebox .submit
+{
+	display:			inline;
+}
+
+.article-deletebox .button,
+.download-deletebox .button
+{
+	margin-top:			20px;
+}
+
+.article-add-actions,
+.article-edit-actions,
+.download-edit-actions
+{
+	text-align:			right;
+}
+
+/************************************************ COMMENTS PAGINATION ************************************************/
+
+.comment-paginate-counter
+{
+	float:				left;
+}
+
+.comment-paginate-numbers
+{
+	float:				right;
+}
+
+/************************************************ ARTICLE CATEGORY ************************************************/
+
+.article-category
+{
+}
+
+.article-category-title,
+.download-category-title,
+.manage-files-title
+{
+	background:			none;
+	text-transform:		none;
+	font-size:			large;
+}
+
+.article-category-header,
+.download-category-header
+{
+	background-color:	#FAFAFA;
+	padding:			5px;
+	margin:				-5px 10px 30px 10px;
+	border:				1px solid #f2f2f2;
+	font-size:			95%;
+}
+
+.article-category-description,
+.download-category-description
+{
+	background:			url(../img/folder.png) no-repeat left center;
+	padding-left:		20px;
+	padding-top:		1px;
+	padding-bottom:		1px;
+	margin:				0px 10px 0px 5px;
+}
+
+.article-category-actions,
+.download-category-actions,
+.manage-files-actions
+{
+	font-size:			x-small;
+}
+
+.article-category-inputbox #ArticleCategoryName,
+.download-category-inputbox #DownloadCategoryName
+{
+	width:				100%;
+}
+
+.article-category-inputbox #ArticleCategoryDescription,
+.download-category-inputbox #DownloadCategoryDescription
+{
+	width:				100%;
+}
+
+.article-category-inputbox .button,
+.download-category-inputbox .button
+{
+	margin-top:			15px;
+}
+
+.article-category-deletebox .submit,
+.download-category-deletebox .submit
+{
+	display:			inline;
+}
+
+.article-category-deletebox .button,
+.download-category-deletebox .button
+{
+	margin-top:			20px;
+}
+
+/************************************************ FILE ************************************************/
+
+.file-deletebox .submit
+{
+	text-align:			center;
+	margin-left:		auto;
+}
+
+.upload-inputbox .button
+{
+	margin-top:			15px;
+}
+
+/************************************************ DOWNLOAD ************************************************/
+
+.download
+{
+}
+
+.download-inputbox .button
+{
+	margin-top:			15px;
+}
+
+.download-inputbox #DownloadDownloadCategoryId,
+.download-inputbox #DownloadSlug,
+.download-inputbox #DownloadName,
+.download-inputbox #DownloadDisplayFileName,
+.download-inputbox #DownloadDescription,
+.download-inputbox #DownloadContentDescription,
+.download-inputbox #DownloadContentKeywords,
+.download-inputbox #DownloadRealFileName
+{
+	width:				450px;
+}
+
+.download-inputbox #DownloadDownloaded
+{
+	width:				50px;
+}
+
+#download-info-table
+{
+	border-collapse:	separate;
+	width:				95%;
+	margin:				10px;
+	padding:			10px;
+}
+
+#download-info-table td
+{
+	height:				5px;
+	border:				0px none;
+	background-color:	#FAFAFA;
+}
+
+.download-info
+{
+	font-weight:		bold;
+	white-space:		nowrap;
+	width:				70px;
+}
+
+#download-get-file
+{
+	width:				90%;
+	margin:				auto;
+	text-align:			center;
+	padding:			10px;
+}
+
+#DownloadGetForm
+{
+}
+
+/************************************************ INSTALL ************************************************/
+
+.configure-inputbox
+{
+	margin:				15px;
+}
+
+#UserUsername,
+#UserPassword,
+#UserEmail,
+#UserFirstName,
+#UserLastName,
+#ConfigurationSiteTitle,
+#ConfigurationSiteDescription,
+#ConfigurationSiteKeywords,
+#ConfigurationCaptchaSidenote,
+#ConfigurationSiteCopyrightNotice,
+#ConfigurationTheme,
+#ConfigurationGoogleWebmasterToolsVerificationCode,
+#ConfigurationGoogleAnalyticsAccountCode
+{
+	width:				100%;
+}
+
+/* shadowbox stuff */
+#shadowbox img
+{
+	padding:			0px;
+	border:				0px none;
+}

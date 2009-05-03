@@ -1,0 +1,14 @@
+.cake-debug
+{
+	background: #EDFDCE;
+	font-size: 120%;
+	line-height: 140%;
+	margin-top: 1em;
+	overflow: auto;
+	position: relative;
+	white-space: pre;
+	text-align: left;
+	font-family: Courier;
+	width: 100%;
+	margin: auto;
+}

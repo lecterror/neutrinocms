@@ -1,0 +1,29 @@
+
+	NeutrinoCMS Installation Guide
+	------------------------------
+
+	* Deploy CakePHP and NeutrinoCMS
+
+	* Create an empty database (with no tables/schemas)
+
+	* Copy ~/app/config/database.php.default to ~/app/config/database.php
+
+	* Configure database access in ~/app/config/database.php
+
+	* NeutrinoCMS comes with the debug directive set to 1. If you are
+	deploying to a live server, open ~/app/config/core.php and change the
+	following line:
+			Configure::write('debug', 1);
+	to
+			Configure::write('debug', 0);
+
+	* Make sure your ~/app/tmp is writable (recursively)
+
+	* In your browser, open
+		http://<yoursite>/
+		or
+		http://<yoursite>/setup/install
+
+	* Follow the on-screen instructions
+
+	* Done!
