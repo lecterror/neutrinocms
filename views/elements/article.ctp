@@ -11,7 +11,11 @@
 				),
 				array
 				(
-					'title' => 'Permanent link to '.$article['Article']['title'],
+					'title' => sprintf
+						(
+							'Permanent link to %s',
+							$article['Article']['title']
+						),
 					'class' => 'article-title'
 				)
 			);
@@ -24,7 +28,7 @@
 				<?php
 				echo $html->link
 					(
-						'Edit',
+						__('Edit', true),
 						array
 						(
 							'controller' => 'articles',
@@ -33,13 +37,13 @@
 						),
 						array
 						(
-							'title' => 'Edit '.$article['Article']['title']
+							'title' => sprintf(__('Edit %s', true), $article['Article']['title'])
 						)
 					);
 				echo ' | ';
 				echo $html->link
 					(
-						'Delete',
+						__('Delete', true),
 						array
 						(
 							'controller' => 'articles',
@@ -48,7 +52,7 @@
 						),
 						array
 						(
-							'title' => 'Delete '.$article['Article']['title']
+							'title' => sprintf(__('Delete ', true), $article['Article']['title'])
 						)
 					);
 				?>
@@ -61,20 +65,48 @@
 
 	<p class="article-header">
 		<small class="date">
-			<?php echo ($article['Article']['isdraft'] ? 'Draft' : 'Posted'); ?> in <?php echo $html->link(
-				$article['ArticleCategory']['name'],
-				array('controller' => 'article_categories', 'action' => 'view', $article['ArticleCategory']['slug'])); ?>
-			on <?php echo date(Configure::read('Neutrino.DateDisplayFormat'), strtotime($article['Article']['created'])); ?>
+			<?php
+			$categoryLink = $html->link
+				(
+					$article['ArticleCategory']['name'],
+					array
+					(
+						'controller' => 'article_categories',
+						'action' => 'view',
+						$article['ArticleCategory']['slug']
+					)
+				);
+
+			$publishingDate = date
+				(
+					Configure::read('Neutrino.DateDisplayFormat'),
+					strtotime($article['Article']['created'])
+				);
+
+			if ($article['Article']['isdraft'])
+			{
+				echo sprintf(__('Draft in %s on %s', true), $categoryLink, $publishingDate);
+			}
+			else
+			{
+				echo sprintf(__('Posted in %s on %s', true), $categoryLink, $publishingDate);
+			}
+			?>
 		</small>
 	</p>
-	<?php echo $html->div('entry'); ?>
-		<?php
+	<?php
+	echo $html->div('entry');
+
 		if (isset($show_intro) && $show_intro == true)
 		{
 			if (isset($small_intro) && $small_intro == true)
+			{
 				echo $html->div('intro-small', $article['Article']['intro']);
+			}
 			else
+			{
 				echo $html->div('intro', $article['Article']['intro']);
+			}
 		}
 
 		if (isset($show_content) && $show_content == true)
@@ -92,13 +124,13 @@
 		?>
 	</div>
 
-	<div class="article-footer align-right">
+	<div class="article-footer">
 		<?php
 		if (!isset($show_content) || $show_content == false)
 		{
 			echo $html->link
 				(
-					'Read more',
+					__('Read more', true),
 					array
 					(
 						'controller' => 'articles',
@@ -126,7 +158,8 @@
 				$totalRating = $article['Rating']['Summary']['totalRating'];
 			}
 
-			$url = $html->url(
+			$url = $html->url
+				(
 					array
 					(
 						'controller' => 'articles',
@@ -135,15 +168,16 @@
 					)
 				);
 
-			echo $this->element(
-				'rating',
-				compact('voted', 'votedValue', 'totalVotes', 'totalRating', 'url')
+			echo $this->element
+				(
+					'rating',
+					compact('voted', 'votedValue', 'totalVotes', 'totalRating', 'url')
 				);
 		}
 		?>
 		<span class="date">
-		<?php echo ($article['Article']['isdraft'] ? 'Draft' : 'Posted'); ?> in <?php
-		echo $html->link
+		<?php
+		$categoryLink = $html->link
 			(
 				$article['ArticleCategory']['name'],
 				array
@@ -153,25 +187,56 @@
 					$article['ArticleCategory']['slug']
 				)
 			);
-		?>
-		<?php
+
+		$publishingDate = date
+			(
+				Configure::read('Neutrino.DateDisplayFormat'),
+				strtotime($article['Article']['created'])
+			);
+
+		if ($article['Article']['isdraft'])
+		{
+			echo sprintf(__('Draft in %s', true), $categoryLink);
+		}
+		else
+		{
+			echo sprintf(__('Posted in %s', true), $categoryLink);
+		}
+
 		if ($article['Article']['updated'] != $article['Article']['created'])
 		{
 			echo ' &raquo; ';
-			echo 'Last updated: '.date(Configure::read('Neutrino.DateDisplayFormat'), strtotime($article['Article']['updated']));
-
+			echo sprintf
+				(
+					__('Last updated: %s', true),
+					date
+					(
+						Configure::read('Neutrino.DateDisplayFormat'),
+						strtotime($article['Article']['updated'])
+					)
+				);
 		}
-		echo '</span>';
-		echo '<br />';
 
-		echo '<span class="comments" id="comments-counter-'.$article['Article']['id'].'">';
+		echo '</span><br />';
+		echo sprintf('<span class="comments" id="comments-counter-%s">', $article['Article']['id']);
+
 		if ($comments_count > 0)
 		{
 			if (!isset($show_comments) || $show_comments == false)
 			{
 				echo $html->link
 					(
-						$comments_count.' comment'.($comments_count != 1 ? 's' : ''),
+						sprintf
+						(
+							 __n
+							 (
+							 	'%s comment',
+							 	'%s comments',
+							 	$comments_count,
+							 	true
+							 ),
+							 $comments_count
+						),
 						array
 						(
 							'controller' => 'articles',
@@ -182,21 +247,33 @@
 			}
 			else
 			{
-				echo $comments_count.' comment'.($comments_count != 1 ? 's' : '');
+				echo sprintf
+					(
+						 __n
+						 (
+						 	'%s comment',
+						 	'%s comments',
+						 	$comments_count,
+						 	true
+						 ),
+						 $comments_count
+					);
 			}
 		}
 		else
-			echo 'No comments';
-
-		echo '</span>';
+		{
+			__('No comments');
+		}
 		?>
+		</span>
 	</div>
 	<?php
 	if (isset($show_comments) && $show_comments == true)
 	{
 		echo '<a name="comments"></a>';
 		echo $ajax->div('comments-outer-wrap', array('class' => 'comments'));
-		echo $this->element(
+		echo $this->element
+			(
 				'comments/toolbar',
 				array
 				(

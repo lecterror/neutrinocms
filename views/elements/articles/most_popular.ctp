@@ -1,10 +1,13 @@
 <?php
-$articles = $this->requestAction(
-		array(
+$articles = $this->requestAction
+	(
+		array
+		(
 			'controller' => 'articles',
 			'action' => 'mostPopular'
 		),
-		array(
+		array
+		(
 			'limit' => $limit
 		)
 	);
@@ -14,9 +17,11 @@ $articles = $this->requestAction(
 	<?php foreach ($articles as $article): ?>
 		<li>
 			<?php
-			echo $html->link(
+			echo $html->link
+				(
 					$article['Article']['title'],
-					array(
+					array
+					(
 						'controller' => 'articles',
 						'action' => 'view',
 						$article['Article']['slug']
@@ -28,6 +33,6 @@ $articles = $this->requestAction(
 	</ul>
 <?php else: ?>
 	<ul>
-		<li><a href="#" onclick="javascript:return false;">No read articles</a></li>
+		<li><a href="#" onclick="javascript:return false;"><?php __('No read articles'); ?></a></li>
 	</ul>
 <?php endif; ?>

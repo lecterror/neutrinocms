@@ -2,7 +2,7 @@
 if (isset($download_menu_items) && (count($download_menu_items) > 0))
 {
 	?>
-	<h1>Downloads</h1>
+	<h1><?php __('Downloads'); ?></h1>
 	<ul class="sitemenu">
 	<?php
 	foreach ($download_menu_items as $item)

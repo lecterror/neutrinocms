@@ -1,29 +1,20 @@
-<?php $this->pageTitle = 'Add new download'; ?>
-<h2>Add new download</h2>
+<?php $this->pageTitle = __('Add new download', true); ?>
+<h2><?php __('Add new download'); ?></h2>
 <?php echo $form->create(null, array('url' => array('controller' => 'downloads', 'action' => 'add'), 'type' => 'file')); ?>
-	<?php echo $html->div('download-inputbox'); ?>
-		<?php
-		echo $form->input
-			(
-				'Download.download_category_id',
-				array
-				(
-					'label' => 'Category',
-					'options' => $categories
-				)
-			);
-		?>
-		<?php echo $form->input('Download.slug', array('label' => 'Slug')); ?>
-		<?php echo $form->input('Download.name', array('label' => 'Download name')); ?>
-		<?php echo $form->input('Download.display_file_name', array('label' => 'File name')); ?>
-		<?php echo $form->input('Download.description', array('label' => 'Description')); ?>
-		<?php
+	<?php
+	echo $html->div('download-inputbox');
+		echo $form->input('Download.download_category_id', array('label' => __('Category', true)));
+		echo $form->input('Download.slug', array('label' => __('Slug', true)));
+		echo $form->input('Download.name', array('label' => __('Download name', true)));
+		echo $form->input('Download.display_file_name', array('label' => __('File name', true)));
+		echo $form->input('Download.description', array('label' => __('Description', true)));
+
 		echo $form->input
 			(
 				'Download.content_description',
 				array
 				(
-					'label' => 'Meta content description',
+					'label' => __('Meta content description', true),
 					'type' => 'textarea',
 					'rows' => 3
 				)
@@ -34,7 +25,7 @@
 				'Download.content_keywords',
 				array
 				(
-					'label' => 'Meta content keywords (comma separated)',
+					'label' => __('Meta content keywords (comma separated)', true),
 					'type' => 'textarea',
 					'rows' => 3
 				)
@@ -45,28 +36,45 @@
 				'Download.real_file_name',
 				array
 				(
-					'label' => 'File to download',
+					'label' => __('File to download', true),
 					'options' => $attachments
 				)
 			);
-		?>
-		<?php echo $form->input('Download.downloaded', array('label' => 'Initial hitcount', 'autocomplete' => 'off')); ?>
-		<?php
-		echo $form->input('Download.published', array(
-				'label' => array('style' => 'display:inline; margin-bottom:15px;', 'text' => ' Published'),
-				'style' => 'display:inline; margin-top:15px;'));
-		?>
-		<?php
+
+		echo $form->input
+			(
+				'Download.downloaded',
+				array
+				(
+					'label' => __('Initial hitcount', true),
+					'autocomplete' => 'off'
+				)
+			);
+
+		echo $form->input
+			(
+				'Download.published',
+				array
+				(
+					'style' => 'display:inline; margin-top:15px;',
+					'label' =>
+					array
+					(
+						'style' => 'display:inline; margin-bottom:15px; margin-left:5px;',
+						'text' => __('Published', true)
+					)
+				)
+			);
+
+		$buttonAttr = array('name' => 'data[Submit][type]', 'class' => 'button');
+
 		if (isset($disable) && $disable == true)
 		{
-			echo $form->submit('Save and continue editing', array('name' => 'data[Submit][type]', 'class' => 'button', 'disabled' => 'disabled'));
-			echo $form->submit('Save', array('name' => 'data[Submit][type]', 'class' => 'button', 'disabled' => 'disabled'));
+			$buttonAttr = array_merge($buttonAttr, array('disabled' => 'disabled'));
 		}
-		else
-		{
-			echo $form->submit('Save and continue editing', array('name' => 'data[Submit][type]', 'class' => 'button'));
-			echo $form->submit('Save', array('name' => 'data[Submit][type]', 'class' => 'button'));
-		}
+
+		echo $form->submit(__('Save and continue editing', true), $buttonAttr);
+		echo $form->submit(__('Save', true), $buttonAttr);
 		?>
 	</div>
 <?php echo $form->end(); ?>

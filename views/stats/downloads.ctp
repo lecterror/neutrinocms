@@ -1,12 +1,18 @@
-<?php $this->pageTitle = 'Download statistics'; ?>
+<?php $this->pageTitle = __('Download statistics', true); ?>
 <table>
-<?php echo $html->tableHeaders(array('Download name', 'Downloads')); ?>
+<?php echo $html->tableHeaders(array(__('Download name', true), __('Downloads', true))); ?>
 <?php
 foreach ($stats as $data)
 {
-	$link = $html->link(
+	$link = $html->link
+		(
 			$data['Download']['name'],
-			array('controller' => 'downloads', 'action' => 'view', $data['Download']['slug'])
+			array
+			(
+				'controller' => 'downloads',
+				'action' => 'view',
+				$data['Download']['slug']
+			)
 		);
 
 	echo $html->tableCells

@@ -1,10 +1,24 @@
-<?php $this->pageTitle = 'Article not found'; ?>
+<?php $this->pageTitle = __('Article not found', true); ?>
 <?php
 if ($similar)
 {
 	$count = count($similar);
+	echo $html->para
+		(
+			null,
+			sprintf
+			(
+				__n
+				(
+					'We have found %d similar article:',
+					'We have found %d similar articles:',
+					$count,
+					true
+				),
+				$count
+			)
+		);
 	?>
-	<p>We have found <?php echo $count; ?> similar article<?php echo ($count > 1 ? 's' : ''); ?>:</p>
 	<p>
 		<?php
 			foreach ($similar as $article)
@@ -23,10 +37,22 @@ if ($similar)
 	</p>
 	<?php
 }
-?>
-<?php
+
 if ($auth->valid() && isset($slug))
 {
-	echo '<div style="text-align:center;">'.$html->link('Write it!', array('controller' => 'articles', 'action' => 'add', $slug)).'</div>';
+	echo sprintf
+		(
+			'<div style="text-align:center;">%s</div>',
+			$html->link
+			(
+				__('Write it!', true),
+				array
+				(
+					'controller' => 'articles',
+					'action' => 'add',
+					$slug
+				)
+			)
+		);
 }
 ?>

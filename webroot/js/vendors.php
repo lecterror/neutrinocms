@@ -1,5 +1,5 @@
 <?php
-/* SVN FILE: $Id: vendors.php 5318 2007-06-20 09:01:21Z phpnut $ */
+/* SVN FILE: $Id: vendors.php 7690 2008-10-02 04:56:53Z nate $ */
 /**
  * Short description for file.
  *
@@ -9,7 +9,7 @@
  * PHP versions 4 and 5
  *
  * CakePHP(tm) :  Rapid Development Framework <http://www.cakephp.org/>
- * Copyright 2005-2007, Cake Software Foundation, Inc.
+ * Copyright 2005-2008, Cake Software Foundation, Inc.
  *								1785 E. Sahara Avenue, Suite 490-204
  *								Las Vegas, Nevada 89104
  *
@@ -17,27 +17,28 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @filesource
- * @copyright		Copyright 2005-2007, Cake Software Foundation, Inc.
+ * @copyright		Copyright 2005-2008, Cake Software Foundation, Inc.
  * @link				http://www.cakefoundation.org/projects/info/cakephp CakePHP(tm) Project
  * @package			cake
  * @subpackage		cake.app.webroot.js
  * @since			CakePHP(tm) v 0.2.9
- * @version			$Revision: 5318 $
- * @modifiedby		$LastChangedBy: phpnut $
- * @lastmodified	$Date: 2007-06-20 04:01:21 -0500 (Wed, 20 Jun 2007) $
+ * @version			$Revision: 7690 $
+ * @modifiedby		$LastChangedBy: nate $
+ * @lastmodified	$Date: 2008-10-02 00:56:53 -0400 (Thu, 02 Oct 2008) $
  * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 /**
  * Enter description here...
  */
-$file = $_GET['file'];
-$pos = strpos($file, '..');
-if ($pos === false) {
-	if (is_file('../../vendors/javascript/'.$file) && (preg_match('/(\/.+)\\.js/', $file)))
-	{
-		readfile('../../vendors/javascript/'.$file);
+if (isset($_GET['file'])) {
+	$file = $_GET['file'];
+	$pos = strpos($file, '..');
+	if ($pos === false) {
+		if (is_file('../../vendors/javascript/'.$file) && (preg_match('/(\/.+)\\.js/', $file))) {
+			readfile('../../vendors/javascript/'.$file);
+			return;
+		}
 	}
-} else {
-	header('HTTP/1.1 404 Not Found');
 }
+header('HTTP/1.1 404 Not Found');
 ?>

@@ -1,3 +1,3 @@
 <?php echo $content_for_layout;?>
 <br />
--- NeutrinoCMS automatic notification
+-- <?php __('NeutrinoCMS automatic notification'); ?>

@@ -1,12 +1,27 @@
-<?php $this->pageTitle = 'Article statistics'; ?>
+<?php $this->pageTitle = __('Article statistics', true); ?>
 <table>
-<?php echo $html->tableHeaders(array('Article title', 'Visits', 'Visits by RSS')); ?>
 <?php
+echo $html->tableHeaders
+	(
+		array
+		(
+			__('Article title', true),
+			__('Visits', true),
+			__('Visits by RSS', true)
+		)
+	);
+
 foreach ($stats as $data)
 {
-	$link = $html->link(
+	$link = $html->link
+		(
 			$data['Article']['title'],
-			array('controller' => 'articles', 'action' => 'view', $data['Article']['slug'])
+			array
+			(
+				'controller' => 'articles',
+				'action' => 'view',
+				$data['Article']['slug']
+			)
 		);
 
 	echo $html->tableCells

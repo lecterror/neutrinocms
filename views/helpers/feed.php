@@ -42,7 +42,7 @@ class FeedHelper extends Helper
 					(
 						'rss',
 						'/articles.rss',
-						array('title' => 'Latest Articles Feed')
+						array('title' => __('Latest Articles Feed', true))
 					)
 			);
 	}
@@ -56,7 +56,7 @@ class FeedHelper extends Helper
 				'link'  => array('controller' => 'articles', 'action' => 'view', $data['Article']['slug'].'/from:rss#comments'),
 				'guid'  => array('controller' => 'articles', 'action' => 'view', $data['Article']['slug'].'/from:rss/cid:'.$data['Comment']['id']),
 				'description' => $data['Comment']['comment'],
-				'author' => $data['Comment']['email'],
+				'author' => '', // $data['Comment']['email'], // whoops...
 				'pubDate' => $data['Comment']['created']
 			);
 	}
@@ -69,14 +69,19 @@ class FeedHelper extends Helper
 					(
 						'rss',
 						'/comments.rss',
-						array('title' => 'Latest Comments Feed')
+						array('title' => __('Latest Comments Feed', true))
 					)
 			);
 	}
 
 	function links()
 	{
-		return $this->articleLink().$this->commentLink();
+		return sprintf
+			(
+				'%s%s',
+				$this->articleLink(),
+				$this->commentLink()
+			);
 	}
 }
 

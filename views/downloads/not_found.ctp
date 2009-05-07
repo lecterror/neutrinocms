@@ -1,4 +1,4 @@
-<?php $this->pageTitle = 'Download not found'; ?>
+<?php $this->pageTitle = __('Download not found', true); ?>
 <?php
 /*
 if ($similar)
@@ -28,6 +28,17 @@ if ($similar)
 <?php
 if ($auth->valid() && isset($slug))
 {
-	echo '<div style="text-align:center;">'.$html->link('Create it!', '/downloads/add/'.$slug).'</div>';
+	$createLink = $html->link
+		(
+			__('Create it!', true),
+			array
+			(
+				'controller' => 'downloads',
+				'action' => 'add',
+				$slug
+			)
+		);
+
+	echo sprintf('<div style="text-align:center;">%s</div>', $createLink);
 }
 ?>

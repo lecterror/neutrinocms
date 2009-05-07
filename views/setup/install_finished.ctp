@@ -1,11 +1,11 @@
-<h2>Step 4: Finished!</h2>
+<h2><?php __('Step 4: Finished!'); ?></h2>
 <div>
-	<p>Congratulations!</p>
+	<p><?php __('Congratulations!'); ?></p>
 	<p>
-		You've successfully installed NeutrinoCMS <?php echo $release; ?><br />
-		Mess around and send bug reports to neutrinocms[at]gmail.com.<br />
+		<?php sprintf(__('You\'ve successfully installed NeutrinoCMS %s', true), $release); ?><br />
+		<?php __('Mess around and send bug reports to neutrinocms[at]gmail.com.'); ?><br />
 	</p>
 	<p>
-		<?php echo $html->link('Go to home page', '/'); ?>
+		<?php echo $html->link(__('Go to home page', true), '/'); ?>
 	</p>
 </div>

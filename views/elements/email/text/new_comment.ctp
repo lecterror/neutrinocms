@@ -1,18 +1,35 @@
-Dear <?php echo $email_user['first_name'].' '.$email_user['last_name']; ?>,
+<?php echo sprintf(__('Dear %s %s,', true), $email_user['first_name'], $email_user['last_name']); ?>
 
-A new comment has been posted for the article "<?php echo $email_article['Article']['title']; ?>".
+<?php
+echo sprintf
+	(
+		__('A new comment has been posted for the article "%s".', true),
+		$email_article['Article']['title']
+	);
+?>
 
-Details
+<?php __('Details'); ?>
 -------
-Poster:		<?php echo $email_comment['Comment']['name'].' <'.$email_comment['Comment']['email'].'>'; ?>
+<?php __('Poster:'); ?>		<?php echo $email_comment['Comment']['name'].' <'.$email_comment['Comment']['email'].'>'; ?>
 
-Web site:	<?php echo $email_comment['Comment']['website']; ?>
+<?php __('Web site:'); ?>	<?php echo $email_comment['Comment']['website']; ?>
 
-Comment:
-- BEGIN -
+<?php __('Comment:'); ?>
+<?php __('- BEGIN -'); ?>
 <?php echo $email_comment['Comment']['comment']; ?>
 
-- END -
+<?php __('- END -'); ?>
 
-View the article here:
-<?php echo $html->url(array('controller' => 'articles', 'action' => 'view', $email_article['Article']['slug']), true); ?>
+<?php __('View the article here:'); ?>
+<?php
+echo $html->url
+	(
+		array
+		(
+			'controller' => 'articles',
+			'action' => 'view',
+			$email_article['Article']['slug']
+		),
+		true
+	);
+?>

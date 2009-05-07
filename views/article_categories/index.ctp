@@ -1,5 +1,5 @@
 <h1>
-<?php echo $html->link('Article categories', array('controller' => 'article_categories'), array('title' => 'Permanent link to Article categories')); ?>
+<?php echo $html->link(__('Article categories', true), array('controller' => 'article_categories'), array('title' => __('Permanent link to Article categories', true))); ?>
 <?php
 if ($auth->valid())
 {
@@ -7,7 +7,7 @@ if ($auth->valid())
 	<span style="font-size:x-small">
 		[
 		<?php
-		echo $html->link('Add', array('controller' => 'article_categories', 'action' => 'add'), array('title' => 'Add a new category'));
+		echo $html->link(__('Add', true), array('controller' => 'article_categories', 'action' => 'add'), array('title' => __('Add a new category', true)));
 		?>
 		]
 	</span>
@@ -18,7 +18,7 @@ if ($auth->valid())
 
 <table>
 <?php
-echo $html->tableHeaders(array('Name', 'Description'));
+echo $html->tableHeaders(array(__('Name', true), __('Description', true)));
 
 foreach ($categories as $category)
 {

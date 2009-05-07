@@ -1,9 +1,11 @@
-<?php $this->pageTitle = 'Manage files'; ?>
-<h2 class="manage-files-title">Manage files <span class="manage-files-actions">
+<?php $this->pageTitle = __('Manage files', true); ?>
+<h2 class="manage-files-title"><?php __('Manage files'); ?>
+	<span class="manage-files-actions">
 	[
-	<?php echo $html->link('Add new file', array('controller' => 'attachments', 'action' => 'add')); ?>
+	<?php echo $html->link(__('Add new file', true), array('controller' => 'attachments', 'action' => 'add')); ?>
 	]
-</span></h2>
+	</span>
+</h2>
 <?php echo $form->create(null, array('url' => array('controller' => 'attachments', 'action' => 'delete'))); ?>
 	<?php echo $html->div('file-deletebox'); ?>
 	<?php
@@ -11,25 +13,26 @@
 	{
 		?>
 		<table id="files-table">
-		<?php echo $html->tableHeaders(array('', 'File name')); ?>
+		<?php echo $html->tableHeaders(array('', __('File name', true))); ?>
 		<?php
 		foreach ($files as $file)
 		{
-			echo $html->tableCells(
-				array($form->checkbox(Inflector::slug($file->name), array('value' => $file->name, 'multiple' => 'checkbox')), $file->name),
-				array('class' => 'row-a'),
-				array('class' => 'row-b')
+			echo $html->tableCells
+				(
+					array($form->checkbox(Inflector::slug($file->name), array('value' => $file->name, 'multiple' => 'checkbox')), $file->name),
+					array('class' => 'row-a'),
+					array('class' => 'row-b')
 				);
 		}
 		?>
 		</table>
-		<?php echo $form->submit('Delete selected files', array('class' => 'button')); ?>
+		<?php echo $form->submit(__('Delete selected files', true), array('class' => 'button')); ?>
 		<?php
 	} // if (!empty($files))
 	else
 	{
 		?>
-		<div>No files!</div>
+		<div><?php __('No files!'); ?></div>
 		<?php
 	}
 	?>

@@ -11,7 +11,7 @@ echo $html->link
 			)
 		),
 		'http://getfirefox.com/',
-		array('title' => 'Get Firefox - The Browser, Reloaded.'),
+		array('title' => __('Get Firefox - The Browser, Reloaded.', true)),
 		null,
 		false
 	);

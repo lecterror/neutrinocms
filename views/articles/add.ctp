@@ -1,5 +1,5 @@
-<?php $this->pageTitle = 'Add new article'; ?>
-<h2>Add new article</h2>
+<?php $this->pageTitle = __('Add new article', true); ?>
+<h2><?php __('Add new article'); ?></h2>
 <?php
 	echo $form->create
 		(
@@ -16,7 +16,7 @@
 			<?php
 				echo $html->link
 					(
-						'Markdown Syntax',
+						__('Markdown Syntax', true),
 						array
 						(
 							'controller' => 'neutrino',
@@ -25,7 +25,7 @@
 						array
 						(
 							'rel' => 'shadowbox;height=600;width=800',
-							'title' => 'NeutrinoCMS help system'
+							'title' => __('NeutrinoCMS help system', true)
 						)
 					);
 			?>
@@ -37,7 +37,7 @@
 				'Article.article_category_id',
 				array
 				(
-					'label' => 'Category',
+					'label' => __('Category', true),
 					'options' => $categories
 				)
 			);
@@ -45,14 +45,14 @@
 		echo $form->input('Article.title', array('label' => 'Title'));
 
 		echo $form->input('Article.intro', array('type' => 'textarea', 'label' => 'Introduction'));
-		echo $form->input('Article.content', array('onkeydown' => 'insertTab(event, this);'));
+		echo $form->input('Article.content', array('onkeydown' => 'insertTab(event, this);', 'label' => 'Content'));
 
 		echo $form->input
 			(
 				'Article.content_description',
 				array
 				(
-					'label' => 'Meta content description',
+					'label' => __('Meta content description', true),
 					'type' => 'textarea',
 					'rows' => 3
 				)
@@ -63,39 +63,57 @@
 				'Article.content_keywords',
 				array
 				(
-					'label' => 'Meta content keywords (comma separated)',
+					'label' => __('Meta content keywords (comma separated)', true),
 					'type' => 'textarea',
 					'rows' => 3
 				)
 			);
 
-		echo $form->input('Article.isdraft', array(
-			'label' => array('style' => 'display:inline; margin-bottom:15px;', 'text' => ' Draft'),
-			'style' => 'display:inline; margin-top:15px;'));
+		echo $form->input
+			(
+				'Article.isdraft',
+				array
+				(
+					'style' => 'display:inline; margin-top:15px;',
+					'label' => array
+					(
+						'style' => 'display:inline; margin-bottom:15px; margin-left:5px;',
+						'text' => __('Draft', true)
+					)
+				)
+			);
+
+		$buttonAttr = array('name' => 'data[Submit][type]', 'class' => 'button');
 
 		if (isset($disable) && $disable == true)
 		{
-			echo $form->submit('Save and continue editing', array('name' => 'data[Submit][type]', 'class' => 'button', 'disabled' => 'disabled'));
-			echo $form->submit('Save', array('name' => 'data[Submit][type]', 'class' => 'button', 'disabled' => 'disabled'));
+			$buttonAttr = array_merge($buttonAttr, array('disabled' => 'disabled'));
 		}
-		else
-		{
-			echo $form->submit('Save and continue editing', array('name' => 'data[Submit][type]', 'class' => 'button'));
-			echo $form->submit('Save', array('name' => 'data[Submit][type]', 'class' => 'button'));
-		}
+
+		echo $form->submit(__('Save and continue editing', true), $buttonAttr);
+		echo $form->submit(__('Save', true), $buttonAttr);
 		?>
 	</div>
-<?php echo $form->end(); ?>
-<?php echo $javascript->codeBlock('Form.focusFirstElement("article_form");'); ?>
 <?php
-echo $javascript->codeBlock('
-	document.observe("dom:loaded",
-		function()
-		{
-			var options = {
-				loadingImage:	"'.$this->webroot.IMAGES_URL.'shadowbox/loading.gif",
-        		keysClose:		["c", 27]
-			};
-			Shadowbox.init(options);
-		}
-	);'); ?>
+echo $form->end();
+echo $javascript->codeBlock('Form.focusFirstElement("article_form");');
+echo $javascript->codeBlock
+	(
+		sprintf
+		(
+			'document.observe
+			(
+				"dom:loaded",
+				function()
+				{
+					var options = {
+						loadingImage:	"%sshadowbox/loading.gif",
+		        		keysClose:		["c", 27]
+					};
+					Shadowbox.init(options);
+				}
+			);',
+			$this->webroot.IMAGES_URL
+		)
+	);
+?>

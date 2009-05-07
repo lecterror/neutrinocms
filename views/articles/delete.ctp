@@ -1,17 +1,40 @@
-<?php $this->pageTitle = 'Delete article - '.$article['Article']['title']; ?>
+<?php $this->pageTitle = sprintf(__('Delete article - %s', true), $article['Article']['title']); ?>
 <?php echo $form->create(null, array('url' => array('controller' => 'articles', 'action' => 'delete', $article['Article']['slug']))); ?>
 	<?php echo $html->div('article-deletebox'); ?>
 		<?php
-		$text =
-			' I am sure I want to delete the article '.
-			$html->link($article['Article']['title'], array('controller' => 'articles', 'action' => 'view', $article['Article']['slug']));
+		$text = sprintf
+			(
+				__('I am sure I want to delete the article %s', true),
+				$html->link
+				(
+					$article['Article']['title'],
+					array
+					(
+						'controller' => 'articles',
+						'action' => 'view',
+						$article['Article']['slug']
+					)
+				)
+			);
 
-		echo $form->input('Article.delete', array(
-			'type'	=> 'checkbox',
-			'label' => array('style' => 'display:inline; margin-bottom:15px;', 'text' => $text),
-			'style' => 'display:inline; margin-top:15px;')); ?>
+		echo $form->input
+			(
+				'Article.delete',
+				array
+				(
+					'type'	=> 'checkbox',
+					'style' => 'display:inline; margin-top:15px;',
+					'label' => array
+					(
+						'style' => 'display:inline; margin-bottom:15px; margin-left:5px;',
+						'text' => $text
+					)
+				)
+			);
 
-		<?php echo $form->submit('Delete', array('name' => 'data[Submit][type]', 'class' => 'button')); ?>
-		<?php echo $form->submit('Cancel', array('name' => 'data[Submit][type]', 'class' => 'button')); ?>
+		$buttonAttr = array('name' => 'data[Submit][type]', 'class' => 'button');
+		echo $form->submit(__('Delete', true), $buttonAttr);
+		echo $form->submit(__('Cancel', true), $buttonAttr);
+		?>
 	</div>
 <?php echo $form->end(); ?>

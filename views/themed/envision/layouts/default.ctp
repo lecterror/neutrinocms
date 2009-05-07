@@ -12,7 +12,7 @@ else
 echo $html->docType(); ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title><?php echo $title_for_layout.' - '.Configure::read('Neutrino.SiteTitle'); ?></title>
+	<title><?php echo sprintf('%s - %s', $title_for_layout, Configure::read('Neutrino.SiteTitle')); ?></title>
 	<meta name="Description" content="<?php echo $description; ?>" />
 	<meta name="Keywords" content="<?php echo $keywords; ?>" />
 	<?php echo $google->webmasterToolsVerificationCode(); ?>
@@ -23,20 +23,30 @@ echo $html->docType(); ?>
 	<meta name="Template Distribution" content="Global" />
 	<meta name="Template Author" content="Erwin Aligam - ealigam@gmail.com" />
 	<meta name="Robots" content="index,follow" />
-
-	<?php if (Configure::read()) echo $html->css('debug'); ?>
-	<?php echo $html->css(array(
-		'content',
-		'envision',
-		'syntaxhighlighter',
-		'starbox',
-		'shadowbox')); ?>
-
 	<?php
+	if (Configure::read())
+	{
+		echo $html->css('debug');
+	}
+
+	echo $html->css
+	(
+		array
+		(
+			'content',
+			'envision',
+			'syntaxhighlighter',
+			'starbox',
+			'shadowbox'
+		)
+	);
+
 	if (isset($javascript))
 	{
-	    echo $javascript->link(
-	    	array(
+	    echo $javascript->link
+    	(
+	    	array
+	    	(
 			//	'lib/jquery',
 				'lib/prototype',
 				'lib/scriptaculous/scriptaculous',
@@ -62,31 +72,64 @@ echo $html->docType(); ?>
 		    true
 		);
 	}
+
+	echo $scripts_for_layout;
 	?>
-
-	<?php echo $scripts_for_layout; ?>
-
-
 </head>
 
 <body>
-<!-- wrap starts here -->
-<div id="wrap">
+	<!-- wrap starts here -->
+	<div id="wrap">
 
 		<!--header -->
 		<div id="header">
-
 			<h1 id="logo-text"><?php echo Configure::read('Neutrino.SiteTitle'); ?></h1>
 			<h2 id="slogan"><?php echo Configure::read('Neutrino.SiteDescription'); ?></h2>
-
 			<div id="header-links">
 				<p>
-					<?php echo $html->link('Home', '/', array('title' => 'Go to home page')); ?>&nbsp;|&nbsp;
-				   	<?php echo $html->link('Articles RSS', '/articles.rss', array('title' => 'Articles RSS'), null, null, false); ?>&nbsp;|&nbsp;
-				   	<?php echo $html->link('Comments RSS', '/comments.rss', array('title' => 'Comments RSS'), null, null, false); ?>
+					<?php
+					echo $html->link
+						(
+							__('Home', true),
+							'/',
+							array
+							(
+								'title' => __('Go to home page', true)
+							)
+						);
+					?>
+					&nbsp;|&nbsp;
+				   	<?php
+				   	$articlesRss = $html->link
+				   		(
+				   			__('Articles RSS', true),
+				   			'/articles.rss',
+				   			array
+				   			(
+				   				'title' => __('Articles RSS', true)
+				   			),
+				   			null,
+				   			null,
+				   			false
+				   		);
+
+				   	$commentsRss = $html->link
+				   		(
+				   			__('Comments RSS', true),
+				   			'/comments.rss',
+				   			array
+				   			(
+				   				'title' => __('Comments RSS', true)
+				   			),
+				   			null,
+				   			null,
+				   			false
+				   		);
+
+				   	echo sprintf('%s&nbsp;|&nbsp;%s', $articlesRss, $commentsRss);
+				   	?>
 				</p>
 			</div>
-
 		</div>
 
 		<!-- content-wrap starts here -->
@@ -127,14 +170,36 @@ echo $html->docType(); ?>
 
 				<div style="float:left; margin-left:30px; margin-top:10px;">
 				<?php echo Configure::read('Neutrino.SiteCopyrightNotice'); ?> |
-				Original design by: <a href="http://www.styleshout.com/">styleshout</a> |
-				Powered by: <a href="http://dsi.vozibrale.com/">NeutrinoCMS</a>
+				<?php
+				echo sprintf
+					(
+						__('Original design by: %s', true),
+						$html->link
+						(
+							'styleshout',
+							'http://www.styleshout.com/'
+						)
+					);
+				?> |
+				<?php
+				echo sprintf
+					(
+						__('Powered by: %s', true),
+						$html->link
+						(
+							'NeutrinoCMS',
+							'http://dsi.vozibrale.com/'
+						)
+					);
+				?>
 				</div>
 		   		<div style="float:right; margin-right:30px; margin-top:10px;">
-				<?php echo $html->link('Home', '/', array('title' => 'Go to home page')); ?>&nbsp;|&nbsp;
-			   	<?php echo $html->link('Articles RSS', '/articles.rss', array('title' => 'Articles RSS'), null, null, false); ?>&nbsp;|&nbsp;
-			   	<?php echo $html->link('Comments RSS', '/comments.rss', array('title' => 'Comments RSS'), null, null, false); ?>
-			   	</div>
+				<?php echo $html->link(__('Home', true), '/', array('title' => __('Go to home page', true))); ?>
+				&nbsp;|&nbsp;
+	   			<?php echo $html->link(__('Articles RSS', true), '/articles.rss', array('title' => __('Articles RSS', true)), null, null, false); ?>
+	   			&nbsp;|&nbsp;
+				<?php echo $html->link(__('Comments RSS', true), '/comments.rss', array('title' => __('Comments RSS', true)), null, null, false); ?>
+				</div>
 
 		</div>
 
@@ -144,24 +209,9 @@ echo $html->docType(); ?>
 if (isset($javascript))
 {
 	echo $javascript->codeBlock('dp.SyntaxHighlighter.HighlightAll("code_snippet");');
-
-	echo $javascript->codeBlock(
-	'
-		if (Prototype.Browser.IE)
-		{
-			$("flash-wrap").innerHTML +=
-				"<div class=\"message\" style=\"text-align:center;\">" +
-				"It seems like you are using Internet Explorer. This is bad.<br />" +
-				"IE does not obey the web standards, and many of the features on this site will not work.<br />" +
-				"Because Microsoft is doing this on purpose, <u>these features will not be tweaked to accomodate IE<\/u>.<br />" +
-				"To view this site properly, please switch to " +
-				"<a href=\"http://getfirefox.com/\" title=\"Get Firefox - The Browser, Reloaded.\">Firefox<\/a> " +
-				"as soon as possible.<\/div>";
-		}
-	');
+	echo $this->element('misc/ie_rubbish');
 }
-?>
-<?php
+
 if (!$auth->valid())
 {
 	echo $google->analyticsTracker();

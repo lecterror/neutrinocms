@@ -1,11 +1,24 @@
-<?php $this->pageTitle = 'Search results for '.$phrase; ?>
 <?php
+$this->pageTitle = sprintf(__('Search results for %s', true), $phrase);
 $count = count($results);
 ?>
 <?php echo $html->div('post'); ?>
-	<h2>Search results</h2>
+	<h2><?php __('Search results'); ?></h2>
 	<small>
-	Your search for "<?php echo $phrase; ?>" resulted in <?php echo $count; ?> article<?php echo ($count != 1 ? 's' : ''); ?>:
+	<?php
+	echo sprintf
+		(
+			__n
+			(
+				'Your search for %s resulted in %d article:',
+				'Your search for %s resulted in %d articles:',
+				$count,
+				true
+			),
+			$phrase,
+			$count
+		);
+	?>
 	</small>
 	<?php echo $html->div('entry'); ?>
 		<?php
@@ -27,18 +40,27 @@ $count = count($results);
 		else
 		{
 			?>
-			<h3 style="text-align:center;">No articles!</h3>
+			<h3 style="text-align:center;"><?php __('No articles!'); ?></h3>
 			<?php
 			if ($auth->valid())
 			{
 				?>
 				<div style="text-align:center;">
-					<?php echo $html->link('Write one!', array('controller' => 'articles', 'action' => 'add', $phrase)); ?>
+					<?php
+					echo $html->link
+						(
+							__('Write one!', true),
+							array
+							(
+								'controller' => 'articles',
+								'action' => 'add',
+								$phrase
+							)
+						);
+					?>
 				</div>
 				<?php
 			}
-			?>
-			<?php
 		}
 		?>
 	</div>
