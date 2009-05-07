@@ -50,21 +50,28 @@ class SetupController extends AppController
 
 	// install steps definition - stored in session
 	var $_installStepKey = 'Neutrino.InstallSteps';
-	var $_installSteps =
-		array
+	var $_installSteps = array();
+
+	function __construct()
+	{
+		parent::__construct();
+
+		$this->_installSteps = array
 		(
-			'wizard_title'		=> 'Setup',
+			'wizard_title'		=> __('Setup', true),
 			'wizard_done'		=> array(),
-			'wizard_current'	=> 'Welcome',
+			'wizard_current'	=> __('Welcome', true),
 			'wizard_pending'	=>
 				array
 				(
-					'Initialize database',
-					'Create admin account',
-					'Configure website',
-					'Finish'
+					__('Connect to a database', true),
+					__('Initialize database', true),
+					__('Create admin account', true),
+					__('Configure website', true),
+					__('Finish', true)
 				)
 		);
+	}
 
 	function beforeFilter()
 	{
@@ -292,11 +299,11 @@ class SetupController extends AppController
 
 		if (empty($this->data))
 		{
-			$this->data['Configuration']['SiteTitle'] = 'Iron Maiden';
-			$this->data['Configuration']['SiteDescription'] = 'Fear of the Dark';
-			$this->data['Configuration']['SiteKeywords'] = 'eddie, the beast, marriner';
-			$this->data['Configuration']['CaptchaSidenote'] = 'Spammers: sod off';
-			$this->data['Configuration']['SiteCopyrightNotice'] = '&copy; '.date('Y').' <strong>YourNameHere</strong>';
+			$this->data['Configuration']['SiteTitle'] = __('My awesome site', true);
+			$this->data['Configuration']['SiteDescription'] = __('My unique slogan', true);
+			$this->data['Configuration']['SiteKeywords'] = __('some, good, keywords, here', true);
+			$this->data['Configuration']['CaptchaSidenote'] = __('Insulting message to spammers', true);
+			$this->data['Configuration']['SiteCopyrightNotice'] = sprintf('&copy; %s <strong>%s</strong>', date('Y'), __('YourNameHere', true));
 			$this->data['Configuration']['GoogleWebmasterToolsVerificationCode'] = '';
 			$this->data['Configuration']['GoogleAnalyticsAccountCode'] = '';
 		}

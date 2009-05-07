@@ -51,7 +51,7 @@ class DownloadCategoriesController extends AppController
 				'all',
 				array
 				(
-					'files' => array('name', 'description', 'slug'),
+					'fields' => array('name', 'description', 'slug'),
 					'recursive' => -1
 				)
 			);

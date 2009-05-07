@@ -51,7 +51,7 @@ class ArticleCategoriesController extends AppController
 				'all',
 				array
 				(
-					'files' => array('name', 'description', 'slug'),
+					'fields' => array('name', 'description', 'slug'),
 					'recursive' => -1
 				)
 			);
@@ -117,7 +117,7 @@ class ArticleCategoriesController extends AppController
 		}
 
 		$this->Session->setFlash(__('Category saved', true));
-		$continueEditing = (strpos(low($this->data['Submit']['type']), 'continue editing') !== false);
+		$continueEditing = (strpos(low($this->data['Submit']['type']), __('continue editing', true)) !== false);
 
 		$newSlug = $this->ArticleCategory->getSlug($this->ArticleCategory->id);
 

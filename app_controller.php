@@ -16,6 +16,7 @@
 	along with NeutrinoCMS.  If not, see <http://www.gnu.org/licenses/>.
 */
 App::import('Core', 'Sanitize');
+App::import('Core', 'L10n');
 
 class AppController extends Controller
 {
@@ -73,18 +74,22 @@ class AppController extends Controller
 			// check for a finished install
 			if (!Configure::read('Neutrino.Installed')
 				&& $this->params['controller'] != 'setup')
+			{
 				$this->redirect(array('controller' => 'setup', 'action' => 'install'));
+			}
 
 			// check for an update
 			if (Configure::read('Neutrino.CurrentDbVersion') != $this->_configuration->requiredDbVersion
 				&& $this->params['controller'] != 'setup')
+			{
 				$this->redirect(array('controller' => 'setup', 'action' => 'update'));
+			}
 		}
 
 		$this->Auth->loginAction	= array('controller' => 'users', 'action' => 'login');
 		$this->Auth->logoutRedirect	= '/';
-		$this->Auth->loginError		= 'Wrong username / password combination';
-		$this->Auth->authError		= 'You must be logged in before you try to do that';
+		$this->Auth->loginError		= __('Wrong username / password combination', true);
+		$this->Auth->authError		= __('You must be logged in before you try to do that', true);
 		$this->Auth->authorize		= 'controller';
 		$this->Auth->autoRedirect	= false;
 
@@ -167,7 +172,7 @@ class AppController extends Controller
 
 		if (!$conn->isConnected())
 		{
-			$this->_die('FATAL: Cannot connect to the default database.');
+			$this->_die(__('FATAL: Cannot connect to the default database.', true));
 		}
 
 		$tables = $conn->listSources();
@@ -189,7 +194,7 @@ class AppController extends Controller
 	function _die($message)
 	{
 		$this->log($message, LOG_DEBUG);
-		echo 'Fatal error occurred. Further access denied.';
+		echo __('Fatal error occurred. Further access denied.', true);
 		die;
 	}
 }

@@ -80,13 +80,18 @@ class AttachmentsController extends AppController
 		}
 		else if ($failed != 0)
 		{
-			$flash .= __n
+			$flash .= sprintf
 				(
-					sprintf('Failed to delete %s file', $failed),
-					sprintf('Failed to delete %s files', $failed),
-					$failed,
-					true
+					__n
+					(
+						'Failed to delete %s file',
+						'Failed to delete %s files',
+						$failed,
+						true
+					),
+					$failed
 				);
+		}
 
 		$this->Session->setFlash($flash);
 		$this->_redirectTo('manage', '');

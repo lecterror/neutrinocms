@@ -196,8 +196,8 @@ class ArticlesController extends AppController
 			return;
 		}
 
-		$this->Session->setFlash('Article saved');
-		$continue_editing = (strpos(low($this->data['Submit']['type']), 'continue editing') !== false);
+		$this->Session->setFlash(__('Article saved', true));
+		$continue_editing = (strpos(low($this->data['Submit']['type']), __('continue editing', true)) !== false);
 
 		$newSlug = $this->Article->getSlug($this->Article->id);
 
@@ -254,8 +254,8 @@ class ArticlesController extends AppController
 			return;
 		}
 
-		$this->Session->setFlash('Article saved');
-		$continue_editing = (strpos(low($this->data['Submit']['type']), 'continue editing') !== false);
+		$this->Session->setFlash(__('Article saved', true));
+		$continue_editing = (strpos(low($this->data['Submit']['type']), __('continue editing', true)) !== false);
 
 		$newSlug = $this->Article->getSlug($this->Article->id);
 
@@ -289,7 +289,7 @@ class ArticlesController extends AppController
 			return;
 		}
 
-		$delete_button = (strpos(low($this->data['Submit']['type']), 'delete') !== false);
+		$delete_button = (strpos(low($this->data['Submit']['type']), __('delete', true)) !== false);
 
 		if (!$delete_button)
 		{
@@ -330,7 +330,7 @@ class ArticlesController extends AppController
 
 		if (!Configure::read('debug') && $this->Auth->user())
 		{
-			$message = "So, you'd like to vote for your own articles?\nYou naughty boy..";
+			$message = __("So, you'd like to vote for your own articles?\nYou naughty boy..", true);
 			$this->set(compact('message'));
 			return;
 		}
@@ -346,7 +346,7 @@ class ArticlesController extends AppController
 
 		if ($ratingCookie)
 		{
-			$message = __('You\'ve already voted!', true);
+			$message = __('You have already rated!', true);
 			$this->set(compact('message'));
 			return;
 		}
@@ -366,7 +366,7 @@ class ArticlesController extends AppController
 
 		if (!$this->Article->Rating->validates())
 		{
-			$message = 'Bummer, eh?';
+			$message = __('Bummer, eh?', true);
 			$this->set(compact('message'));
 			return;
 		}
@@ -375,7 +375,7 @@ class ArticlesController extends AppController
 
 		if (!$this->Article->Rating->save($ratingData))
 		{
-			$message = __('Whoops...crash!', true);
+			$message = __('Whoops...something crashed!', true);
 			$this->set(compact('message'));
 			return;
 		}
@@ -385,7 +385,7 @@ class ArticlesController extends AppController
 			$this->Cookie->write('Article-'.$article['Article']['id'].'-Rating', $rating, true, '+2 years');
 		}
 
-		$message = __('Thanks for voting!', true);
+		$message = __('Thanks for rating!', true);
 		$this->set(compact('message'));
 	}
 

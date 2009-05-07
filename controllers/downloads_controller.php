@@ -25,7 +25,7 @@ class DownloadsController extends AppController
 
 	function _setCategories()
 	{
-		$categories = $this->Download->DownloadCategory->find
+		$downloadCategories = $this->Download->DownloadCategory->find
 			(
 				'list',
 				array
@@ -36,7 +36,7 @@ class DownloadsController extends AppController
 				)
 			);
 
-		$this->set(compact('categories'));
+		$this->set(compact('downloadCategories'));
 	}
 
 	function _setAttachments()
@@ -121,7 +121,7 @@ class DownloadsController extends AppController
 
 		if (empty($this->data))
 		{
-			if (empty($this->viewVars['categories']))
+			if (empty($this->viewVars['downloadCategories']))
 			{
 				$this->Session->setFlash(__('You need to create a category first', true));
 				$this->Session->write('DownloadCategory.Redirect', true);
@@ -270,7 +270,7 @@ class DownloadsController extends AppController
 			return;
 		}
 
-		$delete_button = (strpos(low($this->data['Submit']['type']), 'delete') !== false);
+		$delete_button = (strpos(low($this->data['Submit']['type']), __('delete', true)) !== false);
 
 		if (!$delete_button)
 		{
@@ -314,7 +314,7 @@ class DownloadsController extends AppController
 
 		if (!Configure::read('debug') && $this->Auth->user())
 		{
-			$message = "So, you'd like to vote for your own articles?\nYou naughty boy..";
+			$message = __("So, you'd like to vote for your own articles?\nYou naughty boy..", true);
 			$this->set(compact('message'));
 			return;
 		}
@@ -330,7 +330,7 @@ class DownloadsController extends AppController
 
 		if ($ratingCookie)
 		{
-			$message = __('You\'ve already voted!', true);
+			$message = __('You have already rated!', true);
 			$this->set(compact('message'));
 			return;
 		}
@@ -350,7 +350,7 @@ class DownloadsController extends AppController
 
 		if (!$this->Download->Rating->validates())
 		{
-			$message = 'Bummer, eh?';
+			$message = __('Bummer, eh?', true);
 			$this->set(compact('message'));
 			return;
 		}
@@ -359,7 +359,7 @@ class DownloadsController extends AppController
 
 		if (!$this->Download->Rating->save($ratingData))
 		{
-			$message = __('Whoops...crash!', true);
+			$message = __('Whoops...something crashed!', true);
 			$this->set(compact('message'));
 			return;
 		}
@@ -368,7 +368,7 @@ class DownloadsController extends AppController
 			$this->Cookie->write('Download-'.$download['Download']['id'].'-Rating', $rating, true, '+1 year');
 		}
 
-		$message = __('Thanks for voting!', true);
+		$message = __('Thanks for rating!', true);
 		$this->set(compact('message'));
 	}
 }
