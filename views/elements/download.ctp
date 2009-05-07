@@ -222,5 +222,4 @@ if ($full)
 		echo $form->end();
 	}
 	?>
-	}
 </div>
