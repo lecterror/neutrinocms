@@ -106,17 +106,12 @@ class DownloadsController extends AppController
 			$this->Download->hit($download['Download']['id']);
 		}
 
-		$fakeFile = new File($download['Download']['display_file_name']);
+		$fileName = $download['Download']['display_file_name'];
 
-		$path = FILES_REL;
-		$id = $download['Download']['real_file_name'];
-		$name = $fakeFile->name();
-		$extension = $fakeFile->ext();
-		$download = true;
+		$file = new File(APP.FILES_REL.$download['Download']['real_file_name']);
 
-		$this->view = 'media';
-		Configure::write('debug', 0);
-		$this->set(compact('path', 'id', 'name', 'extension', 'download'));
+		$this->view = 'download';
+		$this->set(compact('file', 'fileName'));
 	}
 
 	function add()

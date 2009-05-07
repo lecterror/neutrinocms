@@ -86,7 +86,7 @@ class ArticlesController extends AppController
 		}
 
 		$similar = $this->Article->findSimilar($slug, $this->Auth->user());
-		$this->Session->setFlash('The requested article was not found!');
+		$this->Session->setFlash(__('The requested article was not found!', true));
 		$this->set(compact('similar', 'slug'));
 	}
 
@@ -101,7 +101,7 @@ class ArticlesController extends AppController
 				'channel',
 				array(
 					'title' => Configure::read('Neutrino.SiteTitle').' - Latest articles',
-					'description' => 'Latest articles'
+					'description' => __('Latest articles', true)
 				)
 			);
 
