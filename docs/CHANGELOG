@@ -1,3 +1,8 @@
+# 0.1 beta2 #
+
+* fixed an RSS bug
+* added internationalization (cake's built-in gettext support)
+
 # 0.1 beta #
 
 * updated install/update instructions
