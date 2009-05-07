@@ -55,19 +55,7 @@ echo $html->docType(); ?>
 					'starbox/starbox',
 					'shadowbox/shadowbox-prototype',
 					'shadowbox/shadowbox',
-					'dp.SyntaxHighlighter/Scripts/shCore',
-					'dp.SyntaxHighlighter/Scripts/shBrushCpp',
-					'dp.SyntaxHighlighter/Scripts/shBrushCSharp',
-					'dp.SyntaxHighlighter/Scripts/shBrushCss',
-					'dp.SyntaxHighlighter/Scripts/shBrushDelphi',
-					'dp.SyntaxHighlighter/Scripts/shBrushJava',
-					'dp.SyntaxHighlighter/Scripts/shBrushJScript',
-					'dp.SyntaxHighlighter/Scripts/shBrushPhp',
-					'dp.SyntaxHighlighter/Scripts/shBrushPython',
-					'dp.SyntaxHighlighter/Scripts/shBrushRuby',
-					'dp.SyntaxHighlighter/Scripts/shBrushSql',
-					'dp.SyntaxHighlighter/Scripts/shBrushVb',
-					'dp.SyntaxHighlighter/Scripts/shBrushXml'
+					'dp.SyntaxHighlighter/Scripts/shCombined'
 		    	),
 		  	  true
 			);
