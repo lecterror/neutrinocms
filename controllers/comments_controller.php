@@ -41,7 +41,7 @@ class CommentsController extends AppController
 	{
 		$this->Email->reset();
 		$this->Email->sendAs = 'both';
-		$this->Email->to = '"'.$user['first_name'].' '.$user['last_name'].'" <' . $user['email'] . '>';
+		$this->Email->to = '"'.$user['User']['first_name'].' '.$user['User']['last_name'].'" <' . $user['User']['email'] . '>';
 		$this->Email->from = '"'.Configure::read('Neutrino.SiteTitle').'" <noreply@'.env('HTTP_HOST').'>';
 		$this->Email->replyTo = '"'.Configure::read('Neutrino.SiteTitle').'" <noreply@'.env('HTTP_HOST').'>';
 		$this->Email->return = '"'.Configure::read('Neutrino.SiteTitle').'" <noreply@'.env('HTTP_HOST').'>';
@@ -59,6 +59,7 @@ class CommentsController extends AppController
 
 		$this->Email->send();
 	}
+
 	function _renderPaginatedComments()
 	{
 		$this->autoRender = false;

@@ -1,4 +1,4 @@
-<p><?php echo sprintf(__('Dear %s %s,', true), $email_user['first_name'], $email_user['last_name']); ?>
+<p><?php echo sprintf(__('Dear %s %s,', true), $email_user['User']['first_name'], $email_user['User']['last_name']); ?>
 <br /><br />
 <?php
 echo sprintf
