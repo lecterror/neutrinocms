@@ -303,8 +303,10 @@ class Article extends AppModel
 			);
 	}
 
-	function findForRss($conditions = null)
+	function findForRss($conditions = array())
 	{
+		$conditions = array_merge($conditions, $this->noDrafts);
+
 		return $this->find
 			(
 				'all',
