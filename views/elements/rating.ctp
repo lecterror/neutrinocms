@@ -45,7 +45,13 @@ echo $javascript->codeBlock
 			($voted ? 'true' : 'false'),
 			($voted ? $votedValue : 'false'),
 			$totalVotes,
-			__('#{average} based on #{total} votes', true),
+			__n
+			(
+				'#{average} based on #{total} vote',
+				'#{average} based on #{total} votes',
+				$totalVotes,
+				true
+			),
 			$url
 		)
 	);

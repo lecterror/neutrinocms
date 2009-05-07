@@ -6,7 +6,7 @@ if (!isset($elementId) || empty($elementId))
 ?>
 <span id="<?php echo $elementId; ?>" class="float-left"></span>
 <?php
-Echo $javascript->codeBlock
+echo $javascript->codeBlock
 	(
 		sprintf
 		(
@@ -46,7 +46,13 @@ Echo $javascript->codeBlock
 			($voted ? 'true' : 'false'),
 			($voted ? $votedValue : 'false'),
 			$totalVotes,
-			__('#{average} based on #{total} votes', true),
+			__n
+			(
+				'#{average} based on #{total} vote',
+				'#{average} based on #{total} votes',
+				$totalVotes,
+				true
+			),
 			$url
 		)
 	);
