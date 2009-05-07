@@ -23,16 +23,22 @@ class Configuration extends AppModel
 	var $cacheKey = 'neutrino_config';
 	var $cachePeriod = '+2 weeks';
 
-	var $validate =
-		array
-		(
-			'name' =>
-				array
-				(
-					'rule'		=> VALID_NOT_EMPTY,
-					'message'	=> 'FATAL: No variable name specified'
-				)
-		);
+	var $validate = array();
+
+	function __construct()
+	{
+		parent::__construct();
+
+		$this->validate = array
+			(
+				'name' =>
+					array
+					(
+						'rule'		=> VALID_NOT_EMPTY,
+						'message'	=> __('FATAL: No variable name specified', true)
+					)
+			);
+	}
 
 	function load()
 	{
@@ -62,19 +68,19 @@ class Configuration extends AppModel
 	function validateInstall($data)
 	{
 		if (empty($data['Configuration']['SiteTitle']))
-			$this->invalidate('SiteTitle', 'Please enter a site title');
+			$this->invalidate('SiteTitle', __('Please enter a site title', true));
 
 		if (empty($data['Configuration']['SiteDescription']))
-			$this->invalidate('SiteDescription', 'Please enter a site description');
+			$this->invalidate('SiteDescription', __('Please enter a site description', true));
 
 		if (empty($data['Configuration']['SiteKeywords']))
-			$this->invalidate('SiteKeywords', 'Please enter site keywords');
+			$this->invalidate('SiteKeywords', __('Please enter site keywords', true));
 
 		if (empty($data['Configuration']['SiteCopyrightNotice']))
-			$this->invalidate('SiteCopyrightNotice', 'Please enter a site copyright notice');
+			$this->invalidate('SiteCopyrightNotice', __('Please enter a site copyright notice', true));
 
 		if (empty($data['Configuration']['Theme']))
-			$this->invalidate('Theme', 'Please select a theme');
+			$this->invalidate('Theme', __('Please select a theme', true));
 
 		return !$this->invalidFields();
 	}

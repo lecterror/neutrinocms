@@ -33,59 +33,66 @@ class Comment extends AppModel
 				)
 		);
 
-	var $validate = array
-		(
-			'article_id'	=> VALID_NOT_EMPTY,
-			'name' =>
-				array
-				(
-					'required' =>
+	var $validate = array();
+
+	function __construct()
+	{
+		parent::__construct();
+
+		$this->validate = array
+			(
+				'article_id'	=> VALID_NOT_EMPTY,
+				'name' =>
 					array
 					(
-						'rule'		=> VALID_NOT_EMPTY,
-						'message'	=> 'Please enter a username'
-					)
-				),
-			'website' =>
-				array
-				(
-					'allowEmpty'	=> true,
-					'rule'			=> 'url',
-					'message'		=> 'Please enter a valid URL (or leave empty)'
-				),
-			'email' =>
-				array
-				(
-					'mail' =>
-					array
-					(
-						'rule'		=> VALID_EMAIL,
-						'message'	=> 'Please enter a valid email'
+						'required' =>
+						array
+						(
+							'rule'		=> VALID_NOT_EMPTY,
+							'message'	=> __('Please enter a username', true)
+						)
 					),
-					'length' =>
+				'website' =>
 					array
 					(
-						'rule'		=> array('maxLength', 100),
-						'message'	=> 'Email cannot be longer than 100 characters'
-					)
-				),
-			'comment' =>
-				array
-				(
-					'required' =>
-					array
-					(
-						'rule'		=> VALID_NOT_EMPTY,
-						'message'	=> 'Please enter a comment'
+						'allowEmpty'	=> true,
+						'rule'			=> 'url',
+						'message'		=> __('Please enter a valid URL (or leave empty)', true)
 					),
-					'length' =>
+				'email' =>
 					array
 					(
-						'rule'		=> array('maxLength', 1000),
-						'message'	=> 'Comment shouldn\'t be longer than 1000 characters'
+						'mail' =>
+						array
+						(
+							'rule'		=> VALID_EMAIL,
+							'message'	=> __('Please enter a valid email', true)
+						),
+						'length' =>
+						array
+						(
+							'rule'		=> array('maxLength', 100),
+							'message'	=> __('Email cannot be longer than 100 characters', true)
+						)
+					),
+				'comment' =>
+					array
+					(
+						'required' =>
+						array
+						(
+							'rule'		=> VALID_NOT_EMPTY,
+							'message'	=> __('Please enter a comment', true)
+						),
+						'length' =>
+						array
+						(
+							'rule'		=> array('maxLength', 1000),
+							'message'	=> __('Comment shouldn\'t be longer than 1000 characters', true)
+						)
 					)
-				)
-		);
+			);
+	}
 
 	function findForRss()
 	{

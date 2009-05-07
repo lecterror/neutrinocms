@@ -37,7 +37,7 @@ class ArticleCategoriesController extends AppController
 		}
 
 		$similar = $this->ArticleCategory->findSimilar($slug);
-		$this->Session->setFlash('The requested category was not found!');
+		$this->Session->setFlash(__('The requested category was not found!', true));
 		$this->set(compact('similar', 'slug'));
 
 		// clear the cache in case something is broken
@@ -106,17 +106,17 @@ class ArticleCategoriesController extends AppController
 		if (!$this->ArticleCategory->validates())
 		{
 			$this->data['ArticleCategory']['slug'] = $slug;
-			$this->Session->setFlash('Please correct the errors below');
+			$this->Session->setFlash(__('Please correct the errors below', true));
 			return;
 		}
 
 		if (!$this->ArticleCategory->save($this->data))
 		{
-			$this->Session->setFlash('Category was not saved!');
+			$this->Session->setFlash(__('Category was not saved!', true));
 			return;
 		}
 
-		$this->Session->setFlash('Category saved');
+		$this->Session->setFlash(__('Category saved', true));
 		$continueEditing = (strpos(low($this->data['Submit']['type']), 'continue editing') !== false);
 
 		$newSlug = $this->ArticleCategory->getSlug($this->ArticleCategory->id);
@@ -145,17 +145,17 @@ class ArticleCategoriesController extends AppController
 
 		if (!$this->ArticleCategory->validates())
 		{
-			$this->Session->setFlash('Please correct the errors below');
+			$this->Session->setFlash(__('Please correct the errors below', true));
 			return;
 		}
 
 		if (!$this->ArticleCategory->save($this->data))
 		{
-			$this->Session->setFlash('Category was not saved!');
+			$this->Session->setFlash(__('Category was not saved!', true));
 			return;
 		}
 
-		$this->Session->setFlash('Category saved');
+		$this->Session->setFlash(__('Category saved', true));
 		$newSlug = $this->ArticleCategory->getSlug($this->ArticleCategory->id);
 
 		if ($this->Session->check('ArticleCategory.Redirect'))
@@ -201,19 +201,19 @@ class ArticleCategoriesController extends AppController
 
 		if (!$this->data['ArticleCategory']['delete'])
 		{
-			$this->ArticleCategory->invalidate('delete', 'You need to confirm this action by marking the checkbox');
-			$this->Session->setFlash('Please correct the errors below');
+			$this->ArticleCategory->invalidate('delete', __('You need to confirm this action by marking the checkbox', true));
+			$this->Session->setFlash(__('Please correct the errors below', true));
 			$this->set(compact('category'));
 			return;
 		}
 
 		if ($this->ArticleCategory->del($category['ArticleCategory']['id']))
 		{
-			$this->Session->setFlash('Article category deleted successfully');
+			$this->Session->setFlash(__('Article category deleted successfully', true));
 		}
 		else
 		{
-			$this->Session->setFlash('Error while deleting article category');
+			$this->Session->setFlash(__('Error while deleting article category', true));
 		}
 
 		$this->redirect('/');

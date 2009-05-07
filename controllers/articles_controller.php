@@ -100,7 +100,7 @@ class ArticlesController extends AppController
 		$this->set(
 				'channel',
 				array(
-					'title' => Configure::read('Neutrino.SiteTitle').' - Latest articles',
+					'title' => sprintf(__('%s - Latest articles', true), Configure::read('Neutrino.SiteTitle')),
 					'description' => __('Latest articles', true)
 				)
 			);
@@ -186,13 +186,13 @@ class ArticlesController extends AppController
 		if (!$this->Article->validates())
 		{
 			$this->data['Article']['slug'] = $slug;
-			$this->Session->setFlash('Please correct the errors below');
+			$this->Session->setFlash(__('Please correct the errors below', true));
 			return;
 		}
 
 		if (!$this->Article->save($this->data))
 		{
-			$this->Session->setFlash('Article was not saved!');
+			$this->Session->setFlash(__('Article was not saved!', true));
 			return;
 		}
 
@@ -217,7 +217,7 @@ class ArticlesController extends AppController
 		{
 			if (empty($this->viewVars['categories']))
 			{
-				$this->Session->setFlash('You need to create a category first');
+				$this->Session->setFlash(__('You need to create a category first', true));
 				$this->Session->write('ArticleCategory.Redirect', true);
 				$this->redirect(array('controller' => 'article_categories', 'action' => 'add'));
 			}
@@ -244,13 +244,13 @@ class ArticlesController extends AppController
 
 		if (!$this->Article->validates())
 		{
-			$this->Session->setFlash('Please correct the errors below');
+			$this->Session->setFlash(__('Please correct the errors below', true));
 			return;
 		}
 
 		if (!$this->Article->save($this->data))
 		{
-			$this->Session->setFlash('Article was not saved!');
+			$this->Session->setFlash(__('Article was not saved!', true));
 			return;
 		}
 
@@ -298,19 +298,19 @@ class ArticlesController extends AppController
 
 		if (!$this->data['Article']['delete'])
 		{
-			$this->Article->invalidate('delete', 'You need to confirm this action by marking the checkbox');
-			$this->Session->setFlash('Please correct the errors below');
+			$this->Article->invalidate('delete', __('You need to confirm this action by marking the checkbox', true));
+			$this->Session->setFlash(__('Please correct the errors below', true));
 			$this->set('article', $article);
 			return;
 		}
 
 		if (!$this->Article->del($article['Article']['id']))
 		{
-			$this->Session->setFlash('Error while deleting article');
+			$this->Session->setFlash(__('Error while deleting article', true));
 			return;
 		}
 
-		$this->Session->setFlash('Article deleted successfully');
+		$this->Session->setFlash(__('Article deleted successfully', true));
 		$this->redirect('/');
 	}
 
@@ -346,7 +346,7 @@ class ArticlesController extends AppController
 
 		if ($ratingCookie)
 		{
-			$message = 'You\'ve already voted!';
+			$message = __('You\'ve already voted!', true);
 			$this->set(compact('message'));
 			return;
 		}
@@ -375,7 +375,7 @@ class ArticlesController extends AppController
 
 		if (!$this->Article->Rating->save($ratingData))
 		{
-			$message = 'Whoops...crash!';
+			$message = __('Whoops...crash!', true);
 			$this->set(compact('message'));
 			return;
 		}
@@ -385,7 +385,7 @@ class ArticlesController extends AppController
 			$this->Cookie->write('Article-'.$article['Article']['id'].'-Rating', $rating, true, '+2 years');
 		}
 
-		$message = 'Thanks for voting!';
+		$message = __('Thanks for voting!', true);
 		$this->set(compact('message'));
 	}
 

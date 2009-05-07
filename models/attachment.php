@@ -46,32 +46,32 @@ class Attachment extends AppModel
 		{
 			case UPLOAD_ERR_INI_SIZE:
 			case UPLOAD_ERR_FORM_SIZE:
-				$this->invalidate('file', 'Uploaded file is too big');
+				$this->invalidate('file', __('Uploaded file is too big', true));
 				return false;
 			case UPLOAD_ERR_PARTIAL:
-				$this->invalidate('file', 'File uploaded partially');
+				$this->invalidate('file', __('File uploaded partially', true));
 				return false;
 			case UPLOAD_ERR_NO_FILE:
-				$this->invalidate('file', 'No file uploaded');
+				$this->invalidate('file', __('No file uploaded', true));
 				return false;
 			case UPLOAD_ERR_NO_TMP_DIR:
-				$this->invalidate('file', 'No temporary dir available');
+				$this->invalidate('file', __('No temporary dir available', true));
 				return false;
 			case UPLOAD_ERR_CANT_WRITE:
-				$this->invalidate('file', 'Cannot write to temporary dir');
+				$this->invalidate('file', __('Cannot write to temporary dir', true));
 				return false;
 		}
 
 		if (!is_uploaded_file($file['tmp_name']))
 		{
-			$this->invalidate('file', 'Security error: not an uploaded file!');
+			$this->invalidate('file', __('Security error: not an uploaded file!', true));
 			return false;
 		}
 
 		if ($file['error'] === UPLOAD_ERR_OK)
 			return true;
 
-		$this->invalidate('file', 'Unknown error');
+		$this->invalidate('file', __('Unknown error', true));
 		return false;
 	}
 

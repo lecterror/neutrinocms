@@ -54,150 +54,156 @@ class Download extends AppModel
 				)
 		);
 
-	var $validate =
-		array
-		(
-			'name' =>
-				array
-				(
-					'required' =>
-						array
-						(
-							'rule' => VALID_NOT_EMPTY,
-							'message' => 'Enter a download name'
-						),
-					'length' =>
-						array
-						(
-							'rule' => array('maxLength', 200),
-							'message' => 'Download name is too long (200 characters max)'
-						)
-				),
-			'display_file_name' =>
-				array
-				(
-					'required' =>
-						array
-						(
-							'rule' => VALID_NOT_EMPTY,
-							'message' => 'Enter a file name'
-						),
-					'length' =>
-						array
-						(
-							'rule' => array('maxLength', 255),
-							'message' => 'File name is too long (255 characters max)'
-						)
-				),
-			'real_file_name' =>
-				array
-				(
-					'required' =>
-						array
-						(
-							'rule' => VALID_NOT_EMPTY,
-							'message' => 'Enter a file name'
-						),
-					'length' =>
-						array
-						(
-							'rule' => array('maxLength', 255),
-							'message' => 'File name is too long (255 characters max)'
-						),
-					'fileMustExist' =>
-						array
-						(
-							'rule' => 'fileMustExist',
-							'message' => 'The selected file does not exist'
-						)
-				),
-			'slug' =>
-				array
-				(
-					'required' =>
-						array
-						(
-							'rule' => '/^[a-z0-9_\-\.]+$/',
-							'message' => 'Enter a slug (lowercase letters, numbers, underscore and hyphen are allowed)'
-						),
-					'length' =>
-						array
-						(
-							'rule' => array('maxLength', 50),
-							'message' => 'Slug is too long (50 characters max)'
-						),
-					'unique' =>
-						array
-						(
-							'rule' => 'isUnique',
-							'message' => 'A download with the same slug already exists'
-						)
-				),
-			'downloaded' =>
-				array
-				(
-					'number' =>
-						array
-						(
-							'rule' => '/^[0-9]+$/',
-							'message' => 'Enter a valid number'
-						),
-					'required' =>
-						array
-						(
-							'rule' => VALID_NOT_EMPTY,
-							'message' => 'Enter an initial hitcount (normally zero)'
-						)
-				),
-			'content_description' =>
-				array
-				(
-					'required' =>
+	var $validate = array();
+
+	function __construct()
+	{
+		parent::__construct();
+
+		$this->validate = array
+			(
+				'name' =>
 					array
 					(
-						'rule'		=> VALID_NOT_EMPTY,
-						'message'	=> 'Content description cannot be empty'
+						'required' =>
+							array
+							(
+								'rule' => VALID_NOT_EMPTY,
+								'message' => __('Enter a download name', true)
+							),
+						'length' =>
+							array
+							(
+								'rule' => array('maxLength', 200),
+								'message' => __('Download name is too long (200 characters max)', true)
+							)
 					),
-					'length' =>
+				'display_file_name' =>
 					array
 					(
-						'rule'		=> array('maxLength', 500),
-						'message'	=> 'Content description is too long'
-					)
-				),
-			'content_keywords' =>
-				array
-				(
-					'required' =>
-					array
-					(
-						'rule'		=> VALID_NOT_EMPTY,
-						'message'	=> 'Content keywords cannot be empty'
+						'required' =>
+							array
+							(
+								'rule' => VALID_NOT_EMPTY,
+								'message' => __('Enter a file name', true)
+							),
+						'length' =>
+							array
+							(
+								'rule' => array('maxLength', 255),
+								'message' => __('File name is too long (255 characters max)', true)
+							)
 					),
-					'length' =>
+				'real_file_name' =>
 					array
 					(
-						'rule'		=> array('maxLength', 1000),
-						'message'	=> 'Content keywords are too long'
+						'required' =>
+							array
+							(
+								'rule' => VALID_NOT_EMPTY,
+								'message' => __('Enter a file name', true)
+							),
+						'length' =>
+							array
+							(
+								'rule' => array('maxLength', 255),
+								'message' => __('File name is too long (255 characters max)', true)
+							),
+						'fileMustExist' =>
+							array
+							(
+								'rule' => 'fileMustExist',
+								'message' => __('The selected file does not exist', true)
+							)
 					),
-					'limit' =>
+				'slug' =>
 					array
 					(
-						'rule'		=> array('keywordLimit', 20),
-						'message'	=> 'You need to have less than 20 keywords'
-					)
-				),
-			'description' =>
-				array
-				(
-					'required' =>
+						'required' =>
+							array
+							(
+								'rule' => '/^[a-z0-9_\-\.]+$/',
+								'message' => __('Enter a slug (lowercase letters, numbers, underscore and hyphen are allowed)', true)
+							),
+						'length' =>
+							array
+							(
+								'rule' => array('maxLength', 50),
+								'message' => __('Slug is too long (50 characters max)', true)
+							),
+						'unique' =>
+							array
+							(
+								'rule' => 'isUnique',
+								'message' => __('A download with the same slug already exists', true)
+							)
+					),
+				'downloaded' =>
 					array
 					(
-						'rule'		=> VALID_NOT_EMPTY,
-						'message'	=> 'Description cannot be empty'
+						'number' =>
+							array
+							(
+								'rule' => '/^[0-9]+$/',
+								'message' => __('Enter a valid number', true)
+							),
+						'required' =>
+							array
+							(
+								'rule' => VALID_NOT_EMPTY,
+								'message' => __('Enter an initial hitcount (normally zero)', true)
+							)
+					),
+				'content_description' =>
+					array
+					(
+						'required' =>
+						array
+						(
+							'rule'		=> VALID_NOT_EMPTY,
+							'message'	=> __('Content description cannot be empty', true)
+						),
+						'length' =>
+						array
+						(
+							'rule'		=> array('maxLength', 500),
+							'message'	=> __('Content description is too long', true)
+						)
+					),
+				'content_keywords' =>
+					array
+					(
+						'required' =>
+						array
+						(
+							'rule'		=> VALID_NOT_EMPTY,
+							'message'	=> __('Content keywords cannot be empty', true)
+						),
+						'length' =>
+						array
+						(
+							'rule'		=> array('maxLength', 1000),
+							'message'	=> __('Content keywords are too long', true)
+						),
+						'limit' =>
+						array
+						(
+							'rule'		=> array('keywordLimit', 20),
+							'message'	=> __('You need to have less than 20 keywords', true)
+						)
+					),
+				'description' =>
+					array
+					(
+						'required' =>
+						array
+						(
+							'rule'		=> VALID_NOT_EMPTY,
+							'message'	=> __('Description cannot be empty', true)
+						)
 					)
-				)
-		);
+			);
+	}
 
 	function beforeSave()
 	{

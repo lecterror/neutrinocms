@@ -80,7 +80,7 @@ class SetupController extends AppController
 				$this->Session->write($this->_installStepKey, $this->_installSteps);
 
 			if ($this->_installContinue() === false)
-				$this->_fail('FATAL: Already installed.');
+				$this->_fail(__('FATAL: Already installed.', true));
 
 			if ($this->_isActionComplete($this->_installStepKey))
 				$this->_redirectToNextAction();
@@ -98,7 +98,7 @@ class SetupController extends AppController
 	function _fail($message)
 	{
 		$this->log($message, LOG_DEBUG);
-		echo 'An error occurred. Further access denied.';
+		echo __('An error occurred. Further access denied.', true);
 		die;
 	}
 
@@ -164,14 +164,14 @@ class SetupController extends AppController
 		$conn = $db->getDataSource('default');
 
 		if (!$conn->isConnected())
-			$this->_fail('FATAL: Cannot connect to the default database.');
+			$this->_fail(__('FATAL: Cannot connect to the default database.', true));
 
 		$tables = $conn->listSources();
 		if (empty($tables))
 			return 1;
 
 		if (!in_array('users', $tables))
-			$this->_fail('FATAL: No user table found in default database.');
+			$this->_fail(__('FATAL: No user table found in default database.', true));
 
 		App::import('model', 'User');
 		$User = new User();
@@ -202,7 +202,7 @@ class SetupController extends AppController
 	{
 		if ($this->_installContinue() !== 1)
 		{
-			$this->Session->setFlash('Database already initialized!');
+			$this->Session->setFlash(__('Database already initialized!', true));
 			$this->_advance_step($this->_installStepKey);
 			$this->_markActionComplete($this->_installStepKey, true);
 		}
@@ -226,7 +226,7 @@ class SetupController extends AppController
 			$tables = $conn->listSources();
 
 			if (empty($tables))
-				$this->Session->setFlash('Database init failed!');
+				$this->Session->setFlash(__('Database init failed!', true));
 			else if (in_array('users', $tables))
 			{
 				$this->_advance_step($this->_installStepKey);
@@ -239,7 +239,7 @@ class SetupController extends AppController
 	{
 		if ($this->_installContinue() !== 2)
 		{
-			$this->Session->setFlash('Administrator account already created!');
+			$this->Session->setFlash(__('Administrator account already created!', true));
 			$this->_advance_step($this->_installStepKey);
 			$this->_markActionComplete($this->_installStepKey, true);
 		}
@@ -257,7 +257,7 @@ class SetupController extends AppController
 			if (!$this->User->validates())
 			{
 				$this->data['User']['password'] = '';
-				$this->Session->setFlash('Please correct the errors below');
+				$this->Session->setFlash(__('Please correct the errors below', true));
 				return;
 			}
 
@@ -271,7 +271,7 @@ class SetupController extends AppController
 			}
 			else
 			{
-				$this->Session->setFlash('There was an error while trying to create a user!');
+				$this->Session->setFlash(__('There was an error while trying to create a user!', true));
 			}
 		}
 	}
@@ -280,7 +280,7 @@ class SetupController extends AppController
 	{
 		if ($this->_installContinue() !== 3)
 		{
-			$this->Session->setFlash('Site already configured!');
+			$this->Session->setFlash(__('Site already configured!', true));
 			$this->_advance_step($this->_installStepKey);
 			$this->_markActionComplete($this->_installStepKey, true);
 		}

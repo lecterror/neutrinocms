@@ -20,40 +20,46 @@ class User extends AppModel
 {
 	var $name = 'User';
 
-	var $validate =
-		array
-		(
-			'username'	=>
-				array
-				(
-					'rule'		=> VALID_NOT_EMPTY,
-					'message'	=> 'Enter a valid username'
-				),
-			'password'	=>
-				array
-				(
-					'rule'		=> VALID_NOT_EMPTY,
-					'message'	=> 'Enter a valid password'
-				),
-			'email'	=>
-				array
-				(
-					'rule'		=> VALID_EMAIL,
-					'message'	=> 'Please enter a valid email address'
-				),
-			'first_name'	=>
-				array
-				(
-					'rule'		=> VALID_NOT_EMPTY,
-					'message'	=> 'Enter your first name'
-				),
-			'last_name'	=>
-				array
-				(
-					'rule'		=> VALID_NOT_EMPTY,
-					'message'	=> 'Enter your last name'
-				)
-		);
+	var $validate = array();
+
+	function __construct()
+	{
+		parent::__construct();
+
+		$this->validate = array
+			(
+				'username'	=>
+					array
+					(
+						'rule'		=> VALID_NOT_EMPTY,
+						'message'	=> __('Enter a valid username', true)
+					),
+				'password'	=>
+					array
+					(
+						'rule'		=> VALID_NOT_EMPTY,
+						'message'	=> __('Enter a valid password', true)
+					),
+				'email'	=>
+					array
+					(
+						'rule'		=> VALID_EMAIL,
+						'message'	=> __('Please enter a valid email address', true)
+					),
+				'first_name'	=>
+					array
+					(
+						'rule'		=> VALID_NOT_EMPTY,
+						'message'	=> __('Enter your first name', true)
+					),
+				'last_name'	=>
+					array
+					(
+						'rule'		=> VALID_NOT_EMPTY,
+						'message'	=> __('Enter your last name', true)
+					)
+			);
+	}
 }
 
 ?>

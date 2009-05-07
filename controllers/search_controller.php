@@ -46,7 +46,7 @@ class SearchController extends AppController
 	{
 		if (empty($this->data['Search']['phrase']))
 		{
-			$this->Session->setFlash('Please provide a search phrase');
+			$this->Session->setFlash(__('Please provide a search phrase', true));
 			$results = array();
 		}
 		else

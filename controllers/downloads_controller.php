@@ -73,7 +73,7 @@ class DownloadsController extends AppController
 	//	$like = $this->Article->findSimilar('title', $slug);
 
 	//	$this->set('similar', $like);
-		$this->Session->setFlash('The requested download was not found!');
+		$this->Session->setFlash(__('The requested download was not found!', true));
 		$this->set(compact('slug'));
 	}
 
@@ -123,7 +123,7 @@ class DownloadsController extends AppController
 		{
 			if (empty($this->viewVars['categories']))
 			{
-				$this->Session->setFlash('You need to create a category first');
+				$this->Session->setFlash(__('You need to create a category first', true));
 				$this->Session->write('DownloadCategory.Redirect', true);
 				$this->redirect(array('controller' => 'download_categories', 'action' => 'add'));
 			}
@@ -140,7 +140,7 @@ class DownloadsController extends AppController
 
 			if (empty($this->viewVars['attachments']))
 			{
-				$this->Session->setFlash('No files available!');
+				$this->Session->setFlash(__('No files available!', true));
 				$this->set('disable', true);
 			}
 
@@ -151,18 +151,18 @@ class DownloadsController extends AppController
 
 		if (!$this->Download->validates())
 		{
-			$this->Session->setFlash('Please correct the errors below');
+			$this->Session->setFlash(__('Please correct the errors below', true));
 			return;
 		}
 
 		if (!$this->Download->save($this->data))
 		{
-			$this->Session->setFlash('Error while creating a download!');
+			$this->Session->setFlash(__('Error while creating a download!', true));
 			return;
 		}
 
-		$this->Session->setFlash('Download created successfully');
-		$continue_editing = (strpos(low($this->data['Submit']['type']), 'continue editing') !== false);
+		$this->Session->setFlash(__('Download created successfully', true));
+		$continue_editing = (strpos(low($this->data['Submit']['type']), __('continue editing', true)) !== false);
 
 		if ($continue_editing)
 		{
@@ -203,18 +203,18 @@ class DownloadsController extends AppController
 		if (!$this->Download->validates())
 		{
 			$this->data['Download']['slug'] = $slug;
-			$this->Session->setFlash('Please correct the errors below');
+			$this->Session->setFlash(__('Please correct the errors below', true));
 			return;
 		}
 
 		if (!$this->Download->save($this->data))
 		{
-			$this->Session->setFlash('Download was not saved!');
+			$this->Session->setFlash(__('Download was not saved!', true));
 			return;
 		}
 
-		$this->Session->setFlash('Download saved');
-		$continue_editing = (strpos(low($this->data['Submit']['type']), 'continue editing') !== false);
+		$this->Session->setFlash(__('Download saved', true));
+		$continue_editing = (strpos(low($this->data['Submit']['type']), __('continue editing', true)) !== false);
 
 		$newSlug = $this->Download->getSlug($this->Download->id);
 
@@ -279,8 +279,8 @@ class DownloadsController extends AppController
 
 		if (!$this->data['Download']['delete'])
 		{
-			$this->Download->invalidate('delete', 'You need to confirm this action by marking the checkbox');
-			$this->Session->setFlash('Please correct the errors below');
+			$this->Download->invalidate('delete', __('You need to confirm this action by marking the checkbox', true));
+			$this->Session->setFlash(__('Please correct the errors below', true));
 
 			$this->set(compact('download'));
 			return;
@@ -288,11 +288,11 @@ class DownloadsController extends AppController
 
 		if ($this->Download->del($download['Download']['id']))
 		{
-			$this->Session->setFlash('Download deleted successfully');
+			$this->Session->setFlash(__('Download deleted successfully', true));
 		}
 		else
 		{
-			$this->Session->setFlash('Error while deleting download');
+			$this->Session->setFlash(__('Error while deleting download', true));
 		}
 
 		$this->redirect('/');
@@ -330,7 +330,7 @@ class DownloadsController extends AppController
 
 		if ($ratingCookie)
 		{
-			$message = 'You\'ve already voted!';
+			$message = __('You\'ve already voted!', true);
 			$this->set(compact('message'));
 			return;
 		}
@@ -359,7 +359,7 @@ class DownloadsController extends AppController
 
 		if (!$this->Download->Rating->save($ratingData))
 		{
-			$message = 'Whoops...crash!';
+			$message = __('Whoops...crash!', true);
 			$this->set(compact('message'));
 			return;
 		}
@@ -368,7 +368,7 @@ class DownloadsController extends AppController
 			$this->Cookie->write('Download-'.$download['Download']['id'].'-Rating', $rating, true, '+1 year');
 		}
 
-		$message = 'Thanks for voting!';
+		$message = __('Thanks for voting!', true);
 		$this->set(compact('message'));
 	}
 }

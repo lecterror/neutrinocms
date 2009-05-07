@@ -58,26 +58,35 @@ class AttachmentsController extends AppController
 				{
 					if ($file->delete())
 					{
-						$flash .= $filename.' deleted successfully<br />';
+						$flash .= sprintf(__('%s deleted successfully<br />', true), $filename);
 						$deleted++;
 					}
 					else
 					{
-						$flash .= $filename.' <b>not</b> deleted<br />';
+						$flash .= sprintf(__('%s <b>not</b> deleted<br />', true), $filename);
 						$failed++;
 					}
 				}
 				else
 				{
-					$flash .= $filename.' not found<br />';
+					$flash .= sprintf(__('%s not found<br />', true), $filename);
 				}
 			}
 		}
 
 		if ($deleted == 0)
-			$flash .= 'No files deleted!';
+		{
+			$flash .= __('No files deleted!', true);
+		}
 		else if ($failed != 0)
-			$flash .= 'Failed to delete '.$failed.' file'.($failed == 1 ? '' : 's');
+		{
+			$flash .= __n
+				(
+					sprintf('Failed to delete %s file', $failed),
+					sprintf('Failed to delete %s files', $failed),
+					$failed,
+					true
+				);
 
 		$this->Session->setFlash($flash);
 		$this->_redirectTo('manage', '');
@@ -92,12 +101,12 @@ class AttachmentsController extends AppController
 
 			if ($this->Attachment->saveUploadedFile($this->data))
 			{
-				$this->Session->setFlash('File uploaded successfully');
+				$this->Session->setFlash(__('File uploaded successfully', true));
 				$this->_redirectTo('manage', '');
 			}
 			else
 			{
-				$this->Session->setFlash('Error while uploading file!');
+				$this->Session->setFlash(__('Error while uploading file!', true));
 			}
 		}
 	}

@@ -73,96 +73,103 @@ class Article extends AppModel
 				)
 		);
 
-	var $validate = array(
-		'article_category_id' =>
-			array
-			(
-				'rule'		=> VALID_NOT_EMPTY,
-				'message'	=> 'Article category cannot be empty'
-			),
-		'title' =>
-			array
-			(
-				'required' =>
+	var $validate = array();
+
+	function __construct()
+	{
+		parent::__construct();
+
+		$this->validate = array(
+			'article_category_id' =>
 				array
 				(
 					'rule'		=> VALID_NOT_EMPTY,
-					'message'	=> 'Article title cannot be empty'
+					'message'	=> __('Article category cannot be empty', true)
 				),
-				'length' =>
+			'title' =>
 				array
 				(
-					'rule'		=> array('maxLength', 100),
-					'message'	=> 'Title cannot be longer than 100 characters'
+					'required' =>
+					array
+					(
+						'rule'		=> VALID_NOT_EMPTY,
+						'message'	=> __('Article title cannot be empty', true)
+					),
+					'length' =>
+					array
+					(
+						'rule'		=> array('maxLength', 100),
+						'message'	=> __('Title cannot be longer than 100 characters', true)
+					),
+					'unique' =>
+					array
+					(
+						'rule'		=> 'isUnique',
+						'message'	=> __('An article with the same title already exists', true)
+					)
 				),
-				'unique' =>
+			'intro' =>
 				array
 				(
-					'rule'		=> 'isUnique',
-					'message'	=> 'An article with the same title already exists'
-				)
-			),
-		'intro' =>
-			array
-			(
-				'required' =>
+					'required' =>
+					array
+					(
+						'rule'		=> VALID_NOT_EMPTY,
+						'message'	=> __('Article introduction cannot be empty', true)
+					),
+					'length' =>
+					array
+					(
+						'rule'		=> array('maxLength', 255),
+						'message'	=> __('Introduction cannot be longer than 255 characters', true)
+					)
+				),
+			'content' =>
 				array
 				(
 					'rule'		=> VALID_NOT_EMPTY,
-					'message'	=> 'Article introduction cannot be empty'
+					'message'	=> __('Article content cannot be empty', true)
 				),
-				'length' =>
+			'content_description' =>
 				array
 				(
-					'rule'		=> array('maxLength', 255),
-					'message'	=> 'Introduction cannot be longer than 255 characters'
+					'required' =>
+					array
+					(
+						'rule'		=> VALID_NOT_EMPTY,
+						'message'	=> __('Content description cannot be empty', true)
+					),
+					'length' =>
+					array
+					(
+						'rule'		=> array('maxLength', 500),
+						'message'	=> __('Content description is too long', true)
+					)
+				),
+			'content_keywords' =>
+				array
+				(
+					'required' =>
+					array
+					(
+						'rule'		=> VALID_NOT_EMPTY,
+						'message'	=> __('Content keywords cannot be empty', true)
+					),
+					'length' =>
+					array
+					(
+						'rule'		=> array('maxLength', 1000),
+						'message'	=> __('Content keywords are too long', true)
+					),
+					'limit' =>
+					array
+					(
+						'rule'		=> array('keywordLimit', 20),
+						'message'	=> __('You need to have less than 20 keywords', true)
+					)
 				)
-			),
-		'content' =>
-			array
-			(
-				'rule'		=> VALID_NOT_EMPTY,
-				'message'	=> 'Article content cannot be empty'
-			),
-		'content_description' =>
-			array
-			(
-				'required' =>
-				array
-				(
-					'rule'		=> VALID_NOT_EMPTY,
-					'message'	=> 'Content description cannot be empty'
-				),
-				'length' =>
-				array
-				(
-					'rule'		=> array('maxLength', 500),
-					'message'	=> 'Content description is too long'
-				)
-			),
-		'content_keywords' =>
-			array
-			(
-				'required' =>
-				array
-				(
-					'rule'		=> VALID_NOT_EMPTY,
-					'message'	=> 'Content keywords cannot be empty'
-				),
-				'length' =>
-				array
-				(
-					'rule'		=> array('maxLength', 1000),
-					'message'	=> 'Content keywords are too long'
-				),
-				'limit' =>
-				array
-				(
-					'rule'		=> array('keywordLimit', 20),
-					'message'	=> 'You need to have less than 20 keywords'
-				)
-			)
-		);
+			);
+	}
 
 	function search($phrase, $user)
 	{

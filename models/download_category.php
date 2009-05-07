@@ -51,46 +51,53 @@ class DownloadCategory extends AppModel
 			)
 		);
 
-	var $validate = array(
-		'name' =>
-			array
-			(
-				'required' =>
+	var $validate = array();
+
+	function __construct()
+	{
+		parent::__construct();
+
+		$this->validate = array(
+			'name' =>
 				array
 				(
-					'rule'		=> VALID_NOT_EMPTY,
-					'message'	=> 'Category name cannot be empty'
+					'required' =>
+					array
+					(
+						'rule'		=> VALID_NOT_EMPTY,
+						'message'	=> __('Category name cannot be empty', true)
+					),
+					'unique' =>
+					array
+					(
+						'rule'		=> 'isUnique',
+						'message'	=> __('A category with the same name already exists', true)
+					),
+					'length' =>
+					array
+					(
+						'rule'		=> array('maxLength', 100),
+						'message'	=> __('Category name cannot be longer than 100 characters', true)
+					)
 				),
-				'unique' =>
+			'description' =>
 				array
 				(
-					'rule'		=> 'isUnique',
-					'message'	=> 'A category with the same name already exists'
-				),
-				'length' =>
-				array
-				(
-					'rule'		=> array('maxLength', 100),
-					'message'	=> 'Category name cannot be longer than 100 characters'
+					'required' =>
+					array
+					(
+						'rule'		=> VALID_NOT_EMPTY,
+						'message'	=> __('Category description cannot be empty', true)
+					),
+					'length' =>
+					array
+					(
+						'rule'		=> array('maxLength', 500),
+						'message'	=> __('Category name cannot be longer than 500 characters', true)
+					)
 				)
-			),
-		'description' =>
-			array
-			(
-				'required' =>
-				array
-				(
-					'rule'		=> VALID_NOT_EMPTY,
-					'message'	=> 'Category description cannot be empty'
-				),
-				'length' =>
-				array
-				(
-					'rule'		=> array('maxLength', 500),
-					'message'	=> 'Category name cannot be longer than 500 characters'
-				)
-			)
-		);
+			);
+	}
 
 	function getSlug($id)
 	{

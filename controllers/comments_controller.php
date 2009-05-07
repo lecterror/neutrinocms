@@ -158,7 +158,7 @@ class CommentsController extends AppController
 		{
 			if (!$captcha_valid)
 			{
-				$this->Comment->invalidate('captcha', 'Please type the code from the image above');
+				$this->Comment->invalidate('captcha', __('Please type the code from the image above', true));
 			}
 
 			$this->data['Comment']['captcha'] = '';
@@ -255,8 +255,8 @@ class CommentsController extends AppController
 				'channel',
 				array
 				(
-					'title' => Configure::read('Neutrino.SiteTitle').' - Latest comments',
-					'description' => 'Latest comments'
+					'title' => sprintf(__('%s - Latest comments', true), Configure::read('Neutrino.SiteTitle')),
+					'description' => __('Latest comments', true)
 				)
 			);
 

@@ -53,6 +53,7 @@ Router::connect('/files/:action/*', array('controller' => 'attachments'));
 // nicer article and download categories
 Router::connect('/articles/categories/:action/*', array('controller' => 'article_categories'));
 Router::connect('/downloads/categories/:action/*', array('controller' => 'download_categories'));
+Router::connect('/statistics/:action/*', array('controller' => 'stats'));
 
 // setup && update controller routes
 Router::connect('/setup/:action/*', array('controller' => 'setup'));

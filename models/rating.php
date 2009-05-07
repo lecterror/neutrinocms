@@ -30,28 +30,34 @@ class Rating extends AppModel
 				)
 		);
 
-	var $validate =
-		array
-		(
-			'class_name'	=>
-				array
-				(
-					'rule'		=> 'alphaNumeric',
-					'message'	=> 'Class name cannot be empty'
-				),
-			'foreign_id'	=>
-				array
-				(
-					'rule'		=> VALID_NOT_EMPTY,
-					'message'	=> 'Foreign id cannot be empty'
-				),
-			'rating'	=>
-				array
-				(
-					'rule'		=> '/^[1-5]$/',
-					'message'	=> 'Invalid rating value (1 to 5 only)'
-				)
-		);
+	var $validate = array();
+
+	function __construct()
+	{
+		parent::__construct();
+
+		$this->validate = array
+			(
+				'class_name'	=>
+					array
+					(
+						'rule'		=> 'alphaNumeric',
+						'message'	=> __('Class name cannot be empty', true)
+					),
+				'foreign_id'	=>
+					array
+					(
+						'rule'		=> VALID_NOT_EMPTY,
+						'message'	=> __('Foreign id cannot be empty', true)
+					),
+				'rating'	=>
+					array
+					(
+						'rule'		=> '/^[1-5]$/',
+						'message'	=> __('Invalid rating value (1 to 5 only)', true)
+					)
+			);
+	}
 
 	function afterFind($results, $primary = false)
 	{

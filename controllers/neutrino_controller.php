@@ -52,7 +52,7 @@ class NeutrinoController extends AppController
 		{
 			if (!($this->Configuration->validateConfigure($this->data)))
 			{
-				$this->Session->setFlash('Please correct the errors below');
+				$this->Session->setFlash(__('Please correct the errors below', true));
 				return;
 			}
 
@@ -60,7 +60,7 @@ class NeutrinoController extends AppController
 			clearCache();
 			Cache::clear(false);
 
-			$this->Session->setFlash('Configuration saved successfully');
+			$this->Session->setFlash(__('Configuration saved successfully', true));
 			$this->_redirectTo('configure', '');
 		}
 	}

@@ -37,7 +37,7 @@ class DownloadCategoriesController extends AppController
 		}
 
 		$similar = $this->DownloadCategory->findSimilar($slug);
-		$this->Session->setFlash('The requested category was not found!');
+		$this->Session->setFlash(__('The requested category was not found!', true));
 		$this->set(compact('similar', 'slug'));
 
 		// clear the cache in case something is broken
@@ -111,18 +111,18 @@ class DownloadCategoriesController extends AppController
 		if (!$this->DownloadCategory->validates())
 		{
 			$this->data['DownloadCategory']['slug'] = $slug;
-			$this->Session->setFlash('Please correct the errors below');
+			$this->Session->setFlash(__('Please correct the errors below', true));
 			return;
 		}
 
 		if (!$this->DownloadCategory->save($this->data))
 		{
-			$this->Session->setFlash('Category was not saved!');
+			$this->Session->setFlash(__('Category was not saved!', true));
 			return;
 		}
 
-		$this->Session->setFlash('Category saved');
-		$continue_editing = (strpos(low($this->data['Submit']['type']), 'continue editing') !== false);
+		$this->Session->setFlash(__('Category saved', true));
+		$continue_editing = (strpos(low($this->data['Submit']['type']), __('continue editing', true)) !== false);
 
 		$newSlug = $this->DownloadCategory->getSlug($this->DownloadCategory->id);
 
@@ -150,13 +150,13 @@ class DownloadCategoriesController extends AppController
 
 		if (!$this->DownloadCategory->validates())
 		{
-			$this->Session->setFlash('Please correct the errors below');
+			$this->Session->setFlash(__('Please correct the errors below', true));
 			return;
 		}
 
 		if (!$this->DownloadCategory->save($this->data))
 		{
-			$this->Session->setFlash('Category was not saved!');
+			$this->Session->setFlash(__('Category was not saved!', true));
 			return;
 		}
 
@@ -206,19 +206,19 @@ class DownloadCategoriesController extends AppController
 
 		if (!$this->data['DownloadCategory']['delete'])
 		{
-			$this->DownloadCategory->invalidate('delete', 'You need to confirm this action by marking the checkbox');
-			$this->Session->setFlash('Please correct the errors below');
+			$this->DownloadCategory->invalidate('delete', __('You need to confirm this action by marking the checkbox', true));
+			$this->Session->setFlash(__('Please correct the errors below', true));
 			$this->set(compact('category'));
 			return;
 		}
 
 		if ($this->DownloadCategory->del($category['DownloadCategory']['id']))
 		{
-			$this->Session->setFlash('Download category deleted successfully');
+			$this->Session->setFlash(__('Download category deleted successfully', true));
 		}
 		else
 		{
-			$this->Session->setFlash('Error while deleting download category');
+			$this->Session->setFlash(__('Error while deleting download category', true));
 		}
 
 		$this->redirect('/');
