@@ -111,6 +111,8 @@ END;
 				collate=utf8_unicode_ci
 				'
 			);
+
+		return true;
 	}
 
 	function down()
@@ -125,6 +127,8 @@ END;
 		$conn->execute('drop table aros_acos');
 		$conn->execute('drop table aros');
 		$conn->execute('drop table acos');
+
+		return true;
 	}
 }
 
