@@ -121,5 +121,3 @@ class Configuration extends AppModel
 		}
 	}
 }
-
-?>

@@ -44,10 +44,17 @@ class RememberMeComponent extends Object
 
 	function check()
 	{
+		if ($this->Auth->user())
+		{
+			return;
+		}
+
 		$cookie = $this->Cookie->read($this->cookieName);
 
-		if (!is_array($cookie) || $this->Auth->user())
+		if (!is_array($cookie))
+		{
 			return;
+		}
 
 		if ($this->Auth->login($cookie))
 		{
@@ -64,5 +71,3 @@ class RememberMeComponent extends Object
 		$this->Cookie->del($this->cookieName);
 	}
 }
-
-?>

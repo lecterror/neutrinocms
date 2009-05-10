@@ -593,6 +593,8 @@ textarea:focus
 
 #UserUsername,
 #UserPassword,
+#UserPasswd,
+#UserPasswdConfirm,
 #UserEmail,
 #UserFirstName,
 #UserLastName,

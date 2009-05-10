@@ -87,5 +87,3 @@ class HitcountBehavior extends ModelBehavior
 			);
 	}
 }
-
-?>

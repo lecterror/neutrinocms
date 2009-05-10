@@ -1,5 +1,6 @@
-<?php $this->pageTitle = sprintf(__('Article category - %s', true), $category['ArticleCategory']['name']); ?>
-<?php echo $html->div('article-category'); ?>
+<?php
+$this->pageTitle = sprintf(__('Article category - %s', true), $category['ArticleCategory']['name']);
+echo $html->div('article-category'); ?>
 	<h2><?php echo $html->link(
 			$category['ArticleCategory']['name'], array('controller' => 'article_categories', 'action' => 'view', $category['ArticleCategory']['slug']),
 			array(
@@ -7,13 +8,24 @@
 				'class' => 'article-category-title'
 			)); ?>
 		<?php
-		if ($auth->valid())
+		$articlesAllowAdd = $articleCategoriesAllowEdit = $articleCategoriesAllowDelete = false;
+
+		if ($auth->isValid())
+		{
+			$articlesAllowAdd = $auth->check('articles', 'add');
+			$articleCategoriesAllowEdit = $auth->check('article_categories', 'edit', $category['ArticleCategory']['user_id']);
+			$articleCategoriesAllowDelete = $auth->check('article_categories', 'delete', $category['ArticleCategory']['user_id']);
+		}
+
+		if ($articlesAllowAdd || $articleCategoriesAllowEdit || $articleCategoriesAllowDelete)
 		{
 			?>
 			<span class="article-category-actions">
 				[
 				<?php
-				echo $html->link
+				$actionLinks = array();
+
+				$actionLinks[] = $html->link
 					(
 						__('Add', true),
 						array
@@ -27,8 +39,8 @@
 							'title' => __('Add a new article', true)
 						)
 					);
-				echo ' | ';
-				echo $html->link
+
+				$actionLinks[] = $html->link
 					(
 						__('Edit', true),
 						array
@@ -42,8 +54,8 @@
 							'title' => sprintf(__('Edit %s', true), $category['ArticleCategory']['name'])
 						)
 					);
-				echo ' | ';
-				echo $html->link
+
+				$actionLinks[] = $html->link
 					(
 						__('Delete', true),
 						array
@@ -57,6 +69,8 @@
 							'title' => sprintf(__('Delete %s', true), $category['ArticleCategory']['name'])
 						)
 					);
+
+				echo implode(' | ', $actionLinks);
 				?>
 				]
 			</span>
@@ -90,8 +104,10 @@
 		?>
 		<h3 style="text-align:center;"><?php __('No articles!'); ?></h3>
 		<?php
-		if ($auth->valid())
+		if ($articlesAllowAdd)
+		{
 			echo '<div style="text-align:center;">'.$html->link(__('Write one!', true), array('controller' => 'articles', 'action' => 'add', 'category' => $category['ArticleCategory']['slug'])).'</div>';
+		}
 		?>
 		<?php
 	}

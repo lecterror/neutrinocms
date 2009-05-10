@@ -346,7 +346,7 @@ input.button {
 /* DSI 09/02/2008 */
 #sidebar img
 {
-	background-color:	#FAFAFA;
+	background-color:	transparent;
 	border:				1px none #EDFDCE;
 	padding:			0px;
 }

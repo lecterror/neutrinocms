@@ -1,3 +1,4 @@
+<h2><?php __('Article statistics'); ?></h2>
 <?php $this->pageTitle = __('Article statistics', true); ?>
 <table>
 <?php

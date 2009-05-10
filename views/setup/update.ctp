@@ -6,13 +6,13 @@
 				<?php
 				echo sprintf
 					(
-						__('Click next to upgrade your database from version %s to %s', true),
-						Configure::read('Neutrino.CurrentDbVersion'),
+						__('Click next to upgrade your database from migration %d to %d', true),
+						$currentDbVersion,
 						$requiredDbVersion
 					);
 				?>
 			</p>
-			<?php echo $form->hidden(__('Step', true), array('value' => '0')); ?>
+			<?php echo $form->hidden(__('Installation.Step', true), array('value' => '0')); ?>
 			<?php echo $form->submit(__('Next', true), array('class' => 'button')); ?>
 		</div>
 	<?php echo $form->end(); ?>

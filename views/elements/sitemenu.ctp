@@ -5,18 +5,27 @@ if (isset($article_menu_items) && (count($article_menu_items) > 0))
 	<h1><?php __('Articles'); ?></h1>
 	<ul class="sitemenu">
 	<?php
+	$items = array();
+	
 	foreach ($article_menu_items as $item)
 	{
-		echo '<li>'.$html->link(
-				$item['ArticleCategory']['name'],
-				array
+		$items[] = sprintf
+			(
+				'<li>%s</li>',
+				$html->link
 				(
-					'controller' => 'article_categories',
-					'action' => 'view',
-					$item['ArticleCategory']['slug']
+					$item['ArticleCategory']['name'],
+					array
+					(
+						'controller' => 'article_categories',
+						'action' => 'view',
+						$item['ArticleCategory']['slug']
+					)
 				)
-			).'</li>';
+			);
 	}
+	
+	echo implode('', $items);
 	?>
 	</ul>
 	<?php

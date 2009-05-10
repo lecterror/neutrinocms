@@ -16,8 +16,6 @@
 	along with NeutrinoCMS.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-App::import('Core', 'File');
-
 class AttachmentsController extends AppController
 {
 	var $name = 'Attachments';
@@ -29,6 +27,13 @@ class AttachmentsController extends AppController
 		parent::beforeFilter();
 
 		$this->Auth->deny('manage', 'add', 'delete');
+	}
+
+	function isAuthorized()
+	{
+		$model = ((isset($this->Attachment) && !is_null($this->Attachment)) ? $this->Attachment : null);
+
+		return parent::isAuthorized($model);
 	}
 
 	function manage()

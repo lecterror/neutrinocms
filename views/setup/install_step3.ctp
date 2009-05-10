@@ -1,5 +1,5 @@
 <h2><?php __('Step 3: Site information'); ?></h2>
-<?php echo $form->create(null, array('url' => array('controller' => 'setup', 'action' => 'install_step3'))); ?>
+<?php echo $form->create(false, array('url' => array('controller' => 'setup', 'action' => 'install_step3'))); ?>
 	<?php echo $html->div('install-inputbox'); ?>
 		<?php echo $form->input('Configuration.SiteTitle', array('label' => __('Site title', true))); ?>
 		<?php echo $form->input('Configuration.SiteDescription', array('label' => __('Site description/slogan..', true))); ?>

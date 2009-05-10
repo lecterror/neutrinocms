@@ -38,5 +38,3 @@ class StatsController extends AppController
 		$this->set('stats', $this->Download->getDownloadStats());
 	}
 }
-
-?>

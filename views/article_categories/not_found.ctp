@@ -55,7 +55,7 @@ if ($similar)
 	<?php
 }
 
-if ($auth->valid() && isset($slug))
+if (isset($slug) && $auth->check('article_categories', 'add'))
 {
 	echo sprintf
 		(

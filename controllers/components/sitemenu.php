@@ -21,21 +21,18 @@ class SitemenuComponent extends Object
 	var $controller = null;
 	var $ArticleCategory = null;
 	var $DownloadCategory = null;
+	var $active = false;
 
 	function initialize(&$controller)
 	{
 		$this->controller =& $controller;
 	}
 
-	function _active()
-	{
-		return Configure::read('Neutrino.Installed') &&
-			$this->controller->_configuration->requiredDbVersion == Configure::read('Neutrino.CurrentDbVersion');
-	}
-
 	function startup(&$controller)
 	{
-		if ($this->_active())
+		$this->active = $this->controller->_installed && !$this->controller->_needsMigration;
+
+		if ($this->active)
 		{
 			$this->ArticleCategory =& ClassRegistry::init('ArticleCategory');
 			$this->DownloadCategory =& ClassRegistry::init('DownloadCategory');
@@ -47,7 +44,7 @@ class SitemenuComponent extends Object
 		$article_menu_items = array();
 		$download_menu_items = array();
 
-		if ($this->_active())
+		if ($this->active)
 		{
 			$this->ArticleCategory->recursive = -1;
 			$this->DownloadCategory->recursive = -1;
@@ -59,5 +56,3 @@ class SitemenuComponent extends Object
 		$this->controller->set('download_menu_items', $download_menu_items);
 	}
 }
-
-?>

@@ -25,7 +25,8 @@ class NeutrinoController extends AppController
 	{
 		parent::beforeFilter();
 
-		$this->Auth->deny('configure', 'markdown');
+		$this->Auth->allow('markdown');
+		$this->Auth->deny('configure');
 	}
 
 	function configure()
@@ -71,5 +72,3 @@ class NeutrinoController extends AppController
 		$this->layout = 'neutrino-help';
 	}
 }
-
-?>

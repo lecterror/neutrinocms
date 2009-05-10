@@ -27,9 +27,9 @@ class DownloadView extends View
 
 	function render()
 	{
-		/* @var $file File */
+		/* @var File */
 		$file = null;
-		/* @var $fakeFile File */
+		/* @var File */
 		$fakeFile = null;
 		$fileName = null;
 		$fileExt = null;

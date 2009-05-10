@@ -29,6 +29,13 @@ class ArticleCategoriesController extends AppController
 		$this->Auth->deny('edit', 'add', 'delete');
 	}
 
+	function isAuthorized()
+	{
+		$model = ((isset($this->ArticleCategory) && !is_null($this->ArticleCategory)) ? $this->ArticleCategory : null);
+
+		return parent::isAuthorized($model);
+	}
+
 	function not_found($slug = null)
 	{
 		if (empty($slug))
@@ -101,6 +108,11 @@ class ArticleCategoriesController extends AppController
 			return;
 		}
 
+		if (!isset($this->data['ArticleCategory']['user_id']))
+		{
+			$this->data['ArticleCategory']['user_id'] = $this->_user['id'];
+		}
+
 		$this->ArticleCategory->data = $this->data;
 
 		if (!$this->ArticleCategory->validates())
@@ -139,6 +151,11 @@ class ArticleCategoriesController extends AppController
 			}
 
 			return;
+		}
+
+		if (!isset($this->data['ArticleCategory']['user_id']))
+		{
+			$this->data['ArticleCategory']['user_id'] = $this->_user['id'];
 		}
 
 		$this->ArticleCategory->data = $this->data;
@@ -192,7 +209,7 @@ class ArticleCategoriesController extends AppController
 			return;
 		}
 
-		$delete_button = (strpos(low($this->data['Submit']['type']), 'delete') !== false);
+		$delete_button = (strpos(low($this->data['Submit']['type']), __('delete', true)) !== false);
 
 		if (!$delete_button)
 		{
@@ -219,5 +236,3 @@ class ArticleCategoriesController extends AppController
 		$this->redirect('/');
 	}
 }
-
-?>

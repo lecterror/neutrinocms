@@ -52,6 +52,13 @@ class DownloadsController extends AppController
 		$this->set(compact('attachments'));
 	}
 
+	function isAuthorized()
+	{
+		$model = ((isset($this->Download) && !is_null($this->Download)) ? $this->Download : null);
+
+		return parent::isAuthorized($model);
+	}
+
 	function beforeFilter()
 	{
 		parent::beforeFilter();
@@ -107,7 +114,6 @@ class DownloadsController extends AppController
 		}
 
 		$fileName = $download['Download']['display_file_name'];
-
 		$file = new File(APP.FILES_REL.$download['Download']['real_file_name']);
 
 		$this->view = 'download';
@@ -372,5 +378,3 @@ class DownloadsController extends AppController
 		$this->set(compact('message'));
 	}
 }
-
-?>

@@ -515,6 +515,13 @@ textarea:focus
 {
 }
 
+/************************************************ USER ************************************************/
+
+#UserPasswordResetForm #UserEmail
+{
+	margin-bottom:	5px;
+}
+
 /************************************************ INSTALL ************************************************/
 
 .configure-inputbox
@@ -524,6 +531,8 @@ textarea:focus
 
 #UserUsername,
 #UserPassword,
+#UserPasswd,
+#UserPasswdConfirm,
 #UserEmail,
 #UserFirstName,
 #UserLastName,
@@ -544,4 +553,13 @@ textarea:focus
 {
 	padding:			0px;
 	border:				0px none;
+}
+
+/* MISC */
+
+.login-links
+{
+	width:				100%;
+	margin:				15px;
+	text-align:			center;
 }

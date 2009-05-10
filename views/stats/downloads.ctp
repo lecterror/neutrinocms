@@ -1,3 +1,4 @@
+<h2><?php __('Download statistics'); ?></h2>
 <?php $this->pageTitle = __('Download statistics', true); ?>
 <table>
 <?php echo $html->tableHeaders(array(__('Download name', true), __('Downloads', true))); ?>

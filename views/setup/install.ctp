@@ -61,7 +61,7 @@
 </div>
 <div id="neutrino-skip" style="display:none;">
 
-		<?php echo $form->create(null, array('url' => array('controller' => 'setup', 'action' => 'install'))); ?>
+		<?php echo $form->create(false, array('url' => array('controller' => 'setup', 'action' => 'install'))); ?>
 		<?php echo $html->div('install-inputbox'); ?>
 			<p><?php __('To proceed with NeutrinoCMS installation press next.'); ?></p>
 			<?php echo $form->hidden('Installation.Step', array('value' => '0')); ?>

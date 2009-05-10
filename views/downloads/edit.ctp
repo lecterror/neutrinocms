@@ -4,6 +4,8 @@
 	<?php echo $html->div('download-inputbox'); ?>
 		<div class="download-edit-actions">
 			<?php
+			if ($auth->check('downloads', 'view', $this->data['Download']['user_id']))
+			{
 				echo $html->link
 					(
 						__('View', true),
@@ -22,6 +24,7 @@
 							)
 						)
 					);
+			}
 			?>
 		</div>
 		<hr />

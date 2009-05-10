@@ -1,7 +1,7 @@
 <h1>
 <?php echo $html->link(__('Article categories', true), array('controller' => 'article_categories'), array('title' => __('Permanent link to Article categories', true))); ?>
 <?php
-if ($auth->valid())
+if ($auth->check('article_categories', 'add'))
 {
 	?>
 	<span style="font-size:x-small">

@@ -3,7 +3,7 @@ if ($comment['article_author']) echo $html->div('authors-comment'); ?>
 	<div class="article-comment">
 	<?php echo $html->div('comment-header'); ?>
 		<?php
-		if ($auth->valid())
+		if ($auth->check('comments', 'delete', $comment['user_id']))
 		{
 			echo '<span class="comment-admin">[ ';
 			echo $ajax->link
@@ -29,7 +29,7 @@ if ($comment['article_author']) echo $html->div('authors-comment'); ?>
 		}
 
 		echo '<span class="author-name">';
-		if ($auth->valid())
+		if ($auth->isAdmin() && empty($comment['user_id']))
 		{
 			echo $html->link($comment['name'], 'mailto:'.$comment['email']);
 		}

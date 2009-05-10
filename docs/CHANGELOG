@@ -1,8 +1,10 @@
-# 0.1 beta2 #
+# 0.1 RC1 #
 
 * fixed an RSS bug
 * fixed a new comment notification email bug
 * added internationalization (Cake's built-in gettext support)
+* modified installation and made it database-less (i.e. ~/config/database.php is not needed)
+* added a migration system for database (embryo version)
 
 # 0.1 beta #
 
@@ -25,3 +27,7 @@
 * fixed sitemap to please Googlebot
 * added robots.txt route to exclude comment paging links
 * many minor bugs fixed..
+
+# 0.1 alpha #
+
+* initial release

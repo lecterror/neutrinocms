@@ -21,17 +21,14 @@
  * It is also used to assist in internal configuration and install/upgrade operations.
  */
 
-if (!defined('FAILED'))
-	define('FAILED', -1);
+define('FAILED', -1);
+define('SUCCESS', 0);
 
-if (!defined('SUCCESS'))
-	define('SUCCESS', 0);
+define('FILES', CONFIGS.'files'.DS);
+define('FILES_REL', 'config'.DS.'files'.DS);
 
-if (!defined('FILES'))
-	define('FILES', CONFIGS.'files'.DS);
-
-if (!defined('FILES_REL'))
-	define('FILES_REL', 'config'.DS.'files'.DS);
+// @todo: remove
+// define('MIGRATIONS', APP.'migrations'.DS);
 
 class NEUTRINO_CONFIG
 {
@@ -52,24 +49,55 @@ class NEUTRINO_CONFIG
 			'Installed'				=> true
 		);
 
-	var $currentAppVersion	= '0.1-beta';
-	var $requiredDbVersion	= '0.1-beta';
+	var $currentAppVersion	= '0.1-RC1';
 
 	var $dbMigration =
 		array
 		(
-			'0.1-alpha' =>
-				array
-				(
-					'install' => 'neutrino.initdb-0.1-alpha.sql'
-				),
-			'0.1-beta' =>
-				array
-				(
-					'install' => 'neutrino.initdb-0.1-beta.sql',
-					'0.1-alpha' => 'neutrino.migrate-0.1a--0.1b.sql'
-				)
+			'0.1-beta'		=> '0000001',
+			'0.1-RC1'		=> '0000004'
 		);
+
+	/**
+	 * An array which defines action mapping for Auth/Acl.
+	 */
+	static $ACL_ACTION_MAP = array
+		(
+			'index'				=> 'read',
+			'add'				=> 'create',
+			'edit'				=> 'update',
+			'view'				=> 'read',
+			'remove'			=> 'delete',
+			'get'				=> 'read',
+			'visits'			=> 'read',
+			'downloads'			=> 'read',
+			'manage'			=> 'read', // @todo: rework attachments
+			'configure'			=> 'update', // neutrino config
+			'change_password'	=> 'update',
+			'permissions'		=> 'update'
+		);
+
+	function features()
+	{
+		return array
+			(
+				__('Everything', true),
+				__('ArticleCategories', true),
+				__('Articles', true),
+				__('Attachments', true),
+				__('Comments', true),
+				__('DownloadCategories', true),
+				__('Downloads', true),
+				__('Neutrino', true),
+				__('Stats', true),
+				__('Users', true)
+			);
+	}
+
+	function requiredMigration()
+	{
+		return $this->dbMigration[$this->currentAppVersion];
+	}
 }
 
 ?>

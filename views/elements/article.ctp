@@ -20,41 +20,59 @@
 				)
 			);
 
-		if ($auth->valid())
+		$allowArticleEdit = $allowArticleDelete = false;
+
+		if ($auth->isValid())
+		{
+			$allowArticleEdit = $auth->check('articles', 'edit', $article['Article']['user_id']);
+			$allowArticleDelete = $auth->check('articles', 'delete', $article['Article']['user_id']);
+		}
+
+		if ($allowArticleEdit || $allowArticleDelete)
 		{
 			?>
 			<span class="article-actions">
 				[
 				<?php
-				echo $html->link
-					(
-						__('Edit', true),
-						array
+				$articleActions = array();
+
+				if ($allowArticleEdit)
+				{
+					$articleActions[] = $html->link
 						(
-							'controller' => 'articles',
-							'action' => 'edit',
-							$article['Article']['slug']
-						),
-						array
+							__('Edit', true),
+							array
+							(
+								'controller' => 'articles',
+								'action' => 'edit',
+								$article['Article']['slug']
+							),
+							array
+							(
+								'title' => sprintf(__('Edit %s', true), $article['Article']['title'])
+							)
+						);
+				}
+
+				if ($allowArticleDelete)
+				{
+					$articleActions[] = $html->link
 						(
-							'title' => sprintf(__('Edit %s', true), $article['Article']['title'])
-						)
-					);
-				echo ' | ';
-				echo $html->link
-					(
-						__('Delete', true),
-						array
-						(
-							'controller' => 'articles',
-							'action' => 'delete',
-							$article['Article']['slug']
-						),
-						array
-						(
-							'title' => sprintf(__('Delete ', true), $article['Article']['title'])
-						)
-					);
+							__('Delete', true),
+							array
+							(
+								'controller' => 'articles',
+								'action' => 'delete',
+								$article['Article']['slug']
+							),
+							array
+							(
+								'title' => sprintf(__('Delete ', true), $article['Article']['title'])
+							)
+						);
+				}
+
+				echo implode(' | ', $articleActions);
 				?>
 				]
 			</span>
@@ -76,7 +94,7 @@
 						$article['ArticleCategory']['slug']
 					)
 				);
-
+			
 			$publishingDate = date
 				(
 					Configure::read('Neutrino.DateDisplayFormat'),
@@ -111,14 +129,23 @@
 
 		if (isset($show_content) && $show_content == true)
 		{
+			$cacheKey = sprintf('article-markdown-%s', $article['Article']['id']);
+			$content = Cache::read($cacheKey);
+
+			if ($content == null)
+			{
+				 $content = $markdown->parse($article['Article']['content']);
+				 Cache::write($cacheKey, $content);
+			}
+
 			if (isset($highlight_phrase))
 			{
-				echo $htmlText->highlight($markdown->parse($article['Article']['content']), $highlight_phrase, '<span class="search_highlight">\1</span>');
+				echo $htmlText->highlight($content, $highlight_phrase, '<span class="search_highlight">\1</span>');
 			}
 			else
 			{
 			//	echo $mathPublisher->parse($markdown->parse($article['Article']['content']));
-				echo $markdown->parse($article['Article']['content']);
+				echo $content;
 			}
 		}
 		?>
@@ -171,7 +198,7 @@
 			echo $this->element
 				(
 					'rating',
-					compact('voted', 'votedValue', 'totalVotes', 'totalRating', 'url')
+					compact('article', 'voted', 'votedValue', 'totalVotes', 'totalRating', 'url')
 				);
 		}
 		?>
@@ -187,7 +214,7 @@
 					$article['ArticleCategory']['slug']
 				)
 			);
-
+		
 		$publishingDate = date
 			(
 				Configure::read('Neutrino.DateDisplayFormat'),

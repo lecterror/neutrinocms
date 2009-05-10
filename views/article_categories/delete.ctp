@@ -1,6 +1,8 @@
-<?php $this->pageTitle = sprintf(__('Delete article category - %s', true), $category['ArticleCategory']['name']); ?>
-<?php echo $form->create(null, array('url' => array('controller' => 'article_categories', 'action' => 'delete', $category['ArticleCategory']['slug']))); ?>
-	<?php echo $html->div('article-category-deletebox'); ?>
+<?php
+$this->pageTitle = sprintf(__('Delete article category - %s', true), $category['ArticleCategory']['name']);
+
+echo $form->create(null, array('url' => array('controller' => 'article_categories', 'action' => 'delete', $category['ArticleCategory']['slug'])));
+	echo $html->div('article-category-deletebox'); ?>
 		<span class="warning-message"><?php __('Warning:'); ?></span> <?php __('deleting a category will delete all related articles!'); ?>
 		<?php
 		$text = sprintf

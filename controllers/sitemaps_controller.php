@@ -78,5 +78,3 @@ class SitemapsController extends AppController
 		$this->layout = 'ajax';
 	}
 }
-
-?>

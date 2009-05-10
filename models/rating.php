@@ -95,5 +95,3 @@ class Rating extends AppModel
 		$data['Rating']['Summary']['rating'] = $cookieVal;
 	}
 }
-
-?>

@@ -32,6 +32,13 @@ class CommentsController extends AppController
 			)
 		);
 
+	function isAuthorized()
+	{
+		$model = ((isset($this->Comment) && !is_null($this->Comment)) ? $this->Comment : null);
+
+		return parent::isAuthorized($model);
+	}
+
 	function _getPaginatedComments($article_id)
 	{
 		return $this->paginate('Comment', array('article_id' => $article_id));
@@ -45,7 +52,7 @@ class CommentsController extends AppController
 		$this->Email->from = '"'.Configure::read('Neutrino.SiteTitle').'" <noreply@'.env('HTTP_HOST').'>';
 		$this->Email->replyTo = '"'.Configure::read('Neutrino.SiteTitle').'" <noreply@'.env('HTTP_HOST').'>';
 		$this->Email->return = '"'.Configure::read('Neutrino.SiteTitle').'" <noreply@'.env('HTTP_HOST').'>';
-		$this->Email->subject = Configure::read('Neutrino.SiteTitle').' - comment posted';
+		$this->Email->subject = sprintf(__('%s - comment posted', true), Configure::read('Neutrino.SiteTitle'));
 		$this->Email->template = 'new_comment';
 
 		$this->set('email_user', $user);
@@ -162,8 +169,6 @@ class CommentsController extends AppController
 				$this->Comment->invalidate('captcha', __('Please type the code from the image above', true));
 			}
 
-			$this->data['Comment']['captcha'] = '';
-
 			$this->set('comments', $this->_getPaginatedComments($article['Article']['id']));
 			$this->set('comments_count', $this->params['paging']['Comment']['count']);
 			$this->layout = 'ajax';
@@ -264,5 +269,3 @@ class CommentsController extends AppController
 		$this->set('comments', $this->Comment->findForRss());
 	}
 }
-
-?>

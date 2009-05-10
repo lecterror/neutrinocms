@@ -38,7 +38,7 @@ if ($similar)
 	<?php
 }
 
-if ($auth->valid() && isset($slug))
+if (isset($slug) && $auth->check('articles', 'add'))
 {
 	echo sprintf
 		(

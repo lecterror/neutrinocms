@@ -29,6 +29,13 @@ class DownloadCategoriesController extends AppController
 		$this->Auth->deny('edit', 'add', 'delete');
 	}
 
+	function isAuthorized()
+	{
+		$model = ((isset($this->DownloadCategory) && !is_null($this->DownloadCategory)) ? $this->DownloadCategory : null);
+
+		return parent::isAuthorized($model);
+	}
+
 	function not_found($slug = null)
 	{
 		if (empty($slug))
@@ -146,6 +153,11 @@ class DownloadCategoriesController extends AppController
 			return;
 		}
 
+		if (!isset($this->data['DownloadCategory']['user_id']))
+		{
+			$this->data['DownloadCategory']['user_id'] = $this->_user['id'];
+		}
+
 		$this->DownloadCategory->data = $this->data;
 
 		if (!$this->DownloadCategory->validates())
@@ -197,7 +209,7 @@ class DownloadCategoriesController extends AppController
 			return;
 		}
 
-		$delete_button = (strpos(low($this->data['Submit']['type']), 'delete') !== false);
+		$delete_button = (strpos(low($this->data['Submit']['type']), __('delete', true)) !== false);
 
 		if (!$delete_button)
 		{
@@ -224,5 +236,3 @@ class DownloadCategoriesController extends AppController
 		$this->redirect('/');
 	}
 }
-
-?>

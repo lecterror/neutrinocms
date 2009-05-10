@@ -1,23 +1,23 @@
 <?php
 echo $html->div('comments-form-wrap');
 	echo $ajax->form
-	(
-		null,
-		'post',
-		array
 		(
-			'url' => array
+			null,
+			'post',
+			array
 			(
-				'controller'	=> 'comments',
-				'action'		=> 'add',
-				$this->passedArgs[0],
-				'ajax'			=> '1'
-			),
-			'update'		=> 'comments-inner-wrap',
-			'indicator'		=> 'working',
-			'id'			=> 'add-comment-form-'.$article['Article']['id']
-		)
-	);
+				'url' => array
+				(
+					'controller'	=> 'comments',
+					'action'		=> 'add',
+					$this->passedArgs[0],
+					'ajax'			=> '1'
+				),
+				'update'		=> 'comments-inner-wrap',
+				'indicator'		=> 'working',
+				'id'			=> 'add-comment-form-'.$article['Article']['id']
+			)
+		);
 	?>
 	<div class="commentbox">
 		<?php
@@ -27,7 +27,7 @@ echo $html->div('comments-form-wrap');
 		echo $form->input('Comment.comment', array('class' => 'comment_area', 'label' => __('Comment', true)));
 
 		echo $this->element('captcha');
-		echo $form->input('Comment.captcha', array('label' => __('Spam prevention code', true), 'autocomplete' => 'off'));
+		echo $form->input('Comment.captcha', array('label' => __('Spam prevention code', true), 'value' => '', 'autocomplete' => 'off'));
 		echo $form->submit(__('Send', true), array('class' => 'button'));
 		?>
 	</div>

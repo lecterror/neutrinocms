@@ -18,7 +18,7 @@
 
 class Comment extends AppModel
 {
-	var $name = "Comment";
+	var $name = 'Comment';
 
 	var $belongsTo =
 		array
@@ -41,23 +41,37 @@ class Comment extends AppModel
 
 		$this->validate = array
 			(
-				'article_id'	=> VALID_NOT_EMPTY,
+				'article_id' =>
+					array
+					(
+						'required' =>
+						array
+						(
+							'rule'			=> '#\d+#',
+							'message'		=> __('Invalid article category given', true),
+							'required'		=> true,
+							'allowEmpty'	=> false
+						)
+					),
 				'name' =>
 					array
 					(
 						'required' =>
 						array
 						(
-							'rule'		=> VALID_NOT_EMPTY,
-							'message'	=> __('Please enter a username', true)
+							'rule'			=> VALID_NOT_EMPTY,
+							'message'		=> __('Please enter a username', true),
+							'required'		=> true,
+							'allowEmpty'	=> false
 						)
 					),
 				'website' =>
 					array
 					(
+						'rule'			=> array('url', true),
+						'required'		=> true,
 						'allowEmpty'	=> true,
-						'rule'			=> 'url',
-						'message'		=> __('Please enter a valid URL (or leave empty)', true)
+						'message'		=> __('Please enter a valid URI (or leave empty)', true)
 					),
 				'email' =>
 					array
@@ -65,8 +79,10 @@ class Comment extends AppModel
 						'mail' =>
 						array
 						(
-							'rule'		=> VALID_EMAIL,
-							'message'	=> __('Please enter a valid email', true)
+							'rule'			=> VALID_EMAIL,
+							'message'		=> __('Please enter a valid email', true),
+							'required'		=> true,
+							'allowEmpty'	=> false
 						),
 						'length' =>
 						array
@@ -81,14 +97,16 @@ class Comment extends AppModel
 						'required' =>
 						array
 						(
-							'rule'		=> VALID_NOT_EMPTY,
-							'message'	=> __('Please enter a comment', true)
+							'rule'			=> VALID_NOT_EMPTY,
+							'message'		=> __('Please enter a comment', true),
+							'required'		=> true,
+							'allowEmpty'	=> false
 						),
 						'length' =>
 						array
 						(
-							'rule'		=> array('maxLength', 1000),
-							'message'	=> __('Comment shouldn\'t be longer than 1000 characters', true)
+							'rule'		=> array('maxLength', 2000),
+							'message'	=> __('Comment shouldn\'t be longer than 2000 characters', true)
 						)
 					)
 			);
@@ -107,5 +125,3 @@ class Comment extends AppModel
 			);
 	}
 }
-
-?>

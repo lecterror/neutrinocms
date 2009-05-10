@@ -309,5 +309,3 @@ class Download extends AppModel
 			);
 	}
 }
-
-?>

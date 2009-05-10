@@ -23,23 +23,25 @@ if ($comments_count > 0)
 	<div class="comment-paginate-numbers"><?php echo $paginator->numbers(array('separator' => ' &middot; ')); ?></div>
 	<br />
 	<?php
-
 	foreach ($comments as $comment)
 	{
-		echo $this->element
-			(
-				'comments/comment',
-				array
+		if ($auth->check('comments', 'view', $comment['Comment']['user_id']))
+		{
+			echo $this->element
 				(
-					'comment' => $comment['Comment'],
-					'slug' => $this->passedArgs[0]
-				)
-			);
+					'comments/comment',
+					array
+					(
+						'comment' => $comment['Comment'],
+						'slug' => $this->passedArgs[0]
+					)
+				);
+		}
 	}
 }
 else
 {
-	echo __('No comments!', true);
+	__('No comments!');
 }
 
 echo $javascript->codeBlock

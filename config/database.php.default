@@ -9,7 +9,8 @@ class DATABASE_CONFIG
 		'login' => 'root',
 		'password' => '',
 		'database' => 'neutrino_install',
-		'prefix' => ''
+		'prefix' => '',
+		'encoding' => 'utf8'
 	);
 
 	var $test = array(
@@ -19,7 +20,8 @@ class DATABASE_CONFIG
 		'login' => 'root',
 		'password' => '',
 		'database' => 'neutrino_test',
-		'prefix' => ''
+		'prefix' => '',
+		'encoding' => 'utf8'
 	);
 }
 

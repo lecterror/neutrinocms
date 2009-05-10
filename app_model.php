@@ -19,6 +19,7 @@
 class AppModel extends Model
 {
 	var $actsAs = array('Containable');
+
 	/**
 	 * Validation rule to see if we have too many keywords for meta tag.
 	 *
@@ -34,11 +35,39 @@ class AppModel extends Model
 			$keywordsCount = count($keywordsArray);
 
 			if ($keywordsCount > $limit)
+			{
 				return false;
+			}
 		}
 
 		return true;
 	}
-}
 
-?>
+	function getOwner($slug)
+	{
+		if (!$this->hasField('slug') || !$this->hasField('user_id'))
+		{
+			return false;
+		}
+
+		$_slug = Sanitize::escape($slug);
+
+		$result = $this->find
+			(
+				'first',
+				array
+				(
+					'fields' => array('user_id'),
+					'conditions' => array('slug' => $_slug),
+					'recursive' => -1
+				)
+			);
+
+		if (!$result)
+		{
+			return false;
+		}
+
+		return $result[$this->alias]['user_id'];
+	}
+}

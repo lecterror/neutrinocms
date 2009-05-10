@@ -7,12 +7,12 @@
 			array
 			(
 				'url' => array('controller' => 'articles', 'action' => 'add'),
-				'id' => 'article_form'
+				'id' => 'ArticleAddForm'
 			)
 		);
 ?>
 	<?php echo $html->div('article-inputbox'); ?>
-		<?php echo $html->div('article-add-actions'); ?>
+		<div class="article-add-actions">
 			<?php
 				echo $html->link
 					(
@@ -96,7 +96,7 @@
 	</div>
 <?php
 echo $form->end();
-echo $javascript->codeBlock('Form.focusFirstElement("article_form");');
+echo $javascript->codeBlock('Form.focusFirstElement("ArticleAddForm");');
 echo $javascript->codeBlock
 	(
 		sprintf

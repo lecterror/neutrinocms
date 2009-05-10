@@ -28,7 +28,8 @@
 
 
 #UserUsername,
-#UserPassword,
+#UserPasswd,
+#UserPasswdConfirm,
 #UserEmail,
 #UserFirstName,
 #UserLastName,
@@ -39,7 +40,11 @@
 #ConfigurationSiteCopyrightNotice,
 #ConfigurationTheme,
 #ConfigurationGoogleWebmasterToolsVerificationCode,
-#ConfigurationGoogleAnalyticsAccountCode
+#ConfigurationGoogleAnalyticsAccountCode,
+#DBHost,
+#DBUsername,
+#DBPassword,
+#DBName
 {
 	width:				100%;
 }

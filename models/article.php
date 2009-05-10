@@ -171,6 +171,17 @@ class Article extends AppModel
 			);
 	}
 
+	function afterSave($created)
+	{
+		if (!$created)
+		{
+			$cacheKey = sprintf('article-markdown-%s', $this->id);
+			Cache::delete($cacheKey);
+		}
+
+		parent::afterSave($created);
+	}
+
 	function search($phrase, $user)
 	{
 		$_phrase = Sanitize::escape(trim(low($phrase)));
@@ -327,7 +338,7 @@ class Article extends AppModel
 				array
 				(
 					'conditions' => array('isdraft' => 0, 'hitcount >' => '0'),
-					'fields' => array('id', 'title', 'slug', 'hitcount', 'hitcount_rss'),
+					'fields' => array('id', 'user_id', 'title', 'slug', 'hitcount', 'hitcount_rss'),
 					'order' => 'hitcount DESC',
 					'recursive' => -1
 				)
@@ -342,7 +353,7 @@ class Article extends AppModel
 				array
 				(
 					'conditions' => array('isdraft' => 0),
-					'fields' => array('title', 'slug'),
+					'fields' => array('title', 'slug', 'user_id'),
 					'order' => 'hitcount DESC',
 					'limit' => $limit,
 					'recursive' => -1
@@ -374,13 +385,14 @@ class Article extends AppModel
 					$articles,
 					$this->find
 					(
-						'all',
+						'first',
 						array
 						(
 							'conditions' => array('id' => $comment['Comment']['article_id']),
 							'fields' => array
 							(
 								'id',
+								'user_id',
 								'title',
 								'slug'
 							),
@@ -401,6 +413,7 @@ class Article extends AppModel
 				'contain' => 'Rating',
 				'fields' => array
 				(
+					'Article.user_id',
 					'Article.slug',
 					'Article.title'
 				)
@@ -422,5 +435,3 @@ class Article extends AppModel
 		return $articles;
 	}
 }
-
-?>

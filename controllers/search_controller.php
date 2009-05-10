@@ -16,7 +16,7 @@
 	along with NeutrinoCMS.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-uses('Sanitize');
+App::import('Core', 'Sanitize');
 
 class SearchController extends AppController
 {
@@ -58,5 +58,3 @@ class SearchController extends AppController
 		$this->set(compact('results', 'phrase'));
 	}
 }
-
-?>

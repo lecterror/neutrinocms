@@ -30,35 +30,32 @@ echo $html->docType(); ?>
 	}
 
 	echo $html->css
-	(
-		array
 		(
-			'content',
-			'envision',
-			'syntaxhighlighter',
-			'starbox',
-			'shadowbox'
-		)
-	);
+			array
+			(
+				'content',
+				'envision',
+				'starbox',
+				'shadowbox',
+				'prettify'
+			)
+		);
 
 	if (isset($javascript))
 	{
 	    echo $javascript->link
-    	(
-	    	array
-	    	(
-			//	'lib/jquery',
-				'lib/prototype',
-				'lib/scriptaculous/scriptaculous',
-				'lib/scriptaculous/effects',
-				'neditor/tabulator',
-				'starbox/starbox',
-				'shadowbox/shadowbox-prototype',
-				'shadowbox/shadowbox',
-				'dp.SyntaxHighlighter/Scripts/shCombined'
-		    ),
-		    true
-		);
+			(
+				array
+				(
+					'lib/protoaculous',
+					'neditor/tabulator',
+					'starbox/starbox',
+					'shadowbox/shadowbox-prototype',
+					'shadowbox/shadowbox',
+					'prettify/prettify'
+				),
+				true
+			);
 	}
 
 	echo $scripts_for_layout;
@@ -124,13 +121,16 @@ echo $html->docType(); ?>
 		<div id="content-wrap">
 
 			<div id="sidebar">
-				<?php echo $this->element('searchbox', array('cache' => '+1 week')); ?>
-				<?php echo $this->element('sitemenu', array('cache' => '+1 week')); ?>
-				<?php echo $this->element('downloadmenu', array('cache' => '+1 week')); ?>
+				<?php
+				echo $this->element('searchbox', array('cache' => '+1 week'));
+				echo $this->element('sitemenu', array('cache' => '+1 week'));
+				echo $this->element('downloadmenu', array('cache' => '+1 week'));
+				?>
 				<h1>Most popular</h1>
-				<?php echo $this->element('articles/most_popular', array('limit' => 5, 'cache' => '+1 day')); ?>
-
-				<?php echo $this->element('usermenu'); ?>
+				<?php
+				echo $this->element('articles/most_popular', array('limit' => 5, 'cache' => '+1 day'));
+				echo $this->element('usermenu');
+				?>
 				<div style="width:100%; text-align:center; margin-top:40px; margin-bottom:40px;">
 				<?php echo $this->element('misc/cakepower', array('cache' => '+1 week')); ?>
 				<br />
@@ -141,9 +141,14 @@ echo $html->docType(); ?>
 			<div id="main">
 
 				<div id="flash-wrap">
-					<?php $session->flash(); ?>
-					<?php $session->flash('auth'); ?>
-					<?php //$session->flash('email'); ?>
+					<?php
+					$session->flash();
+					$session->flash('auth');
+					if ($session->check('Message.email'))
+					{
+						$session->flash('email');
+					}
+					?>
 				</div>
 
 				<?php echo $content_for_layout; ?>
@@ -196,13 +201,18 @@ echo $html->docType(); ?>
 <?php
 if (isset($javascript))
 {
-	echo $javascript->codeBlock('dp.SyntaxHighlighter.HighlightAll("code_snippet");');
+	echo $javascript->codeBlock('prettyPrint()');
 	echo $this->element('misc/ie_rubbish');
 }
 
-if (!$auth->valid())
+if (!$auth->isAdmin())
 {
 	echo $google->analyticsTracker();
+}
+
+if (Configure::read())
+{
+	echo $cakeDebug;
 }
 ?>
 </body>

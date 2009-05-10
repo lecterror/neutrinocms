@@ -47,14 +47,19 @@ class ArticlesController extends AppController
 		$this->set(compact('categories'));
 	}
 
+	function isAuthorized()
+	{
+		$model = ((isset($this->Article) && !is_null($this->Article)) ? $this->Article : null);
+
+		return parent::isAuthorized($model);
+	}
+
 	function beforeFilter()
 	{
 		parent::beforeFilter();
 
 		// make sure we're not installing or updating
-		if (Configure::read('Neutrino.Installed') &&
-			Configure::read('Neutrino.CurrentDbVersion')
-				== $this->_configuration->requiredDbVersion)
+		if ($this->_installed && !$this->_needsMigration)
 		{
 			$this->loadModel('Article');
 		}
@@ -85,7 +90,7 @@ class ArticlesController extends AppController
 			$this->redirect('/');
 		}
 
-		$similar = $this->Article->findSimilar($slug, $this->Auth->user());
+		$similar = $this->Article->findSimilar($slug, $this->_user);
 		$this->Session->setFlash(__('The requested article was not found!', true));
 		$this->set(compact('similar', 'slug'));
 	}
@@ -111,7 +116,7 @@ class ArticlesController extends AppController
 
 	function home()
 	{
-		$this->set('articles', $this->Article->findForHomepage($this->Auth->user()));
+		$this->set('articles', $this->Article->findForHomepage($this->_user));
 		$this->pageTitle = Configure::read('Neutrino.SiteDescription');
 	}
 
@@ -141,7 +146,7 @@ class ArticlesController extends AppController
 			$this->set('highlight_phrase', $phrase);
 		}
 
-		if (!$this->Auth->user())
+		if (!$this->_user['is_root'])
 		{
 			// rss stats
 			if (isset($this->passedArgs['from']) && $this->passedArgs['from'] == 'rss')
@@ -179,6 +184,11 @@ class ArticlesController extends AppController
 			unset($this->data['Article']['id']); // "fix" for automagic form
 
 			return;
+		}
+
+		if (!isset($this->data['Article']['user_id']))
+		{
+			$this->data['Article']['user_id'] = $this->_user['id'];
 		}
 
 		$this->Article->data = $this->data;
@@ -238,6 +248,11 @@ class ArticlesController extends AppController
 			}
 
 			return;
+		}
+
+		if (!isset($this->data['Article']['user_id']))
+		{
+			$this->data['Article']['user_id'] = $this->_user['id'];
 		}
 
 		$this->Article->data = $this->data;
@@ -328,7 +343,8 @@ class ArticlesController extends AppController
 
 		$this->layout = 'ajax';
 
-		if (!Configure::read('debug') && $this->Auth->user())
+		// @todo: check owner of the article
+		if (!Configure::read('debug') && $this->_user)
 		{
 			$message = __("So, you'd like to vote for your own articles?\nYou naughty boy..", true);
 			$this->set(compact('message'));
@@ -425,5 +441,3 @@ class ArticlesController extends AppController
 		return $this->Article->getHighestRated($limit);
 	}
 }
-
-?>

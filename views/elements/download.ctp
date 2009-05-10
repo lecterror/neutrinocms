@@ -10,56 +10,74 @@ if ($full)
 	<h1>
 		<?php
 		echo $html->link
+			(
+				$download['Download']['name'],
+				array
 				(
-					$download['Download']['name'],
-					array
-					(
-						'controller' => 'downloads',
-						'action' => 'view',
-						$download['Download']['slug']
-					),
-					array
-					(
-						'title' => sprintf(__('Permanent link to %s', true), $download['Download']['name']),
-						'class' => 'download-title'
-					)
-				);
+					'controller' => 'downloads',
+					'action' => 'view',
+					$download['Download']['slug']
+				),
+				array
+				(
+					'title' => sprintf(__('Permanent link to %s', true), $download['Download']['name']),
+					'class' => 'download-title'
+				)
+			);
 
-		if ($auth->valid())
+		$allowDownloadsEdit = $allowDownloadsDelete = false;
+
+		if ($auth->isValid())
+		{
+			$allowDownloadsEdit = $auth->check('downloads', 'edit', $download['Download']['user_id']);
+			$allowDownloadsDelete = $auth->check('downloads', 'delete', $download['Download']['user_id']);
+		}
+
+		if ($allowDownloadsEdit || $allowDownloadsDelete)
 		{
 			?>
 			<span class="download-actions">
 				[
 				<?php
-				echo $html->link
-					(
-						__('Edit', true),
-						array
+				$actionLinks = array();
+
+				if ($allowDownloadsEdit)
+				{
+					$actionLinks[] = $html->link
 						(
-							'controller' => 'downloads',
-							'action' => 'edit',
-							$download['Download']['slug']
-						),
-						array
+							__('Edit', true),
+							array
+							(
+								'controller' => 'downloads',
+								'action' => 'edit',
+								$download['Download']['slug']
+							),
+							array
+							(
+								'title' => sprintf(__('Edit %s', true), $download['Download']['name'])
+							)
+						);
+				}
+
+				if ($allowDownloadsDelete)
+				{
+					$actionLinks[] = $html->link
 						(
-							'title' => sprintf(__('Edit %s', true), $download['Download']['name'])
-						)
-					);
-				echo ' | ';
-				echo $html->link
-					(
-						__('Delete', true),
-						array
-						(
-							'controller' => 'downloads',
-							'action' => 'delete',
-							$download['Download']['slug']
-						),
-						array
-						(
-							'title' => sprintf(__('Delete %s', true), $download['Download']['name'])
-						)
-					);
+							__('Delete', true),
+							array
+							(
+								'controller' => 'downloads',
+								'action' => 'delete',
+								$download['Download']['slug']
+							),
+							array
+							(
+								'title' => sprintf(__('Delete %s', true), $download['Download']['name'])
+							)
+						);
+				}
+
+				echo implode(' | ', $actionLinks);
 				?>
 				]
 			</span>
@@ -100,7 +118,8 @@ if ($full)
 									$download['DownloadCategory']['slug']
 								)
 							)
-						); ?></td>
+						);
+					?></td>
 			</tr>
 			<tr>
 				<td class="download-info"><?php __('Downloaded:'); ?></td>

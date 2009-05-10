@@ -1,7 +1,7 @@
 <h1>
 <?php echo $html->link(__('Download categories', true), array('controller' => 'download_categories'), array('title' => __('Permanent link to download categories', true))); ?>
 <?php
-if ($auth->valid())
+if ($auth->check('download_categories', 'add'))
 {
 	?>
 	<span style="font-size:x-small">

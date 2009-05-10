@@ -10,8 +10,12 @@
 	<meta name="Template Distribution" content="Global" />
 	<meta name="Template Author" content="Erwin Aligam - ealigam@gmail.com" />
 	<meta name="Robots" content="noindex,nofollow" />
-
 	<?php
+	if (Configure::read())
+	{
+		echo $html->css('debug');
+	}
+
 	echo $html->css
 		(
 			array
@@ -64,7 +68,7 @@
 
 			<div id="sidebar">
 				<?php
-				if ($this->params['action'] != 'error')
+				if ($this->params['action'] != 'error' && isset($isSetup) && $isSetup)
 				{
 					if ($session->read('Neutrino.InstallSteps'))
 					{
@@ -72,18 +76,24 @@
 					}
 				}
 				?>
-				<div style="width:100%; text-align:center; margin-top:40px; margin-bottom:40px;">
-					<?php echo $this->element('misc/cakepower', array('cache' => '1 week')); ?>
+				<div style="width:100%; text-align:center; margin-top:5px; margin-bottom:40px;">
+					<?php
+					// echo $this->element('misc/cakepower', array('cache' => '1 week')); ?>
 					<br />
-					<?php echo $this->element('misc/getfirefox', array('cache' => '1 week')); ?>
+					<?php
+					echo $html->image('neutrino.mirrored.png');
+					// echo $this->element('misc/getfirefox', array('cache' => '1 week'));
+					?>
 				</div>
 			</div>
 
 			<div id="main">
 
 				<div id="flash-wrap">
-					<?php $session->flash(); ?>
-					<?php $session->flash('auth'); ?>
+					<?php
+					$session->flash();
+					$session->flash('auth');
+					?>
 				</div>
 
 				<?php echo $content_for_layout; ?>

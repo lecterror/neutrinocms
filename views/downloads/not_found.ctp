@@ -26,7 +26,7 @@ if ($similar)
 */
 ?>
 <?php
-if ($auth->valid() && isset($slug))
+if (isset($slug) && $auth->check('downloads', 'add'))
 {
 	$createLink = $html->link
 		(

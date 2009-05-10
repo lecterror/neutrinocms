@@ -1,5 +1,16 @@
-<?php $this->pageTitle = $category['DownloadCategory']['name']; ?>
-<?php echo $html->div('download-category'); ?>
+<?php
+$this->pageTitle = $category['DownloadCategory']['name'];
+
+$allowAdd = $allowEdit = $allowDelete = false;
+
+if ($auth->isValid())
+{
+	$allowAdd = $auth->check('downloads', 'add');
+	$allowEdit = $auth->check('download_categories', 'edit', $category['DownloadCategory']['user_id']);
+	$allowDelete = $auth->check('download_categories', 'delete', $category['DownloadCategory']['user_id']);
+}
+
+echo $html->div('download-category'); ?>
 	<h2><?php
 		echo $html->link
 			(
@@ -21,64 +32,77 @@
 				)
 			);
 
-		if ($auth->valid())
+		if ($allowAdd || $allowEdit || $allowDelete)
 		{
 			?>
 			<span class="download-category-actions">
 				[
 				<?php
-				echo $html->link
-					(
-						__('Add', true),
-						array
+				$actionLinks = array();
+
+				if ($allowAdd)
+				{
+					$actionLinks[] = $html->link
 						(
-							'controller' => 'downloads',
-							'action' => 'add',
-							'category' => $category['DownloadCategory']['slug']
-						),
-						array
-						(
-							'title' => __('Add a new download', true)
-						)
-					);
-				echo ' | ';
-				echo $html->link
-					(
-						__('Edit', true),
-						array
-						(
-							'controller' => 'download_categories',
-							'action' => 'edit',
-							$category['DownloadCategory']['slug']
-						),
-						array
-						(
-							'title' => sprintf
+							__('Add', true),
+							array
 							(
-								__('Edit %s', true),
-								$category['DownloadCategory']['name']
-							)
-						)
-					);
-				echo ' | ';
-				echo $html->link
-					(
-						__('Delete', true),
-						array
-						(
-							'controller' => 'download_categories',
-							'action' => 'delete',
-							$category['DownloadCategory']['slug']
-						),
-						array
-						(
-							'title' => sprintf
+								'controller' => 'downloads',
+								'action' => 'add',
+								'category' => $category['DownloadCategory']['slug']
+							),
+							array
 							(
-								__('Delete %s', true),
-								$category['DownloadCategory']['name']
+								'title' => __('Add a new download', true)
 							)
-						)
-					);
+						);
+				}
+
+				if ($allowEdit)
+				{
+					$actionLinks[] = $html->link
+						(
+							__('Edit', true),
+							array
+							(
+								'controller' => 'download_categories',
+								'action' => 'edit',
+								$category['DownloadCategory']['slug']
+							),
+							array
+							(
+								'title' => sprintf
+								(
+									__('Edit %s', true),
+									$category['DownloadCategory']['name']
+								)
+							)
+						);
+				}
+
+				if ($allowDelete)
+				{
+					$actionLinks[] = $html->link
+						(
+							__('Delete', true),
+							array
+							(
+								'controller' => 'download_categories',
+								'action' => 'delete',
+								$category['DownloadCategory']['slug']
+							),
+							array
+							(
+								'title' => sprintf
+								(
+									__('Delete %s', true),
+									$category['DownloadCategory']['name']
+								)
+							)
+						);
+				}
+
+				echo implode(' | ', $actionLinks);
 				?>
 				]
 			</span>
@@ -105,7 +129,7 @@
 		?>
 		<h3 style="text-align:center;"><?php __('No downloads!'); ?></h3>
 		<?php
-		if ($auth->valid())
+		if ($allowAdd)
 		{
 			$createLink = $html->link
 				(

@@ -42,7 +42,7 @@ $count = count($results);
 			?>
 			<h3 style="text-align:center;"><?php __('No articles!'); ?></h3>
 			<?php
-			if ($auth->valid())
+			if ($auth->isValid())
 			{
 				?>
 				<div style="text-align:center;">

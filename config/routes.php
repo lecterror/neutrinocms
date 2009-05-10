@@ -31,13 +31,6 @@
 
 Router::parseExtensions('rss'); // for RSS automagic..
 
-/**
- * Here, we are connecting '/' (base path) to controller called 'Pages',
- * its action called 'display', and we pass a param to select the view file
- * to use (in this case, /app/views/pages/home.thtml)...
- */
-//	Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
-
 // google sitemap
 Router::connect('/sitemap.xml', array('controller' => 'sitemaps', 'action' => 'sitemap'));
 // robots.txt
@@ -47,7 +40,7 @@ Router::connect('/robots.txt', array('controller' => 'sitemaps', 'action' => 'ro
 Router::connect('/neutrino/help/markdown.html', array('controller' => 'neutrino', 'action' => 'markdown'));
 
 // make "attachments" appear as "files",
-// as it seems, we cannot have a model called File..
+// obviously, we cannot have a model called File..
 Router::connect('/files/:action/*', array('controller' => 'attachments'));
 
 // nicer article and download categories
@@ -55,12 +48,17 @@ Router::connect('/articles/categories/:action/*', array('controller' => 'article
 Router::connect('/downloads/categories/:action/*', array('controller' => 'download_categories'));
 Router::connect('/statistics/:action/*', array('controller' => 'stats'));
 
+// install & update routes
+Router::connect('/system/install/start', array('controller' => 'setup', 'action' => 'install'));
+Router::connect('/system/install/step/1', array('controller' => 'setup', 'action' => 'install_step1'));
+Router::connect('/system/install/step/2', array('controller' => 'setup', 'action' => 'install_step2'));
+Router::connect('/system/install/step/3', array('controller' => 'setup', 'action' => 'install_step3'));
+
 // setup && update controller routes
-Router::connect('/setup/:action/*', array('controller' => 'setup'));
+Router::connect('/system/:action/*', array('controller' => 'setup'));
 
 // connect home
 Router::connect('/', array('controller' => 'articles', 'action' => 'home'));
-
 
 /**
  * ...and connect the rest of 'Pages' controller's urls.

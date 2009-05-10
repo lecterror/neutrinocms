@@ -15,9 +15,11 @@ echo $html->docType(); ?>
 	<title><?php echo sprintf('%s - %s', $title_for_layout, Configure::read('Neutrino.SiteTitle')); ?></title>
 	<meta name="Description" content="<?php echo $description; ?>" />
 	<meta name="Keywords" content="<?php echo $keywords; ?>" />
-	<?php echo $google->webmasterToolsVerificationCode(); ?>
-	<?php echo $html->charset(); ?>
-	<?php echo $feed->links(); ?>
+	<?php
+	echo $google->webmasterToolsVerificationCode();
+	echo $html->charset();
+	echo $feed->links();
+	?>
 	<link rel="icon" href="<?php echo $this->webroot; ?>favicon.ico" type="image/x-icon" />
 	<link rel="shortcut icon" href="<?php echo $this->webroot; ?>favicon.ico" type="image/x-icon" />
 	<meta name="Template Distribution" content="Global" />
@@ -47,10 +49,7 @@ echo $html->docType(); ?>
 	    	(
 	    		array
 	    		(
-				//	'lib/jquery',
-					'lib/prototype',
-					'lib/scriptaculous/scriptaculous',
-					'lib/scriptaculous/effects',
+					'lib/protoaculous',
 					'neditor/tabulator',
 					'starbox/starbox',
 					'shadowbox/shadowbox-prototype',
@@ -204,7 +203,7 @@ if (isset($javascript))
 	echo $this->element('misc/ie_rubbish');
 }
 
-if (!$auth->valid())
+if (!$auth->isAdmin())
 {
 	echo $google->analyticsTracker();
 }

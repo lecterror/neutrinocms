@@ -49,7 +49,7 @@ if ($similar)
 }
 ?>
 <?php
-if ($auth->valid() && isset($slug))
+if (isset($slug) && $auth->check('download_categories', 'add'))
 {
 	$createLink = $html->link
 		(

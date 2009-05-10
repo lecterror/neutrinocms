@@ -102,5 +102,3 @@ class CoalesceBehavior extends ModelBehavior
 		return $results;
 	}
 }
-
-?>
