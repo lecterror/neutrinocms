@@ -89,7 +89,6 @@ class SetupController extends AppController
 	{
 		parent::beforeFilter();
 
-		$this->_loadAcl();
 		$this->Auth->allow('*');
 
 		$this->theme = 'neutrino';
@@ -444,6 +443,7 @@ END;
 		}
 
 		$this->loadModel('User');
+		$this->_loadAcl();
 
 		if (empty($this->data))
 		{
