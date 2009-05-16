@@ -32,6 +32,8 @@ class UsersController extends AppController
 	{
 		parent::beforeFilter();
 
+		$this->Security->blackHoleCallback = 'blackhole';
+
 		if ($this->_user)
 		{
 			$this->Auth->allow

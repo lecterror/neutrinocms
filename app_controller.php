@@ -168,7 +168,6 @@ class AppController extends Controller
 
 		$this->_setupAuth();
 		$this->_loadAcl();
-		$this->Security->blackHoleCallback = 'blackhole';
 
 		$this->RememberMe->check();
 		$this->_user = $this->Auth->user();
