@@ -2,7 +2,7 @@
 	<?php echo $html->image('throbber.gif'); ?>
 </div>
 <?php
-$updateUrl = Router::url(array('controller' => 'users', 'action' => 'permissions'));
+$updateUrl = Router::url(array('controller' => 'user_permissions', 'action' => 'permissions'));
 $ajaxString = <<<END
 new Ajax.Updater
 	(

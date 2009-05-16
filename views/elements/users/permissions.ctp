@@ -5,7 +5,7 @@ if (empty($userPermissions[0]['Aco']))
 }
 else
 {
-	$requestUrl = Router::url(array('controller' => 'users', 'action' => 'save_permission'));
+	$requestUrl = Router::url(array('controller' => 'user_permissions', 'action' => 'save_permission'));
 	$ajaxTemplate = <<<END
 new Ajax.Request
 	(
