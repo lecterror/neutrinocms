@@ -55,11 +55,6 @@ class UsersController extends AppController
 
 	function isAuthorized()
 	{
-		if ($this->action == 'permissions')
-		{
-			return parent::isAuthorized();
-		}
-
 		$model = ((isset($this->User) && !is_null($this->User)) ? $this->User : null);
 
 		return parent::isAuthorized($model);
@@ -366,80 +361,5 @@ class UsersController extends AppController
 		
 		$this->Session->setFlash(__('Your password has been saved successfully', true));
 		$this->_redirectToReferrer();
-	}
-
-	public function permissions()
-	{
-		if ($this->_isAjaxRequest())
-		{
-			// nastavit.. napravit handlere za getanje juzera i featura, i tako editirat samo jedan set permissiona
-			if (!isset($this->passedArgs['get']) || !in_array($this->passedArgs['get'], array('user', 'feature')))
-			{
-				$this->blackhole();
-			}
-
-			if (empty($this->passedArgs['user']))
-			{
-				$this->set('userPermissions', array());
-			}
-			else
-			{
-				$this->set
-					(
-						'userPermissions',
-						$this->Acl->Aro->find
-						(
-							'threaded',
-							array
-							(
-								'conditions' => array('Aro.foreign_key' => Sanitize::escape($this->passedArgs['user']))
-							)
-						)
-					);
-			}
-
-			$this->_renderUserPermissions();
-		}
-
-		$this->set
-			(
-				'users',
-				$this->User->find('list', array('fields' => array('id', 'username')))
-			);
-
-		if (empty($this->data))
-		{
-			return;
-		}
-	}
-
-	private function _renderUserPermissions()
-	{
-		$this->autoRender = false;
-		$this->viewPath = 'elements'.DS.'users';
-		$this->render('permissions', 'ajax');
-	}
-
-	function save_permission()
-	{
-		if (!$this->_isAjaxRequest()
-			|| !isset($this->passedArgs['feature'])
-			|| !isset($this->passedArgs['aclaction'])
-			|| !isset($this->passedArgs['value']))
-		{
-			$this->redirect('/');
-		}
-
-		$this->RequestHandler->respondAs('ajax');
-		$this->layout = 'ajax';
-
-		if (!empty($this->passedArgs['feature'])
-			|| empty($this->passedArgs['acl_action'])
-			|| !in_array($this->passedArgs['value'], array('0', '1', '-1')))
-		{
-			$this->set('message', __('Invalid parameters supplied', true));
-		}
-
-		$this->set('message', __('tralala', true));
 	}
 }
