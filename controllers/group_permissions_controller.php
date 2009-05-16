@@ -41,6 +41,7 @@ class GroupPermissionsController extends AppController
 					'all',
 					array
 					(
+						'contain' => array(),
 						'conditions' => array
 						(
 							'or' => array
@@ -62,35 +63,39 @@ class GroupPermissionsController extends AppController
 			);
 	}
 
-	function add_group()
+	function add()
 	{
-		if (!isset($this->passedArgs['parent']))
-		{
-			$this->Session->setFlash(__('No parent group selected', true));
-			$this->redirect(array('action' => 'index'));
-		}
-
-		if (empty($this->data))
+		if (!$this->RequestHandler->isPost())
 		{
 			return;
 		}
-
-		if ($this->passedArgs['parent'] != $this->data['Aro']['parent_id'])
-		{
-			$this->blackhole();
-		}
-
-		$this->data['Aro']['parent_id'] = Sanitize::escape($this->data['Aro']['parent_id']);
-		$this->data['Aro']['alias'] = Sanitize::escape($this->data['Aro']['alias']);
-
-		if (!$this->Acl->Aro->save($this->data))
-		{
-			$this->Session->setFlash(__('There was an error while saving the new group', true));
-			$this->redirect(array('action' => 'add_group', 'parent' => $this->passedArgs['parent']));
-		}
-
-		$this->Session->setFlash(__('New group added successfully', true));
-		$this->redirect(array('action' => 'view', 'group' => $this->passedArgs['parent']));
+//		if (!isset($this->passedArgs['parent']))
+//		{
+//			$this->Session->setFlash(__('No parent group selected', true));
+//			$this->redirect(array('action' => 'index'));
+//		}
+//
+//		if (empty($this->data))
+//		{
+//			return;
+//		}
+//
+//		if ($this->passedArgs['parent'] != $this->data['Aro']['parent_id'])
+//		{
+//			$this->blackhole();
+//		}
+//
+//		$this->data['Aro']['parent_id'] = Sanitize::escape($this->data['Aro']['parent_id']);
+//		$this->data['Aro']['alias'] = Sanitize::escape($this->data['Aro']['alias']);
+//
+//		if (!$this->Acl->Aro->save($this->data))
+//		{
+//			$this->Session->setFlash(__('There was an error while saving the new group', true));
+//			$this->redirect(array('action' => 'add_group', 'parent' => $this->passedArgs['parent']));
+//		}
+//
+//		$this->Session->setFlash(__('New group added successfully', true));
+//		$this->redirect(array('action' => 'view', 'group' => $this->passedArgs['parent']));
 	}
 
 	function add_feature()
