@@ -12,7 +12,7 @@ new Ajax.Updater
 			onLoading: function() { Element.show('ajaxIndicator'); },
 			onComplete: function() { Element.hide('ajaxIndicator'); }
 		}
-	)
+	);
 END;
 
 echo $form->select
