@@ -21,6 +21,16 @@ class UserPermissionsController extends AppController
 	var $name = 'UserPermissions';
 	var $uses = array('User');
 
+	function beforeFilter()
+	{
+		parent::beforeFilter();
+
+		if (empty($this->_user) || !$this->_user['is_root'])
+		{
+			$this->redirect('/');
+		}
+	}
+
 	function isAuthorized()
 	{
 		return parent::isAuthorized();
