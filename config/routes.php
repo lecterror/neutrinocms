@@ -43,6 +43,10 @@ Router::connect('/neutrino/help/markdown.html', array('controller' => 'neutrino'
 // obviously, we cannot have a model called File..
 Router::connect('/files/:action/*', array('controller' => 'attachments'));
 
+// user and group permissions
+Router::connect('/groups/permissions/:action/*', array('controller' => 'group_permissions'));
+Router::connect('/users/permissions/:action/*', array('controller' => 'user_permissions'));
+
 // nicer article and download categories
 Router::connect('/articles/categories/:action/*', array('controller' => 'article_categories'));
 Router::connect('/downloads/categories/:action/*', array('controller' => 'download_categories'));
