@@ -4,17 +4,19 @@ foreach ($aroPath as $item)
 	$html->addCrumb
 		(
 			$item['Aro']['alias'],
-			array
-			(
-				'group' => $item['Aro']['id']
-			)
+			array($item['Aro']['id'])
 		);
 }
-
-
 ?>
 <div class="groupPermissions view">
-	<h2><?php __('Group permissions'); ?></h2>
+	<h2>
+		<?php __('Group permissions'); ?>
+		<span class="group-permission-actions">
+			[
+			<?php echo $html->link(__('Add a subgroup', true), array('action' => 'add', 'parent' => $aro['Aro']['id'])); ?>
+			]
+		</span>
+	</h2>
 	<div id="groupPath">
 		<dl>
 			<dt><?php __('Group path:'); ?></dt>
@@ -22,7 +24,7 @@ foreach ($aroPath as $item)
 		</dl>
 	</div>
 	<dl id="subgroups">
-		<dt><?php __('Subgroups:'); ?></dt>
+		<dt><?php __('Immediate subgroups:'); ?></dt>
 		<?php
 		if (empty($aroChildren))
 		{
@@ -37,7 +39,7 @@ foreach ($aroPath as $item)
 				if (empty($childNode['Aro']['foreign_key']))
 				{
 					echo '<dd>';
-					echo $html->link($childNode['Aro']['alias'], array('group' => $childNode['Aro']['id']));
+					echo $html->link($childNode['Aro']['alias'], array($childNode['Aro']['id']));
 					echo '</dd>';
 				}
 			}
@@ -45,7 +47,7 @@ foreach ($aroPath as $item)
 		?>
 	</dl>
 	<dl id="users">
-		<dt><?php __('Users:'); ?></dt>
+		<dt><?php __('Immediate user members:'); ?></dt>
 		<?php
 		if (empty($users))
 		{
@@ -80,38 +82,16 @@ foreach ($aroPath as $item)
 		?>
 	</dl>
 	<dl id="featurePermissions">
-		<dt><?php __('Feature permissions:'); ?></dt>
+		<dt><?php __('Set permissions for features:'); ?></dt>
 		<?php
-		if (empty($users))
+		$features = NEUTRINO_CONFIG::features();
+
+		foreach ($features as $feature)
 		{
 			echo '<dd>';
-			__('None');
+			echo $html->link($feature, array('action' => 'permissions', 'group' => $aro['Aro']['id'], 'featureAlias' => $feature));
 			echo '</dd>';
-		}
-		else
-		{
-			foreach ($aro['Aco'] as $aco)
-			{
-				echo '<dd>';
-				echo $html->link
-					(
-						$aco['alias'],
-						array
-						(
-							'action' => 'edit',
-							'group' => $aro['Aro']['id'],
-							'feature' => $aco['id']
-						)
-					);
-				echo '</dd>';
-			}
 		}
 		?>
 	</dl>
-	<div class="actions">
-		<ul>
-			<li><?php echo $html->link(__('Add a subgroup', true), array('action' => 'add_group', 'parent' => $aro['Aro']['id'])); ?></li>
-			<li><?php echo $html->link(__('Add feature permissions', true), array('action' => 'add_feature', 'parent' => $aro['Aro']['id'])); ?></li>
-		</ul>
-	</div>
 </div>

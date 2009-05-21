@@ -1,28 +1,25 @@
-<h2><?php __('Groups'); ?></h2>
-<table>
-<?php
-echo $html->tableHeaders(array(__('Group', true), __('Feature', true)));
-
-foreach ($aros as $aro)
-{
-	$aroLink = $html->link($aro['Aro']['alias'], array('action' => 'view', 'group' => $aro['Aro']['id']));
-	$acoLinks = array();
-
-	foreach ($aro['Aco'] as $aco)
-	{
-		$acoLinks[] = $html->link
-			(
-				$aco['alias'],
-				array
-				(
-					'action' => 'edit',
-					'group' => $aro['Aro']['id'],
-					'feature' => $aco['id']
-				)
-			);
-	}
-
-	echo $html->tableCells(array($aroLink, implode('<br />', $acoLinks)));
-}
-?>
-</table>
+<div class="groupPermissions index">
+	<h2>
+		<?php __('User groups'); ?>
+		<span class="group-permissions-actions">
+					[
+					<?php
+						echo $html->link
+							(
+								__('Add', true),
+								array
+								(
+									'controller' => 'group_permissions',
+									'action' => 'add'
+								)
+							);
+					?>
+					]
+		</span>
+	</h2>
+	<?php foreach ($aros as $aro): ?>
+		<div>
+			<?php echo $html->link($aro['Aro']['alias'], array('action' => 'view', $aro['Aro']['id'])); ?>
+		</div>
+	<?php endforeach; ?>
+</div>

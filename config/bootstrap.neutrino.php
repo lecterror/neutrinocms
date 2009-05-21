@@ -77,7 +77,7 @@ class NEUTRINO_CONFIG
 			'permissions'		=> 'update'
 		);
 
-	function features()
+	static function features()
 	{
 		return array
 			(

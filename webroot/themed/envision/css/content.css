@@ -1,3 +1,4 @@
+/* @todo: cleanup, rewrite entire app HTML / CSS.. this SUCKS */
 /************************************************ GENERAL ************************************************/
 
 #flash-wrap
@@ -562,4 +563,9 @@ textarea:focus
 	width:				100%;
 	margin:				15px;
 	text-align:			center;
+}
+
+.editPermissions label
+{
+	display: inline;
 }
