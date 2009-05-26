@@ -19,7 +19,7 @@
 							'Element.update("comments-inner-wrap", "%s")',
 							__("Please wait...", true)
 						),
-					'id'		=> sprintf('view-comments-%s', $articleId)
+					'id'		=> sprintf('view-comments-%s', $article['Article']['id'])
 				)
 			);
 		?></h3>

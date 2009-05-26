@@ -20,7 +20,6 @@ if ($comment['article_author']) echo $html->div('authors-comment'); ?>
 					array
 					(
 						'update'		=> 'comments-inner-wrap',
-						'indicator'		=> 'working',
 						'id'			=> sprintf('comment-%s%s', $article['Article']['id'], $comment['id'])
 					),
 					__('Are you sure you want to delete this comment?', true)
