@@ -2,7 +2,7 @@
 	<h3><?php __('Article comments'); ?> &mdash; <?php
 		echo $ajax->link
 			(
-				__('View', true),
+				__('Reload', true),
 				array
 				(
 					'controller' => 'comments',
@@ -62,7 +62,6 @@
 				array
 				(
 					'update'		=> 'comments-form-wrap',
-					//'indicator'		=> 'working',
 					'before'		=> sprintf
 						(
 							'Element.update("comments-form-wrap", "%s")',
