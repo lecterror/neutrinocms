@@ -9,9 +9,7 @@
 	    	(
 		    	array
 		    	(
-					'lib/prototype',
-					'lib/scriptaculous/scriptaculous',
-					'lib/scriptaculous/effects',
+					'lib/protoaculous',
 					'markdown-help'
 			    ),
 			    true
