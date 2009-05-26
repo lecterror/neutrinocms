@@ -30,7 +30,6 @@
 	if ($commentsCount > 0)
 	{
 		?><br /><?php
-		// echo $this->element('comments/paginated');
 		foreach ($article['Comment'] as $comment)
 		{
 			echo $this->element
