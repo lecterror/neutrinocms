@@ -23,15 +23,6 @@ class CommentsController extends AppController
 	var $components = array('Captcha', 'Cookie', 'Email');
 	var $helpers = array('Captcha');
 
-	var $paginate = array('Comment' =>
-			array
-			(
-				'limit'		=> 5,
-				'page'		=> 1,
-				'recursive'	=> -1
-			)
-		);
-
 	function isAuthorized()
 	{
 		$model = ((isset($this->Comment) && !is_null($this->Comment)) ? $this->Comment : null);
@@ -39,9 +30,20 @@ class CommentsController extends AppController
 		return parent::isAuthorized($model);
 	}
 
-	function _getPaginatedComments($article_id)
+	function _getComments($article_id)
 	{
-		return $this->paginate('Comment', array('article_id' => $article_id));
+		return $this->Comment->find
+			(
+				'all',
+				array
+				(
+					'conditions' => array
+					(
+						'article_id' => $article_id
+					),
+					'contain' => array()
+				)
+			);
 	}
 
 	function _sendNewCommentNotification($user, $comment, $article)
@@ -67,11 +69,11 @@ class CommentsController extends AppController
 		$this->Email->send();
 	}
 
-	function _renderPaginatedComments()
+	function _renderComments()
 	{
 		$this->autoRender = false;
 		$this->viewPath = 'elements'.DS.'comments';
-		$this->render('paginated', 'ajax');
+		$this->render('toolbar', 'ajax'); // @todo: change this
 	}
 
 	function beforeFilter()
@@ -107,9 +109,8 @@ class CommentsController extends AppController
 		}
 
 		$this->set('article', $article);
-		$this->set('comments', $this->_getPaginatedComments($article['Article']['id']));
-		$this->set('comments_count', $this->params['paging']['Comment']['count']);
-		$this->_renderPaginatedComments();
+		$this->set('commentsCount', count($article['Comment']));
+		$this->_renderComments();
 	}
 
 	function add($article_slug = null)
@@ -150,8 +151,7 @@ class CommentsController extends AppController
 				}
 			}
 
-			$this->set('comments', $this->_getPaginatedComments($article['Article']['id']));
-			$this->set('comments_count', $this->params['paging']['Comment']['count']);
+			$this->set('commentsCount', count($article['Comment']));
 			$this->layout = 'ajax';
 			return;
 		}
@@ -169,8 +169,7 @@ class CommentsController extends AppController
 				$this->Comment->invalidate('captcha', __('Please type the code from the image above', true));
 			}
 
-			$this->set('comments', $this->_getPaginatedComments($article['Article']['id']));
-			$this->set('comments_count', $this->params['paging']['Comment']['count']);
+			$this->set('commentsCount', count($article['Comment']));
 			$this->layout = 'ajax';
 			return;
 		}
@@ -184,11 +183,8 @@ class CommentsController extends AppController
 		{
 			$this->data['Comment']['captcha'] = '';
 
-			$this->set('comments', $this->_getPaginatedComments($article['Article']['id']));
-			$this->set('comments_count', $this->params['paging']['Comment']['count']);
-
-			$this->set('article', $article);
-			$this->_renderPaginatedComments();
+			$this->set('commentsCount', count($article['Comment']));
+			$this->_renderComments();
 			return;
 		}
 
@@ -199,6 +195,7 @@ class CommentsController extends AppController
 				'website'	=> $this->data['Comment']['website'],
 				'email'		=> $this->data['Comment']['email']
 			);
+
 		$this->Cookie->write('CommentInfo', $cookie, true, '+4 weeks');
 
 		// send notification email
@@ -221,9 +218,9 @@ class CommentsController extends AppController
 			}
 		}
 
-		$this->set('comments', $this->_getPaginatedComments($article['Article']['id']));
-		$this->set('comments_count', $this->params['paging']['Comment']['count']);
-		$this->_renderPaginatedComments();
+		$this->set('article', $this->Comment->Article->getSingle($article_slug));
+		$this->set('commentsCount', count($article['Comment']));
+		$this->_renderComments();
 		return;
 	}
 
@@ -244,9 +241,8 @@ class CommentsController extends AppController
 		$this->Comment->del(Sanitize::escape($id));
 
 		$this->set(compact('article'));
-		$this->set('comments', $this->_getPaginatedComments($article['Article']['id']));
-		$this->set('comments_count', $this->params['paging']['Comment']['count']);
-		$this->_renderPaginatedComments();
+		$this->set('commentsCount', count($article['Comment']));
+		$this->_renderComments();
 	}
 
 	function index()

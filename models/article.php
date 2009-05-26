@@ -18,6 +18,11 @@
 
 uses('Sanitize');
 
+/**
+ * @property ArticleCategory $ArticleCategory
+ * @property Comment $Comment
+ * @property Rating $Rating
+ */
 class Article extends AppModel
 {
 	var $name = 'Article';
@@ -225,7 +230,7 @@ class Article extends AppModel
 						'Article.id' => $id
 					),
 					'fields' => array('slug'),
-					'recursive' => -1
+					'contain' => array()
 				)
 			);
 
@@ -294,7 +299,7 @@ class Article extends AppModel
 				array
 				(
 					'conditions' => array('Article.slug' => $_slug),
-					'contain' => array('ArticleCategory', 'Rating')
+					'contain' => array('ArticleCategory', 'Rating', 'Comment')
 				)
 			);
 	}
@@ -309,7 +314,7 @@ class Article extends AppModel
 					'conditions' => array('isdraft' => 0),
 					'fields' => array('title', 'slug', 'updated'),
 					'order' => 'updated DESC',
-					'recursive' => -1
+					'contain' => array()
 				)
 			);
 	}
@@ -371,7 +376,7 @@ class Article extends AppModel
 					'fields' => array('article_id', 'count(*) as count'),
 					'conditions' => '1 = 1 GROUP BY article_id',
 					'order' => 'count DESC',
-					'recursive' => -1,
+					'contain' => array(),
 					'limit' => $limit
 				)
 			);
@@ -396,7 +401,7 @@ class Article extends AppModel
 								'title',
 								'slug'
 							),
-							'recursive' => -1
+							'contain' => array()
 						)
 					)
 				);
@@ -407,18 +412,20 @@ class Article extends AppModel
 
 	function getHighestRated($limit)
 	{
-		$articlesTemp = $this->find(
-			'all',
-			array(
-				'contain' => 'Rating',
-				'fields' => array
+		$articlesTemp = $this->find
+			(
+				'all',
+				array
 				(
-					'Article.user_id',
-					'Article.slug',
-					'Article.title'
+					'contain' => 'Rating',
+					'fields' => array
+					(
+						'Article.user_id',
+						'Article.slug',
+						'Article.title'
+					)
 				)
-			)
-		);
+			);
 
 		$articlesTemp = Set::sort($articlesTemp, '{n}.Rating.Summary.totalRating', 'desc');
 		$top = (count($articlesTemp) < $limit ? count($articlesTemp) : $limit);

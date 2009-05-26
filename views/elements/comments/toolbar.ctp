@@ -1,7 +1,4 @@
 <div class="comment-controls">
-	<div id="working" style="display:none;">
-		<?php echo $html->image('throbber.gif'); ?>
-	</div>
 	<h3><?php __('Article comments'); ?> &mdash; <?php
 		echo $ajax->link
 			(
@@ -25,12 +22,37 @@
 					'id'		=> sprintf('view-comments-%s', $articleId)
 				)
 			);
-		?>
-		&middot;
-		<?php
-		echo $ajax->link
+		?></h3>
+	<hr />
+</div>
+<?php echo $ajax->div('comments-inner-wrap'); ?>
+	<?php
+	if ($commentsCount > 0)
+	{
+		?><br /><?php
+		// echo $this->element('comments/paginated');
+		foreach ($article['Comment'] as $comment)
+		{
+			echo $this->element
+				(
+					'comments/comment',
+					array
+					(
+						'comment' => $comment,
+						'slug' => $this->passedArgs[0]
+					)
+				);
+		}
+	}
+	else
+	{
+		__('No comments!');
+	}
+
+	echo $ajax->div('comments-form-wrap');
+	echo $ajax->link
 			(
-				__('Add', true),
+				__('Add a comment', true),
 				array
 				(
 					'controller' => 'comments',
@@ -40,18 +62,16 @@
 				),
 				array
 				(
-					'update'		=> 'comments-inner-wrap',
-					'indicator'		=> 'working',
+					'update'		=> 'comments-form-wrap',
+					//'indicator'		=> 'working',
 					'before'		=> sprintf
 						(
-							'Element.update("comments-inner-wrap", "%s")',
+							'Element.update("comments-form-wrap", "%s")',
 							__("Please wait...", true)
 						),
-					'id'			=> sprintf('add-comment-%s', $articleId)
+					'id'			=> sprintf('add-comment-%s', $article['Article']['id'])
 				)
-			); ?></h3>
-	<hr />
-</div>
-<?php echo $ajax->div('comments-inner-wrap'); ?>
-	<?php echo $this->element('comments/paginated'); ?>
+			);
+	echo $ajax->divEnd('comments-form-wrap');
+	?>
 <?php echo $ajax->divEnd('comments-inner-wrap'); ?>

@@ -1,5 +1,5 @@
-<?php
-echo $html->div('comments-form-wrap');
+<div class="comments-form-wrap">
+	<?php
 	echo $ajax->form
 		(
 			null,
@@ -32,4 +32,7 @@ echo $html->div('comments-form-wrap');
 		?>
 	</div>
 	<?php echo $form->end(); ?>
+	<div id="working" style="display:none;">
+		<?php echo $html->image('throbber.gif'); ?>
+	</div>
 </div>

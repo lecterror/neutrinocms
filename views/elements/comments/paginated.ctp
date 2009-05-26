@@ -3,24 +3,10 @@
 // cause amazing effects for the end user
 $this->passedArgs['action'] = 'view';
 $this->passedArgs['ajax'] = 1;
-$paginator->options
-	(
-		array_merge
-		(
-			array('url' => $this->passedArgs),
-			array
-			(
-				'update'		=> 'comments-inner-wrap',
-				'indicator'		=> 'working'
-			)
-		)
-	);
 
-if ($comments_count > 0)
+if ($commentsCount > 0)
 {
 	?>
-	<div class="comment-paginate-counter"><?php echo $paginator->counter(__('Page %page% of %pages%', true)); ?></div>
-	<div class="comment-paginate-numbers"><?php echo $paginator->numbers(array('separator' => ' &middot; ')); ?></div>
 	<br />
 	<?php
 	foreach ($comments as $comment)

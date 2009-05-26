@@ -247,7 +247,9 @@
 		echo '</span><br />';
 		echo sprintf('<span class="comments" id="comments-counter-%s">', $article['Article']['id']);
 
-		if ($comments_count > 0)
+		$commentsCount = count($article['Comment']);
+
+		if ($commentsCount > 0)
 		{
 			if (!isset($show_comments) || $show_comments == false)
 			{
@@ -259,10 +261,10 @@
 							 (
 							 	'%s comment',
 							 	'%s comments',
-							 	$comments_count,
+							 	$commentsCount,
 							 	true
 							 ),
-							 $comments_count
+							 $commentsCount
 						),
 						array
 						(
@@ -280,10 +282,10 @@
 						 (
 						 	'%s comment',
 						 	'%s comments',
-						 	$comments_count,
+						 	$commentsCount,
 						 	true
 						 ),
-						 $comments_count
+						 $commentsCount
 					);
 			}
 		}
@@ -304,7 +306,7 @@
 				'comments/toolbar',
 				array
 				(
-					'comments_count' => $comments_count,
+					'commentsCount' => $commentsCount,
 					'articleId' => $article['Article']['id']
 				)
 			);

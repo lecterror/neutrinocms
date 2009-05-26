@@ -34,4 +34,5 @@ echo $javascript->codeBlock
 			);',
 			$this->webroot.IMAGES_URL
 		)
-	); ?>
+	);
+?>

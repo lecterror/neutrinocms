@@ -16,20 +16,15 @@
 	along with NeutrinoCMS.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * @property Article $Article
+ */
 class ArticlesController extends AppController
 {
 	var $name = 'Articles';
 	var $uses = array();
 	var $components = array('Cookie');
 	var $helpers = array('Markdown'/*, 'MathPublisher'*/);
-	var $paginate = array('Comment' =>
-			array
-			(
-				'limit'		=> 5,
-				'page'		=> 1,
-				'recursive'	=> -1
-			)
-		);
 
 	function _setCategories()
 	{
@@ -129,10 +124,6 @@ class ArticlesController extends AppController
 			$this->_redirectTo('not_found', $slug);
 		}
 
-		$this->paginate['Comment']['conditions'] = 'Comment.article_id = '.$article['Article']['id'];
-		$this->set('comments', $this->paginate('Article.Comment'));
-		$this->set('comments_count', $this->params['paging']['Comment']['count']);
-
 		$cookie = $this->Cookie->read('Article-'.$article['Article']['id'].'-Rating');
 
 		if ($cookie && !empty($article['Rating']))
@@ -157,7 +148,7 @@ class ArticlesController extends AppController
 			$this->Article->hit($article['Article']['id']);
 		}
 
-		$this->data = $article;
+		//$this->data = $article;
 		$this->set(compact('article'));
 	}
 
