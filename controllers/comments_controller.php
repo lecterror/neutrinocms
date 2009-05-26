@@ -73,7 +73,7 @@ class CommentsController extends AppController
 	{
 		$this->autoRender = false;
 		$this->viewPath = 'elements'.DS.'comments';
-		$this->render('toolbar', 'ajax'); // @todo: change this
+		$this->render('index', 'ajax'); // @todo: change this
 	}
 
 	function beforeFilter()

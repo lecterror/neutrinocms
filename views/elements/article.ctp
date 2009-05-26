@@ -301,15 +301,8 @@
 	{
 		echo '<a name="comments"></a>';
 		echo $ajax->div('comments-outer-wrap', array('class' => 'comments'));
-		echo $this->element
-			(
-				'comments/toolbar',
-				array
-				(
-					'commentsCount' => $commentsCount,
-					'articleId' => $article['Article']['id']
-				)
-			);
+		echo $this->element('comments/toolbar');
+		echo $this->element('comments/index');
 		echo $ajax->divEnd('comments-outer-wrap');
 	}
 	?>
