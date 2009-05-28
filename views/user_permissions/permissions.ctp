@@ -1,33 +1,28 @@
-<div id="ajaxIndicator" style="display:none;">
-	<?php echo $html->image('throbber.gif'); ?>
-</div>
-<?php
-$updateUrl = Router::url(array('controller' => 'user_permissions', 'action' => 'permissions'));
-$ajaxString = <<<END
-new Ajax.Updater
-	(
-		'userPermissionsContainer',
-		'%s/user:' + this.value,
+<div class="userPermissions editPermissions">
+	<h2><?php __('Edit user permissions'); ?></h2>
+	<dl>
+		<dt><?php __('User'); ?></dt>
+		<dd><?php echo $html->link($user['User']['username'], array('action' => 'view', $user['User']['id'])); ?></dd>
+		<dt><?php __('Feature'); ?></dt>
+		<dd><?php echo $feature['Aco']['alias']; ?></dd>
+	</dl>
+
+	<?php
+	echo $form->create(false, array('url' => array('action' => $this->action)));
+	echo $form->hidden('User.id', array('value' => $user['User']['id']));
+	echo $form->hidden('Feature.alias', array('value' => $feature['Aco']['alias']));
+
+	foreach ($permissions as $key => $value):
+		$options = array('type' => 'radio', 'options' => array('1' => 'Allow', '-1' => 'Deny', '0' => 'Inherit'));
+
+		if (!isset($isPost) || !$isPost)
 		{
-			onLoading: function() { Element.show('ajaxIndicator'); },
-			onComplete: function() { Element.hide('ajaxIndicator'); }
+			$options = array_merge($options, array('value' => $value));
 		}
-	);
-END;
 
-echo $form->select
-	(
-		'userId',
-		$users,
-		'-1',
-		array
-		(
-			'onChange' => sprintf($ajaxString, $updateUrl)
-		),
-		true
-	);
-
-echo $ajax->div('userPermissionsContainer');
-	__('Select a user from a list to view active permissions');
-echo $ajax->divEnd('userPermissionsContainer');
-?>
+		echo $form->input('Permissions.'.$key, $options);
+	endforeach;
+	echo $form->submit();
+	echo $form->end();
+	?>
+</div>

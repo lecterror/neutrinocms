@@ -59,7 +59,7 @@ class GroupPermissionsController extends AppController
 			);
 	}
 
-	public function _getGroupPermissions($aroId, $acoId)
+	private function _getGroupPermissions($aroId, $acoId)
 	{
 		$returnValue = array
 			(
@@ -255,7 +255,7 @@ class GroupPermissionsController extends AppController
 
 	public function permissions()
 	{
-		// oh man..there's gotta be a better way..
+		// @todo: there's gotta be a better way..
 		if ($this->RequestHandler->isGet())
 		{
 			if (!isset($this->passedArgs['group']) || !isset($this->passedArgs['featureAlias']))

@@ -73,7 +73,7 @@ foreach ($aroPath as $item)
 						(
 							'controller' => 'user_permissions',
 							'action' => 'view',
-							'user' => $user['User']['id']
+							$user['User']['id']
 						)
 					);
 				echo '</dd>';

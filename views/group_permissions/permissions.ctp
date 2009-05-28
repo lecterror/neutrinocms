@@ -13,8 +13,6 @@
 	echo $form->hidden('Feature.alias', array('value' => $feature['Aco']['alias']));
 
 	foreach ($permissions as $key => $value):
-		//echo $html->para(null, Inflector::humanize($key));
-
 		$options = array('type' => 'radio', 'options' => array('1' => 'Allow', '-1' => 'Deny', '0' => 'Inherit'));
 
 		if (!isset($isPost) || !$isPost)
@@ -23,7 +21,6 @@
 		}
 
 		echo $form->input('Permissions.'.$key, $options);
-
 	endforeach;
 	echo $form->submit();
 	echo $form->end();
