@@ -6,7 +6,7 @@ if ($comment['article_author']) echo $html->div('authors-comment'); ?>
 		if ($auth->check('comments', 'delete', $comment['user_id']))
 		{
 			echo '<span class="comment-admin">[ ';
-			echo $ajax->link
+			echo $html->link
 				(
 					__('Delete', true),
 					array
@@ -14,13 +14,9 @@ if ($comment['article_author']) echo $html->div('authors-comment'); ?>
 						'controller' => 'comments',
 						'action' => 'delete',
 						$slug,
-						$comment['id'],
-						'ajax' => '1'
+						$comment['id']
 					),
-					array
-					(
-						'update'		=> 'comments-inner-wrap'
-					),
+					array(),
 					__('Are you sure you want to delete this comment?', true)
 				);
 			echo ' ]</span>';

@@ -1,20 +1,16 @@
-<div class="comments-form-wrap">
+<div id="comments-form-wrap">
 	<?php
-	echo $ajax->form
+	echo $form->create
 		(
-			null,
-			'post',
+			false,
 			array
 			(
 				'url' => array
 				(
 					'controller'	=> 'comments',
 					'action'		=> 'add',
-					$this->passedArgs[0],
-					'ajax'			=> '1'
+					$this->passedArgs[0]
 				),
-				'update'		=> 'comments-inner-wrap',
-				'indicator'		=> 'working',
 				'id'			=> 'add-comment-form-'.$article['Article']['id']
 			)
 		);

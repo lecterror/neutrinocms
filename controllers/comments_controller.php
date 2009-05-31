@@ -67,11 +67,17 @@ class CommentsController extends AppController
 		$this->Email->send();
 	}
 
-	function _renderComments()
+	function _renderArticle($article)
 	{
-		$this->autoRender = false;
-		$this->viewPath = 'elements'.DS.'comments';
-		$this->render('index', 'ajax'); // @todo: change this
+		$cookie = $this->Cookie->read('Article-'.$article['Article']['id'].'-Rating');
+
+		if ($cookie && !empty($article['Rating']))
+		{
+			$this->Comment->Article->Rating->setupVoted($article, $cookie);
+		}
+
+		$this->set('article', $article);
+		$this->render('/articles/view');
 	}
 
 	function beforeFilter()
@@ -92,6 +98,7 @@ class CommentsController extends AppController
 		$this->Captcha->image();
 	}
 
+	// @todo: ??
 	function view($article_slug = null)
 	{
 		if (empty($article_slug) || !$this->_isAjaxRequest())
@@ -106,14 +113,12 @@ class CommentsController extends AppController
 			$this->_redirectTo('not_found', $article_slug);
 		}
 
-		$this->set('article', $article);
-		$this->set('commentsCount', count($article['Comment']));
-		$this->_renderComments();
+		$this->_renderArticle($article);
 	}
 
 	function add($article_slug = null)
 	{
-		if (empty($article_slug) || !$this->_isAjaxRequest())
+		if (!$this->RequestHandler->isPost() || empty($article_slug)) // @todo: ??
 		{
 			$this->_redirectToReferrer();
 		}
@@ -123,35 +128,6 @@ class CommentsController extends AppController
 		if (!$article)
 		{
 			$this->_redirectTo('not_found', $article_slug);
-		}
-
-		$this->set(compact('article'));
-
-		if (empty($this->data))
-		{
-			$user = $this->Auth->user();
-
-			if ($user)
-			{
-				$this->data['Comment']['name']		= $user['User']['username'];
-				$this->data['Comment']['website']	= Router::url('/', true);
-				$this->data['Comment']['email']		= $user['User']['email'];
-			}
-			else
-			{
-				$old_data = $this->Cookie->read('CommentInfo');
-
-				if (is_array($old_data) && !empty($old_data))
-				{
-					$this->data['Comment']['name']		= $old_data['name'];
-					$this->data['Comment']['website']	= $old_data['website'];
-					$this->data['Comment']['email']		= $old_data['email'];
-				}
-			}
-
-			$this->set('commentsCount', count($article['Comment']));
-			$this->layout = 'ajax';
-			return;
 		}
 
 		$this->data['Comment']['article_id'] = $article['Article']['id'];
@@ -167,11 +143,12 @@ class CommentsController extends AppController
 				$this->Comment->invalidate('captcha', __('Please type the code from the image above', true));
 			}
 
-			$this->set('commentsCount', count($article['Comment']));
-			$this->layout = 'ajax';
+			$this->set('commentInputError', true);
+			$this->_renderArticle($article);
 			return;
 		}
 
+		// @todo: remove
 		if ($this->Auth->user())
 		{
 			$this->data['Comment']['article_author'] = true;
@@ -181,8 +158,7 @@ class CommentsController extends AppController
 		{
 			$this->data['Comment']['captcha'] = '';
 
-			$this->set('commentsCount', count($article['Comment']));
-			$this->_renderComments();
+			$this->_renderArticle($article);
 			return;
 		}
 
@@ -197,7 +173,7 @@ class CommentsController extends AppController
 				'email'		=> $this->data['Comment']['email']
 			);
 
-		$this->Cookie->write('CommentInfo', $cookie, true, '+4 weeks');
+		$this->Cookie->write('CommentInfo', $cookie, true, '+4 months');
 
 		// send notification email
 		if (!isset($this->data['Comment']['article_author'])
@@ -219,15 +195,22 @@ class CommentsController extends AppController
 			}
 		}
 
-		$this->set('article', $this->Comment->Article->getSingle($article_slug));
-		$this->set('commentsCount', count($article['Comment']));
-		$this->_renderComments();
+		$this->redirect
+			(
+				array
+				(
+					'controller' => 'articles',
+					'action' => 'view',
+					$article_slug,
+					sprintf('#comment-%s', $this->Comment->id)
+				)
+			);
 		return;
 	}
 
 	function delete($article_slug = null, $id = null)
 	{
-		if (empty($article_slug) || empty($id) || !$this->_isAjaxRequest())
+		if (empty($article_slug) || empty($id))
 		{
 			$this->_redirectToReferrer();
 		}
@@ -240,10 +223,16 @@ class CommentsController extends AppController
 		}
 
 		$this->Comment->del(Sanitize::escape($id));
-
-		$this->set(compact('article'));
-		$this->set('commentsCount', count($article['Comment']));
-		$this->_renderComments();
+		$this->redirect
+			(
+				array
+				(
+					'controller' => 'articles',
+					'action' => 'view',
+					$article_slug,
+					'#comments'
+				)
+			);
 	}
 
 	function index()

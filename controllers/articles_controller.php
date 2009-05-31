@@ -148,7 +148,24 @@ class ArticlesController extends AppController
 			$this->Article->hit($article['Article']['id']);
 		}
 
-		//$this->data = $article;
+		if ($this->_user)
+		{
+			$this->data['Comment']['name']		= $this->_user['username'];
+			$this->data['Comment']['website']	= $this->_user['homepage'];
+			$this->data['Comment']['email']		= $this->_user['email'];
+		}
+		else
+		{
+			$old_data = $this->Cookie->read('CommentInfo');
+
+			if (is_array($old_data) && !empty($old_data))
+			{
+				$this->data['Comment']['name']		= $old_data['name'];
+				$this->data['Comment']['website']	= $old_data['website'];
+				$this->data['Comment']['email']		= $old_data['email'];
+			}
+		}
+
 		$this->set(compact('article'));
 	}
 

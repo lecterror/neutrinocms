@@ -35,4 +35,13 @@ echo $javascript->codeBlock
 			$this->webroot.IMAGES_URL
 		)
 	);
+
+if (isset($commentInputError) && $commentInputError == true)
+{
+	echo $javascript->codeBlock
+		(
+			'$("comments-form-wrap").scrollTo();'
+		);
+}
+
 ?>

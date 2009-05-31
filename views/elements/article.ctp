@@ -299,11 +299,12 @@
 	<?php
 	if (isset($show_comments) && $show_comments == true)
 	{
-		echo '<a name="comments"></a>';
-		echo $ajax->div('comments-outer-wrap', array('class' => 'comments'));
-		echo $this->element('comments/toolbar');
-		echo $this->element('comments/index');
-		echo $ajax->divEnd('comments-outer-wrap');
+		?>
+		<a name="comments"></a>
+		<div id="comments-outer-wrap" class="comments">
+			<?php echo $this->element('comments/index'); ?>
+		</div>
+		<?php
 	}
 	?>
 </div>
