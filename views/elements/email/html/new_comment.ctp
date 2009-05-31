@@ -29,10 +29,11 @@ $viewLink = $html->link
 			(
 				'controller' => 'articles',
 				'action' => 'view',
-				$email_article['Article']['slug']
+				$email_article['Article']['slug'],
+				sprintf('#comment-%s', $email_comment['Comment']['id'])
 			),
 			true
 		)
 	);
 ?>
-<p><?php sprintf(__('View the article %s', true), $viewLink); ?></p>
+<p><?php echo sprintf(__('View the comment %s.', true), $viewLink); ?></p>

@@ -1,12 +1,12 @@
 <?php
 if ($comment['article_author']) echo $html->div('authors-comment'); ?>
-	<div class="article-comment">
+	<div class="article-comment" id="<?php echo sprintf('comment-%s', $comment['id']); ?>">
 	<?php echo $html->div('comment-header'); ?>
 		<?php
 		if ($auth->check('comments', 'delete', $comment['user_id']))
 		{
 			echo '<span class="comment-admin">[ ';
-			echo $ajax->link
+			echo $html->link
 				(
 					__('Delete', true),
 					array
@@ -14,15 +14,9 @@ if ($comment['article_author']) echo $html->div('authors-comment'); ?>
 						'controller' => 'comments',
 						'action' => 'delete',
 						$slug,
-						$comment['id'],
-						'ajax' => '1'
+						$comment['id']
 					),
-					array
-					(
-						'update'		=> 'comments-inner-wrap',
-						'indicator'		=> 'working',
-						'id'			=> sprintf('comment-%s%s', $article['Article']['id'], $comment['id'])
-					),
+					array(),
 					__('Are you sure you want to delete this comment?', true)
 				);
 			echo ' ]</span>';

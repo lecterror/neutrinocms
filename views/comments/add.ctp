@@ -1,20 +1,16 @@
-<?php
-echo $html->div('comments-form-wrap');
-	echo $ajax->form
+<div id="comments-form-wrap">
+	<?php
+	echo $form->create
 		(
-			null,
-			'post',
+			false,
 			array
 			(
 				'url' => array
 				(
 					'controller'	=> 'comments',
 					'action'		=> 'add',
-					$this->passedArgs[0],
-					'ajax'			=> '1'
+					$this->passedArgs[0]
 				),
-				'update'		=> 'comments-inner-wrap',
-				'indicator'		=> 'working',
 				'id'			=> 'add-comment-form-'.$article['Article']['id']
 			)
 		);
@@ -32,4 +28,7 @@ echo $html->div('comments-form-wrap');
 		?>
 	</div>
 	<?php echo $form->end(); ?>
+	<div id="working" style="display:none;">
+		<?php echo $html->image('throbber.gif'); ?>
+	</div>
 </div>
