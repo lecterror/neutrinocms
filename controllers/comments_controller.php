@@ -16,6 +16,9 @@
 	along with NeutrinoCMS.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * @property Comment $Comment
+ */
 class CommentsController extends AppController
 {
 	var $uses = array('Comment', 'User');
@@ -60,11 +63,6 @@ class CommentsController extends AppController
 		$this->set('email_user', $user);
 		$this->set('email_comment', $comment);
 		$this->set('email_article', $article);
-
-		if (Configure::read('debug'))
-		{
-			$this->Email->_debug = true;
-		}
 
 		$this->Email->send();
 	}
@@ -188,6 +186,9 @@ class CommentsController extends AppController
 			return;
 		}
 
+		$comment = $this->data;
+		$comment['Comment']['id'] = $this->Comment->id;
+
 		// store cookie with user info
 		$cookie = array
 			(
@@ -214,7 +215,7 @@ class CommentsController extends AppController
 
 			foreach ($users as $user)
 			{
-				$this->_sendNewCommentNotification($user, $this->data, $article);
+				$this->_sendNewCommentNotification($user, $comment, $article);
 			}
 		}
 
