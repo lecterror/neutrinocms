@@ -33,23 +33,7 @@ class CommentsController extends AppController
 		return parent::isAuthorized($model);
 	}
 
-	function _getComments($article_id)
-	{
-		return $this->Comment->find
-			(
-				'all',
-				array
-				(
-					'conditions' => array
-					(
-						'article_id' => $article_id
-					),
-					'contain' => array()
-				)
-			);
-	}
-
-	function _sendNewCommentNotification($user, $comment, $article)
+	private function _sendNewCommentNotification($user, $comment, $article)
 	{
 		$this->Email->reset();
 		$this->Email->sendAs = 'both';
@@ -67,7 +51,7 @@ class CommentsController extends AppController
 		$this->Email->send();
 	}
 
-	function _renderArticle($article)
+	private function _renderArticle($article)
 	{
 		$cookie = $this->Cookie->read('Article-'.$article['Article']['id'].'-Rating');
 
@@ -96,24 +80,6 @@ class CommentsController extends AppController
 
 		$this->disableCache();
 		$this->Captcha->image();
-	}
-
-	// @todo: ??
-	function view($article_slug = null)
-	{
-		if (empty($article_slug) || !$this->_isAjaxRequest())
-		{
-			$this->_redirectToReferrer();
-		}
-
-		$article = $this->Comment->Article->getSingle($article_slug);
-
-		if (!$article)
-		{
-			$this->_redirectTo('not_found', $article_slug);
-		}
-
-		$this->_renderArticle($article);
 	}
 
 	function add($article_slug = null)
