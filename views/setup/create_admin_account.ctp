@@ -1,5 +1,5 @@
-<h2><?php __('Step 2: Create administrator account'); ?></h2>
-<?php echo $form->create(false, array('url' => array('controller' => 'setup', 'action' => 'install_step2'))); ?>
+<h2><?php __('Create administrator account'); ?></h2>
+<?php echo $form->create(false, array('url' => array('action' => $this->action, 'create_admin_account'))); ?>
 	<?php echo $html->div('install-inputbox'); ?>
 		<?php echo $form->input('User.username', array('label' => __('Username', true))); ?>
 		<?php echo $form->input('User.passwd', array('type' => 'password', 'label' => __('Password', true), 'value' => '')); ?>

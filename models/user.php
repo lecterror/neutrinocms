@@ -288,9 +288,12 @@ class User extends AppModel
 		return $ticket;
 	}
 
-	function validateRegistration($data)
+	function validateRegistration($data = null)
 	{
-		$this->data = $data;
+		if (!empty($data))
+		{
+			$this->set($data);
+		}
 
 		return $this->validates(array('fieldList' => $this->_registrationFields));
 	}

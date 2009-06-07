@@ -1,5 +1,5 @@
 <h2><?php __('Connect to a database'); ?></h2>
-<?php echo $form->create(false, array('url' => array('controller' => 'setup', 'action' => 'connect_database'))); ?>
+<?php echo $form->create(false, array('url' => array('action' => $this->action, 'connect_database'))); ?>
 	<?php echo $html->div('install-inputbox'); ?>
 		<p style="text-align:justify;">
 			<?php __('Neutrino is unable to connect to your database.'); ?>

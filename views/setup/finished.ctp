@@ -1,4 +1,4 @@
-<h2><?php __('Step 4: Finished!'); ?></h2>
+<h2><?php __('Finished!'); ?></h2>
 <div>
 	<p><?php __('Congratulations!'); ?></p>
 	<p>

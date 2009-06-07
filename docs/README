@@ -60,6 +60,11 @@ NeutrinoCMS is using the following code (in random order):
 		Copyright (c) 2009 Matt Curry
 		http://github.com/mcurry/cakephp/tree/master/snippets/app_helper_url
 
+	* Wizard component *
+		Handles multi-step form navigation, data persistence,
+		validation callbacks, and plot-branching navigation.
+		Copyright (c) jaredhoyt AT gmail DOT com
+
 If I forgot to mention anyone in the credits,
 please e-mail me and I will update it in the next release.
 
