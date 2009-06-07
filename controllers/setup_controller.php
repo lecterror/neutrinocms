@@ -423,50 +423,6 @@ END;
 		$this->_fail(__('FATAL: Already installed.', true));
 	}
 
-	function update()
-	{
-		$this->loadModel('Configuration');
-		$this->Configuration->deleteCachedConfig();
-		$this->Configuration->load();
-
-		if (!$this->Migration->needsMigration())
-		{
-			$this->redirect('/');
-		}
-
-		$requiredDbVersion = $this->_configuration->dbMigration[$this->_configuration->currentAppVersion];
-		$currentDbVersion = $this->Migration->getDbMigration()->id();
-
-		$this->set(compact('requiredDbVersion',	'currentDbVersion'));
-	}
-
-	function update_db()
-	{
-		$this->loadModel('Configuration');
-		$this->Configuration->deleteCachedConfig();
-		$this->Configuration->load();
-
-		if (!$this->Migration->needsMigration())
-		{
-			$this->redirect('/');
-		}
-
-		if (!$this->RequestHandler->isPost() ||
-			!isset($this->data['Installation']['Step']) ||
-			$this->data['Installation']['Step'] != 0)
-		{
-			$this->redirect(array('controller' => 'setup', 'action' => 'update'));
-		}
-
-		$requiredMigration = $this->_configuration->dbMigration[$this->_configuration->currentAppVersion];
-
-		$this->Migration->migrate($requiredMigration);
-
-		clearCache(null, 'models', '');
-		clearCache(null, 'views', '');
-		clearCache(null, 'persistent', '');
-	}
-
 	function error()
 	{
 		$this->set('referrer', $this->referer());

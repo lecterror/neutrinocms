@@ -52,8 +52,9 @@ Router::connect('/articles/categories/:action/*', array('controller' => 'article
 Router::connect('/downloads/categories/:action/*', array('controller' => 'download_categories'));
 Router::connect('/statistics/:action/*', array('controller' => 'stats'));
 
-// install routes
-Router::connect('/system/install/*', array('controller' => 'setup', 'action' => 'install'));
+// install/update routes
+Router::connect('/setup/:action/*', array('controller' => 'setup')); //, 'action' => 'install'));
+Router::connect('/system/:action/*', array('controller' => 'update')); //, 'action' => 'update'));
 
 // connect home
 Router::connect('/', array('controller' => 'articles', 'action' => 'home'));

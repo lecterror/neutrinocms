@@ -50,7 +50,7 @@
 		<?php echo $form->create(false, array('url' => $this->here)); ?>
 		<?php echo $html->div('install-inputbox'); ?>
 			<p><?php __('To proceed with NeutrinoCMS installation press next.'); ?></p>
-			<?php echo $form->hidden('Installation.Step', array('value' => '0')); ?>
+			<?php echo $form->hidden('Dummy.field', array('value' => '0')); ?>
 			<?php echo $form->submit(__('Next', true), array('class' => 'button')); ?>
 		</div>
 		<?php echo $form->end(); ?>
