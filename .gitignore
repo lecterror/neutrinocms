@@ -1,5 +1,4 @@
 nbproject
 tmp/**/*
 config/database.php
-plugins/debug_kit
 *.sw?
