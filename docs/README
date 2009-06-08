@@ -58,7 +58,7 @@ NeutrinoCMS is using the following code (in random order):
 	* App Helper url caching *
 		AppHelper speed improvement tweak for cake reverse routing
 		Copyright (c) 2009 Matt Curry
-		http://github.com/mcurry/cakephp/tree/master/snippets/app_helper_url
+		http://github.com/mcurry/url_cache
 
 	* Wizard component *
 		Handles multi-step form navigation, data persistence,
