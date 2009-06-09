@@ -52,14 +52,9 @@ Router::connect('/articles/categories/:action/*', array('controller' => 'article
 Router::connect('/downloads/categories/:action/*', array('controller' => 'download_categories'));
 Router::connect('/statistics/:action/*', array('controller' => 'stats'));
 
-// install & update routes
-Router::connect('/system/install/start', array('controller' => 'setup', 'action' => 'install'));
-Router::connect('/system/install/step/1', array('controller' => 'setup', 'action' => 'install_step1'));
-Router::connect('/system/install/step/2', array('controller' => 'setup', 'action' => 'install_step2'));
-Router::connect('/system/install/step/3', array('controller' => 'setup', 'action' => 'install_step3'));
-
-// setup && update controller routes
-Router::connect('/system/:action/*', array('controller' => 'setup'));
+// install/update routes
+Router::connect('/setup/:action/*', array('controller' => 'setup')); //, 'action' => 'install'));
+Router::connect('/system/:action/*', array('controller' => 'update')); //, 'action' => 'update'));
 
 // connect home
 Router::connect('/', array('controller' => 'articles', 'action' => 'home'));
@@ -73,5 +68,3 @@ Router::connect('/', array('controller' => 'articles', 'action' => 'home'));
  * developement.
  */
 	Router::connect('/tests', array('controller' => 'tests', 'action' => 'index'));
-
-?>

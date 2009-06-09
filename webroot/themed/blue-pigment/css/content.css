@@ -240,17 +240,17 @@ textarea:focus
 	padding:			0px 0px 0px 15px;
 }
 
-.comments-form-wrap
+#comments-form-wrap
 {
 	width:				100%;
 	text-align:			left;
 }
 
-.comments-form-wrap #CommentName,
-.comments-form-wrap #CommentWebsite,
-.comments-form-wrap #CommentEmail,
-.comments-form-wrap #CommentComment,
-.comments-form-wrap #CommentComment
+#comments-form-wrap #CommentName,
+#comments-form-wrap #CommentWebsite,
+#comments-form-wrap #CommentEmail,
+#comments-form-wrap #CommentComment,
+#comments-form-wrap #CommentComment
 {
 	width:				100%;
 }

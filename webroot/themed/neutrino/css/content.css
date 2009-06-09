@@ -168,7 +168,7 @@ textarea:focus
 	padding:			0px 15px 0px 15px;
 }
 
-.comments-form-wrap
+#comments-form-wrap
 {
 	width:				100%;
 	text-align:			left;

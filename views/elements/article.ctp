@@ -247,7 +247,9 @@
 		echo '</span><br />';
 		echo sprintf('<span class="comments" id="comments-counter-%s">', $article['Article']['id']);
 
-		if ($comments_count > 0)
+		$commentsCount = count($article['Comment']);
+
+		if ($commentsCount > 0)
 		{
 			if (!isset($show_comments) || $show_comments == false)
 			{
@@ -259,10 +261,10 @@
 							 (
 							 	'%s comment',
 							 	'%s comments',
-							 	$comments_count,
+							 	$commentsCount,
 							 	true
 							 ),
-							 $comments_count
+							 $commentsCount
 						),
 						array
 						(
@@ -280,10 +282,10 @@
 						 (
 						 	'%s comment',
 						 	'%s comments',
-						 	$comments_count,
+						 	$commentsCount,
 						 	true
 						 ),
-						 $comments_count
+						 $commentsCount
 					);
 			}
 		}
@@ -297,18 +299,12 @@
 	<?php
 	if (isset($show_comments) && $show_comments == true)
 	{
-		echo '<a name="comments"></a>';
-		echo $ajax->div('comments-outer-wrap', array('class' => 'comments'));
-		echo $this->element
-			(
-				'comments/toolbar',
-				array
-				(
-					'comments_count' => $comments_count,
-					'articleId' => $article['Article']['id']
-				)
-			);
-		echo $ajax->divEnd('comments-outer-wrap');
+		?>
+		<a name="comments"></a>
+		<div id="comments-outer-wrap" class="comments">
+			<?php echo $this->element('comments/index'); ?>
+		</div>
+		<?php
 	}
 	?>
 </div>

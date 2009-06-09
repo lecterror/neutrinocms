@@ -20,7 +20,7 @@ echo sprintf
 
 <?php __('- END -'); ?>
 
-<?php __('View the article here:'); ?>
+<?php __('View the comment here: '); ?>
 <?php
 echo $html->url
 	(
@@ -28,7 +28,8 @@ echo $html->url
 		(
 			'controller' => 'articles',
 			'action' => 'view',
-			$email_article['Article']['slug']
+			$email_article['Article']['slug'],
+			sprintf('#comment-%s', $email_comment['Comment']['id'])
 		),
 		true
 	);

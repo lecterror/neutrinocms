@@ -98,7 +98,7 @@ class Configuration extends AppModel
 		foreach ($data['Configuration'] as $key => $value)
 		{
 			$this->create();
-			$this->save(array('name' => $key, 'value' => $value));
+			$this->save(array('name' => $key, 'value' => Sanitize::escape($value)));
 		}
 	}
 
@@ -117,7 +117,7 @@ class Configuration extends AppModel
 				$this->id = $existing['Configuration']['id'];
 			}
 
-			$this->save(array('name' => $key, 'value' => $value));
+			$this->save(array('name' => $key, 'value' => Sanitize::escape($value)));
 		}
 	}
 }

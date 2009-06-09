@@ -1,0 +1,6 @@
+[submodule "plugins/debug_kit"]
+	path = plugins/debug_kit
+	url = git@thechaw.com:debug_kit.git
+[submodule "plugins/url_cache"]
+	path = plugins/url_cache
+	url = git://github.com/mcurry/url_cache.git

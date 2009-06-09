@@ -16,114 +16,345 @@
 	along with NeutrinoCMS.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/**
- * Setup controller is a setup && update utility.
- */
-
 App::import('Core', 'ConnectionManager');
-
-/*
- * This controller could be described as "creative mess"...
- * And not the Salvador Dali kind of mess, or even Chuck Palahniuk mess..
- * I mean really, really bad mess.
- * @todo: rewrite..
- * */
 
 /**
  * @property User $User
+ * @property SessionComponent $Session
+ * @property WizardComponent $Wizard
  */
 class SetupController extends AppController
 {
 	var $name = 'Setup';
-	var $helpers = array('Html', 'Text', 'Form', 'Session', 'Javascript', 'Ajax');
-	var $components = array('Auth', 'Session');
 	var $uses = array();
-	var $pageTitle = 'NeutrinoCMS';
+	var $components = array('Wizard');
+	var $pageTitle = 'NeutrinoCMS Setup';
 
-	var $_installActions =
-		array
+	var $_wizardSteps = array
 		(
-			'install',
-			'connect_database',
-			'install_step1',
-			'install_step2',
-			'install_step3'
+			'intro',
+			array('connect_database' => array('connect_database')),
+			'initialize_database',
+			'create_admin_account',
+			'configure_website'
 		);
-
-	var $_actionMapping =
-		array
-		(
-			'install'			=> 'connect_database',
-			'connect_database'	=> 'install_step1',
-			'install_step1'		=> 'install_step2',
-			'install_step2'		=> 'install_step3',
-			'install_step3'		=> 'install_finished'
-		);
-
-	// install steps definition - stored in session
-	var $_installStepKey = 'Neutrino.InstallSteps';
-	var $_installSteps = array();
-
-	function __construct()
-	{
-		parent::__construct();
-
-		$this->_installSteps = array
-		(
-			'wizard_title'		=> __('Setup', true),
-			'wizard_done'		=> array(),
-			'wizard_current'	=> __('Welcome', true),
-			'wizard_pending'	=>
-				array
-				(
-					__('Connect to a database', true),
-					__('Initialize database', true),
-					__('Create admin account', true),
-					__('Configure website', true),
-					__('Finish', true)
-				)
-		);
-	}
 
 	function beforeFilter()
 	{
 		parent::beforeFilter();
+		$this->theme = 'neutrino';
 
 		$this->Auth->allow('*');
 
-		$this->theme = 'neutrino';
+		$this->Wizard->lockdown = true;
+		$this->Wizard->autoReset = true;
+		$this->Wizard->defaultBranch = false;
+		$this->Wizard->wizardAction = 'install';
+		$this->Wizard->completeUrl = array('controller' => 'setup', 'action' => 'finished');
+		$this->Wizard->steps = $this->_wizardSteps;
+	}
 
-		if (in_array($this->action, $this->_installActions))
+	public function install($step = null)
+	{
+		$this->Wizard->process($step);
+	}
+
+	public function _prepareIntro()
+	{
+		$this->_beforeInstall();
+	}
+
+	public function _processIntro()
+	{
+		if ($this->_beforeInstall() === -1)
 		{
-			if (!$this->Session->check($this->_installStepKey))
-			{
-				$this->Session->write($this->_installStepKey, $this->_installSteps);
-			}
+			$this->Wizard->branch('connect_database');
+		}
 
-			if ($this->_installContinue() === false)
-			{
-				$this->_fail(__('FATAL: Already installed.', true));
-			}
+		return true;
+	}
 
-			$this->set('isSetup', true);
+	public function _prepareConnectDatabase()
+	{
+		if ($this->_beforeInstall() !== -1)
+		{
+			$this->Wizard->redirect('initialize_database');
+			return;
+		}
 
-			if ($this->_isActionComplete($this->_installStepKey))
-			{
-				$this->_redirectToNextAction();
-			}
-			else
-			{
-				$back = array_flip($this->_actionMapping);
+		/* @var ConnectionManager $db */
+		$db = ConnectionManager::getInstance();
 
-				if (isset($back[$this->action]))
-				{
-					if (!$this->_isActionComplete($this->_installStepKey, $back[$this->action]))
-					{
-						$this->redirect(array('controller' => 'setup', 'action' => $back[$this->action]));
-					}
-				}
+		// if we have a config file, and cannot connect,
+		// try to get the data and offer that instead of a blank form
+		// NB: except for password, for security reasons..
+		$tmpFile = new File(CONFIGS.'database.php');
+
+		if (!$tmpFile || !$tmpFile->exists())
+		{
+			return;
+		}
+
+		$configContent = $tmpFile->read();
+		$hostMatches = array();
+		$usernameMatches = array();
+		$nameMatches = array();
+
+		preg_match('#\'host\'(?:\s+)?=>(?:\s+)?\'(\w+)?\'#', $configContent, $hostMatches);
+		preg_match('#\'login\'(?:\s+)?=>(?:\s+)?\'(\w+)?\'#', $configContent, $usernameMatches);
+		preg_match('#\'database\'(?:\s+)?=>(?:\s+)?\'(\w+)?\'#', $configContent, $nameMatches);
+
+		if (empty($hostMatches) && empty($usernameMatches) && empty($passwordMatches) && empty($nameMatches))
+		{
+			return;
+		}
+
+		if (isset($hostMatches[1]))
+		{
+			$this->data['DB']['Host'] = $hostMatches[1];
+		}
+
+		if (isset($usernameMatches[1]))
+		{
+			$this->data['DB']['Username'] = $usernameMatches[1];
+		}
+
+		if (isset($nameMatches[1]))
+		{
+			$this->data['DB']['Name'] = $nameMatches[1];
+		}
+
+		return;
+	}
+
+	public function _processConnectDatabase()
+	{
+		if ($this->_beforeInstall() !== -1)
+		{
+			$this->Wizard->redirect('initialize_database');
+			return;
+		}
+		/* @var ConnectionManager $db */
+		$db = ConnectionManager::getInstance();
+
+		$host = $this->data['DB']['Host'];
+		$username = $this->data['DB']['Username'];
+		$password = $this->data['DB']['Password'];
+		$name = $this->data['DB']['Name'];
+
+		/* @var $conn DboSource */
+		$conn = $db->create
+			(
+				'attempt',
+				array
+				(
+					'driver'	=> 'mysql',
+					'connect'	=> 'mysql_connect',
+					'host'		=> $host,
+					'login'		=> $username,
+					'password'	=> $password,
+					'database'	=> $name,
+					'prefix'	=> '',
+					'encoding'	=> 'utf-8'
+				)
+			);
+
+		if (!$conn->connection)
+		{
+			$this->Session->setFlash(__('Could not connect to database!', true));
+			return false;
+		}
+
+		if (!$conn->connected)
+		{
+			$conn->execute(sprintf('create database %s collate utf8_unicode_ci', $name));
+
+			if ($conn->error)
+			{
+				$this->Session->setFlash(sprintf(__('The database %s could not be created!', true), $name));
+				return false;
 			}
 		}
+
+		$template = <<<END
+<?php
+
+class DATABASE_CONFIG
+{
+	var \$default = array(
+		'driver' => 'mysql',
+		'connect' => 'mysql_connect',
+		'host' => '{$host}',
+		'login' => '{$username}',
+		'password' => '{$password}',
+		'database' => '{$name}',
+		'prefix' => '',
+		'encoding' => 'utf8'
+	);
+}
+
+?>
+END;
+
+		$configFile = new File(CONFIGS.'database.php', true);
+
+		if (!$configFile->writable())
+		{
+			$this->Session->setFlash(__('Could not save database configuration!', true));
+			return false;
+		}
+
+		if (!$configFile->write($template))
+		{
+			$this->Session->setFlash(__('Could not write configuration file!', true));
+			return false;
+		}
+
+		$this->Session->setFlash(__('Database connection configured successfully!', true));
+		return true;
+	}
+
+	public function _prepareInitializeDatabase()
+	{
+		if ($this->_beforeInstall() !== 1)
+		{
+			$this->Wizard->redirect('create_admin_account');
+			return;
+		}
+	}
+
+	public function _processInitializeDatabase()
+	{
+		if ($this->_beforeInstall() !== 1)
+		{
+			$this->Wizard->redirect('create_admin_account');
+			return false;
+		}
+
+		$db = ConnectionManager::getInstance();
+		$conn = $db->getDataSource('default');
+
+		$requiredMigration = $this->_configuration->requiredMigration();
+
+		$this->Migration->migrate($requiredMigration);
+
+		$dbMigration = $this->Migration->getDbMigration();
+
+		if (is_null($dbMigration) || $dbMigration->id() != $requiredMigration)
+		{
+			$this->Session->setFlash(__('Database init failed!', true));
+			return false;
+		}
+
+		return true;
+	}
+
+	public function _prepareCreateAdminAccount()
+	{
+		if ($this->_beforeInstall() !== 2)
+		{
+			$this->Wizard->redirect('configure_website');
+			return;
+		}
+
+		$this->data['User']['username'] = 'admin';
+	}
+
+	public function _processCreateAdminAccount()
+	{
+		if ($this->_beforeInstall() !== 2)
+		{
+			$this->Wizard->redirect('configure_website');
+			return false;
+		}
+
+		$this->loadModel('User');
+		$this->_loadAcl();
+
+		if (!$this->User->validateRegistration($this->data))
+		{
+			$this->Session->setFlash(__('Please correct the errors below', true));
+			return false;
+		}
+
+		$this->data['User']['last_login'] = date('Y-m-d H:i:s', time());
+		$this->data['User']['is_built_in'] = 1;
+		$this->data['User']['is_root'] = 1;
+		$this->data['User']['is_verified'] = 1;
+
+		$this->User->create();
+
+		if (!$this->User->save($this->data, false))
+		{
+			$this->Session->setFlash(__('There was an error while trying to create a user!', true));
+			return false;
+		}
+
+		$this->Acl->allow
+			(
+				array('model' => 'User', 'foreign_key' => $this->User->id),
+				'Everything',
+				'*'
+			);
+
+		return true;
+	}
+
+	public function _prepareConfigureWebsite()
+	{
+		if ($this->_beforeInstall() !== 3)
+		{
+			$this->Wizard->redirect();
+			return false;
+		}
+
+		$this->loadModel('Configuration');
+
+		$this->set('themes', $this->_configuration->availableThemes);
+		$this->set('defaultTheme', $this->_configuration->defaultTheme);
+
+		$this->data['Configuration']['SiteTitle'] = __('My awesome site', true);
+		$this->data['Configuration']['SiteDescription'] = __('My unique slogan', true);
+		$this->data['Configuration']['SiteKeywords'] = __('some, good, keywords, here', true);
+		$this->data['Configuration']['CaptchaSidenote'] = __('Insulting message to spammers', true);
+		$this->data['Configuration']['SiteCopyrightNotice'] = sprintf('&copy; %s <strong>%s</strong>', date('Y'), __('YourNameHere', true));
+		$this->data['Configuration']['GoogleWebmasterToolsVerificationCode'] = '';
+		$this->data['Configuration']['GoogleAnalyticsAccountCode'] = '';
+	}
+
+	public function _processConfigureWebsite()
+	{
+		if ($this->_beforeInstall() !== 3)
+		{
+			$this->Session->setFlash(__('Site already configured!', true));
+			$this->Wizard->redirect();
+			return false;
+		}
+
+		$this->loadModel('Configuration');
+
+		if (!$this->Configuration->validateInstall($this->data))
+		{
+			return false;
+		}
+
+		$this->Configuration->createPostData($this->data);
+
+		foreach ($this->_configuration->initialConfiguration as $key => $value)
+		{
+			$this->Configuration->create();
+			$this->Configuration->save(array('name' => $key, 'value' => $value));
+		}
+
+		return true;
+	}
+
+	function finished()
+	{
+		$this->loadModel('Configuration');
+		$this->set('release', $this->_configuration->currentAppVersion);
+
+		$this->Session->destroy();
 	}
 
 	function _fail($message)
@@ -133,7 +364,7 @@ class SetupController extends AppController
 		echo '<br />';
 		echo sprintf
 			(
-				__('Go to %s and stop messing with the site', true),
+				__('Go to %s and stop messing with the site.', true),
 				sprintf
 				(
 					'<a href="%s" title="%s">%s</a>',
@@ -145,73 +376,7 @@ class SetupController extends AppController
 		die;
 	}
 
-	function _advance_step($sessionKey)
-	{
-		if (!$this->Session->check($sessionKey))
-		{
-			return;
-		}
-
-		$steps = $this->Session->read($sessionKey);
-
-		array_push($steps['wizard_done'], $steps['wizard_current']);
-		$steps['wizard_current'] = $steps['wizard_pending'][0];
-		array_shift($steps['wizard_pending']);
-
-		$this->Session->write($sessionKey, $steps);
-	}
-
-	function _isActionComplete($stepKey, $action = null)
-	{
-		if (empty($action))
-		{
-			$action = $this->action;
-		}
-
-		if (!$this->Session->check($stepKey.'.'.$action.'.Complete'))
-		{
-			return false;
-		}
-
-		return $this->Session->read($stepKey.'.'.$action.'.Complete');
-	}
-
-	function _markActionComplete($stepKey, $redirectToNextAction = false)
-	{
-		$this->Session->write($stepKey.'.'.$this->action.'.Complete', true);
-
-		if ($redirectToNextAction)
-		{
-			$this->_redirectToNextAction();
-		}
-	}
-
-	function _redirectToNextAction()
-	{
-		if (isset($this->_actionMapping[$this->action]))
-		{
-			$this->redirect(array('controller' => 'setup', 'action' => $this->_actionMapping[$this->action]));
-		}
-	}
-
-	function _executeSqlScript($conn, $sql_script)
-	{
-		if (file_exists(CONFIGS.'sql'.DS.$sql_script))
-		{
-			$sql_all = file_get_contents(CONFIGS.'sql'.DS.$sql_script);
-			$sql_commands = explode(';', $sql_all);
-
-			foreach ($sql_commands as $command)
-			{
-				if (strlen(trim($command)) > 0)
-				{
-					$conn->execute($command);
-				}
-			}
-		}
-	}
-
-	function _installContinue()
+	private function _beforeInstall()
 	{
 		$configExists = file_exists(CONFIGS.'database.php');
 
@@ -242,7 +407,7 @@ class SetupController extends AppController
 
 		$User =& ClassRegistry::init('User');
 
-		if (!$User->hasAny('1 = 1'))
+		if (!$User->hasAny(array('is_root' => true)))
 		{
 			return 2;
 		}
@@ -255,326 +420,7 @@ class SetupController extends AppController
 			return 3;
 		}
 
-		return false;
-	}
-
-	function install()
-	{
-		if (isset($this->data['Installation']['Step']) && $this->data['Installation']['Step'] == 0)
-		{
-			$this->_advance_step($this->_installStepKey);
-			$this->_markActionComplete($this->_installStepKey, true);
-		}
-	}
-
-	function connect_database()
-	{
-		if ($this->_installContinue() !== -1)
-		{
-			$this->Session->setFlash(__('Already connected to a database!', true));
-			$this->_advance_step($this->_installStepKey);
-			$this->_markActionComplete($this->_installStepKey, true);
-		}
-
-		/* @var $db ConnectionManager */
-		$db = ConnectionManager::getInstance();
-
-		// if we have a config file, and cannot connect,
-		// try to get the data and offer that instead of a blank form
-		// NB: except for password, for security reasons..
-		if (empty($this->data))
-		{
-			$tmpFile = new File(CONFIGS.'database.php');
-
-			if (!$tmpFile || !$tmpFile->exists())
-			{
-				return;
-			}
-
-			$configContent = $tmpFile->read();
-			$hostMatches = array();
-			$usernameMatches = array();
-			$nameMatches = array();
-
-			preg_match('#\'host\'(?:\s+)?=>(?:\s+)?\'(\w+)?\'#', $configContent, $hostMatches);
-			preg_match('#\'login\'(?:\s+)?=>(?:\s+)?\'(\w+)?\'#', $configContent, $usernameMatches);
-			preg_match('#\'database\'(?:\s+)?=>(?:\s+)?\'(\w+)?\'#', $configContent, $nameMatches);
-
-			if (empty($hostMatches) && empty($usernameMatches) && empty($passwordMatches) && empty($nameMatches))
-			{
-				return;
-			}
-
-			if (isset($hostMatches[1]))
-			{
-				$this->data['DB']['Host'] = $hostMatches[1];
-			}
-
-			if (isset($usernameMatches[1]))
-			{
-				$this->data['DB']['Username'] = $usernameMatches[1];
-			}
-
-			if (isset($nameMatches[1]))
-			{
-				$this->data['DB']['Name'] = $nameMatches[1];
-			}
-
-			return;
-		}
-
-		$host = $this->data['DB']['Host'];
-		$username = $this->data['DB']['Username'];
-		$password = $this->data['DB']['Password'];
-		$name = $this->data['DB']['Name'];
-
-		/* @var $conn DboSource */
-		$conn = $db->create
-			(
-				'attempt',
-				array
-				(
-					'driver'	=> 'mysql',
-					'connect'	=> 'mysql_connect',
-					'host'		=> $host,
-					'login'		=> $username,
-					'password'	=> $password,
-					'database'	=> $name,
-					'prefix'	=> '',
-					'encoding'	=> 'utf-8'
-				)
-			);
-
-		if (!$conn->connection)
-		{
-			$this->Session->setFlash(__('Could not connect to database!', true));
-			return;
-		}
-
-		if (!$conn->connected)
-		{
-			$conn->execute(sprintf('create database %s collate utf8_unicode_ci', $name));
-
-			if ($conn->error)
-			{
-				$this->Session->setFlash(sprintf(__('The database %s could not be created!', true), $name));
-				return;
-			}
-		}
-
-		// great! now write the config..
-		$template = <<<END
-<?php
-
-class DATABASE_CONFIG
-{
-	var \$default = array(
-		'driver' => 'mysql',
-		'connect' => 'mysql_connect',
-		'host' => '{$host}',
-		'login' => '{$username}',
-		'password' => '{$password}',
-		'database' => '{$name}',
-		'prefix' => '',
-		'encoding' => 'utf8'
-	);
-}
-
-?>
-END;
-
-		$configFile = new File(CONFIGS.'database.php', true);
-
-		if (!$configFile->writable())
-		{
-			$this->Session->setFlash(__('Could not save database configuration!', true));
-			return;
-		}
-
-		if (!$configFile->write($template))
-		{
-			$this->Session->setFlash(__('Could not write configuration file!', true));
-			return;
-		}
-
-		$this->Session->setFlash(__('Database connection configured successfully!', true));
-		$this->_advance_step($this->_installStepKey);
-		$this->_markActionComplete($this->_installStepKey, true);
-	}
-
-	function install_step1()
-	{
-		if ($this->_installContinue() !== 1)
-		{
-			$this->Session->setFlash(__('Database already initialized!', true));
-			$this->_advance_step($this->_installStepKey);
-			$this->_markActionComplete($this->_installStepKey, true);
-		}
-
-		if ($this->RequestHandler->isPost() && $this->data['Installation']['Step'] == 1)
-		{
-			$db = ConnectionManager::getInstance();
-			$conn = $db->getDataSource('default');
-
-			$requiredMigration = $this->_configuration->requiredMigration();
-
-			$this->Migration->migrate($requiredMigration);
-
-			$dbMigration = $this->Migration->getDbMigration();
-
-			if (is_null($dbMigration) || $dbMigration->id() != $requiredMigration)
-			{
-				$this->Session->setFlash(__('Database init failed!', true));
-				return;
-			}
-
-			$this->_advance_step($this->_installStepKey);
-			$this->_markActionComplete($this->_installStepKey, true);
-		}
-	}
-
-	function install_step2()
-	{
-		if ($this->_installContinue() !== 2)
-		{
-			$this->Session->setFlash(__('Administrator account already created!', true));
-			$this->_advance_step($this->_installStepKey);
-			$this->_markActionComplete($this->_installStepKey, true);
-		}
-
-		$this->loadModel('User');
-		$this->_loadAcl();
-
-		if (empty($this->data))
-		{
-			$this->data['User']['username'] = 'admin';
-			return;
-		}
-
-		$this->User->data = $this->data;
-
-		if (!$this->User->validateRegistration($this->data))
-		{
-			$this->Session->setFlash(__('Please correct the errors below', true));
-			return;
-		}
-
-		$this->data['User']['last_login'] = date('Y-m-d H:i:s', time());
-		$this->data['User']['is_built_in'] = 1;
-		$this->data['User']['is_root'] = 1;
-		$this->data['User']['is_verified'] = 1;
-
-		$this->User->create();
-
-		if (!$this->User->save($this->data, false))
-		{
-			$this->Session->setFlash(__('There was an error while trying to create a user!', true));
-			return;
-		}
-
-		$this->Acl->allow
-			(
-				array('model' => 'User', 'foreign_key' => $this->User->id),
-				'Everything',
-				'*'
-			);
-
-		$this->Session->write('user', $this->data['User']);
-		$this->_advance_step($this->_installStepKey);
-		$this->_markActionComplete($this->_installStepKey, true);
-	}
-
-	function install_step3()
-	{
-		if ($this->_installContinue() !== 3)
-		{
-			$this->Session->setFlash(__('Site already configured!', true));
-			$this->_advance_step($this->_installStepKey);
-			$this->_markActionComplete($this->_installStepKey, true);
-		}
-
-		$this->loadModel('Configuration');
-
-		$this->set('themes', $this->_configuration->availableThemes);
-		$this->set('defaultTheme', $this->_configuration->defaultTheme);
-
-		if (empty($this->data))
-		{
-			$this->data['Configuration']['SiteTitle'] = __('My awesome site', true);
-			$this->data['Configuration']['SiteDescription'] = __('My unique slogan', true);
-			$this->data['Configuration']['SiteKeywords'] = __('some, good, keywords, here', true);
-			$this->data['Configuration']['CaptchaSidenote'] = __('Insulting message to spammers', true);
-			$this->data['Configuration']['SiteCopyrightNotice'] = sprintf('&copy; %s <strong>%s</strong>', date('Y'), __('YourNameHere', true));
-			$this->data['Configuration']['GoogleWebmasterToolsVerificationCode'] = '';
-			$this->data['Configuration']['GoogleAnalyticsAccountCode'] = '';
-			return;
-		}
-
-		if (!($this->Configuration->validateInstall($this->data)))
-		{
-			return;
-		}
-
-		$this->Configuration->createPostData($this->data);
-
-		foreach ($this->_configuration->initialConfiguration as $key => $value)
-		{
-			$this->Configuration->create();
-			$this->Configuration->save(array('name' => $key, 'value' => $value));
-		}
-
-		$this->_advance_step($this->_installStepKey);
-		$this->_markActionComplete($this->_installStepKey, true);
-	}
-
-	function install_finished()
-	{
-		$this->set('release', $this->_configuration->currentAppVersion);
-		$this->Session->destroy();
-	}
-
-	function update()
-	{
-		$this->loadModel('Configuration');
-		$this->Configuration->deleteCachedConfig();
-		$this->Configuration->load();
-
-		if (!$this->Migration->needsMigration())
-		{
-			$this->redirect('/');
-		}
-
-		$requiredDbVersion = $this->_configuration->dbMigration[$this->_configuration->currentAppVersion];
-		$currentDbVersion = $this->Migration->getDbMigration()->id();
-
-		$this->set(compact('requiredDbVersion',	'currentDbVersion'));
-	}
-
-	function update_db()
-	{
-		$this->loadModel('Configuration');
-		$this->Configuration->deleteCachedConfig();
-		$this->Configuration->load();
-
-		if (!$this->Migration->needsMigration())
-		{
-			$this->redirect('/');
-		}
-
-		if (!$this->RequestHandler->isPost() ||
-			!isset($this->data['Installation']['Step']) ||
-			$this->data['Installation']['Step'] != 0)
-		{
-			$this->redirect(array('controller' => 'setup', 'action' => 'update'));
-		}
-
-		$requiredMigration = $this->_configuration->dbMigration[$this->_configuration->currentAppVersion];
-
-		$this->Migration->migrate($requiredMigration);
-
-		clearCache(null, 'models', '');
-		clearCache(null, 'views', '');
-		clearCache(null, 'persistent', '');
+		$this->_fail(__('FATAL: Already installed.', true));
 	}
 
 	function error()

@@ -37,7 +37,7 @@ echo $html->docType(); ?>
 			(
 				'content',
 				'blue-pigment',
-				'syntaxhighlighter',
+				'prettify',
 				'starbox',
 				'shadowbox'
 			)
@@ -54,7 +54,7 @@ echo $html->docType(); ?>
 					'starbox/starbox',
 					'shadowbox/shadowbox-prototype',
 					'shadowbox/shadowbox',
-					'dp.SyntaxHighlighter/Scripts/shCombined'
+					'prettify/prettify'
 		    	),
 		  	  true
 			);

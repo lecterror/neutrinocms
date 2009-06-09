@@ -16,21 +16,15 @@
 	along with NeutrinoCMS.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * @property Comment $Comment
+ */
 class CommentsController extends AppController
 {
 	var $uses = array('Comment', 'User');
 	var $name = 'Comments';
 	var $components = array('Captcha', 'Cookie', 'Email');
 	var $helpers = array('Captcha');
-
-	var $paginate = array('Comment' =>
-			array
-			(
-				'limit'		=> 5,
-				'page'		=> 1,
-				'recursive'	=> -1
-			)
-		);
 
 	function isAuthorized()
 	{
@@ -39,12 +33,7 @@ class CommentsController extends AppController
 		return parent::isAuthorized($model);
 	}
 
-	function _getPaginatedComments($article_id)
-	{
-		return $this->paginate('Comment', array('article_id' => $article_id));
-	}
-
-	function _sendNewCommentNotification($user, $comment, $article)
+	private function _sendNewCommentNotification($user, $comment, $article)
 	{
 		$this->Email->reset();
 		$this->Email->sendAs = 'both';
@@ -59,19 +48,20 @@ class CommentsController extends AppController
 		$this->set('email_comment', $comment);
 		$this->set('email_article', $article);
 
-		if (Configure::read('debug'))
-		{
-			$this->Email->_debug = true;
-		}
-
 		$this->Email->send();
 	}
 
-	function _renderPaginatedComments()
+	private function _renderArticle($article)
 	{
-		$this->autoRender = false;
-		$this->viewPath = 'elements'.DS.'comments';
-		$this->render('paginated', 'ajax');
+		$cookie = $this->Cookie->read('Article-'.$article['Article']['id'].'-Rating');
+
+		if ($cookie && !empty($article['Rating']))
+		{
+			$this->Comment->Article->Rating->setupVoted($article, $cookie);
+		}
+
+		$this->set('article', $article);
+		$this->render('/articles/view');
 	}
 
 	function beforeFilter()
@@ -92,29 +82,9 @@ class CommentsController extends AppController
 		$this->Captcha->image();
 	}
 
-	function view($article_slug = null)
-	{
-		if (empty($article_slug) || !$this->_isAjaxRequest())
-		{
-			$this->_redirectToReferrer();
-		}
-
-		$article = $this->Comment->Article->getSingle($article_slug);
-
-		if (!$article)
-		{
-			$this->_redirectTo('not_found', $article_slug);
-		}
-
-		$this->set('article', $article);
-		$this->set('comments', $this->_getPaginatedComments($article['Article']['id']));
-		$this->set('comments_count', $this->params['paging']['Comment']['count']);
-		$this->_renderPaginatedComments();
-	}
-
 	function add($article_slug = null)
 	{
-		if (empty($article_slug) || !$this->_isAjaxRequest())
+		if (!$this->RequestHandler->isPost() || empty($article_slug)) // @todo: ??
 		{
 			$this->_redirectToReferrer();
 		}
@@ -124,36 +94,6 @@ class CommentsController extends AppController
 		if (!$article)
 		{
 			$this->_redirectTo('not_found', $article_slug);
-		}
-
-		$this->set(compact('article'));
-
-		if (empty($this->data))
-		{
-			$user = $this->Auth->user();
-
-			if ($user)
-			{
-				$this->data['Comment']['name']		= $user['User']['username'];
-				$this->data['Comment']['website']	= Router::url('/', true);
-				$this->data['Comment']['email']		= $user['User']['email'];
-			}
-			else
-			{
-				$old_data = $this->Cookie->read('CommentInfo');
-
-				if (is_array($old_data) && !empty($old_data))
-				{
-					$this->data['Comment']['name']		= $old_data['name'];
-					$this->data['Comment']['website']	= $old_data['website'];
-					$this->data['Comment']['email']		= $old_data['email'];
-				}
-			}
-
-			$this->set('comments', $this->_getPaginatedComments($article['Article']['id']));
-			$this->set('comments_count', $this->params['paging']['Comment']['count']);
-			$this->layout = 'ajax';
-			return;
 		}
 
 		$this->data['Comment']['article_id'] = $article['Article']['id'];
@@ -169,12 +109,12 @@ class CommentsController extends AppController
 				$this->Comment->invalidate('captcha', __('Please type the code from the image above', true));
 			}
 
-			$this->set('comments', $this->_getPaginatedComments($article['Article']['id']));
-			$this->set('comments_count', $this->params['paging']['Comment']['count']);
-			$this->layout = 'ajax';
+			$this->set('commentInputError', true);
+			$this->_renderArticle($article);
 			return;
 		}
 
+		// @todo: remove
 		if ($this->Auth->user())
 		{
 			$this->data['Comment']['article_author'] = true;
@@ -184,13 +124,12 @@ class CommentsController extends AppController
 		{
 			$this->data['Comment']['captcha'] = '';
 
-			$this->set('comments', $this->_getPaginatedComments($article['Article']['id']));
-			$this->set('comments_count', $this->params['paging']['Comment']['count']);
-
-			$this->set('article', $article);
-			$this->_renderPaginatedComments();
+			$this->_renderArticle($article);
 			return;
 		}
+
+		$comment = $this->data;
+		$comment['Comment']['id'] = $this->Comment->id;
 
 		// store cookie with user info
 		$cookie = array
@@ -199,7 +138,8 @@ class CommentsController extends AppController
 				'website'	=> $this->data['Comment']['website'],
 				'email'		=> $this->data['Comment']['email']
 			);
-		$this->Cookie->write('CommentInfo', $cookie, true, '+4 weeks');
+
+		$this->Cookie->write('CommentInfo', $cookie, true, '+4 months');
 
 		// send notification email
 		if (!isset($this->data['Comment']['article_author'])
@@ -217,19 +157,26 @@ class CommentsController extends AppController
 
 			foreach ($users as $user)
 			{
-				$this->_sendNewCommentNotification($user, $this->data, $article);
+				$this->_sendNewCommentNotification($user, $comment, $article);
 			}
 		}
 
-		$this->set('comments', $this->_getPaginatedComments($article['Article']['id']));
-		$this->set('comments_count', $this->params['paging']['Comment']['count']);
-		$this->_renderPaginatedComments();
+		$this->redirect
+			(
+				array
+				(
+					'controller' => 'articles',
+					'action' => 'view',
+					$article_slug,
+					sprintf('#comment-%s', $this->Comment->id)
+				)
+			);
 		return;
 	}
 
 	function delete($article_slug = null, $id = null)
 	{
-		if (empty($article_slug) || empty($id) || !$this->_isAjaxRequest())
+		if (empty($article_slug) || empty($id))
 		{
 			$this->_redirectToReferrer();
 		}
@@ -242,11 +189,16 @@ class CommentsController extends AppController
 		}
 
 		$this->Comment->del(Sanitize::escape($id));
-
-		$this->set(compact('article'));
-		$this->set('comments', $this->_getPaginatedComments($article['Article']['id']));
-		$this->set('comments_count', $this->params['paging']['Comment']['count']);
-		$this->_renderPaginatedComments();
+		$this->redirect
+			(
+				array
+				(
+					'controller' => 'articles',
+					'action' => 'view',
+					$article_slug,
+					'#comments'
+				)
+			);
 	}
 
 	function index()

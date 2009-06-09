@@ -67,23 +67,9 @@
 		<div id="content-wrap">
 
 			<div id="sidebar">
-				<?php
-				if ($this->params['action'] != 'error' && isset($isSetup) && $isSetup)
-				{
-					if ($session->read('Neutrino.InstallSteps'))
-					{
-						echo $this->element('setup/steps', $session->read('Neutrino.InstallSteps'));
-					}
-				}
-				?>
 				<div style="width:100%; text-align:center; margin-top:5px; margin-bottom:40px;">
-					<?php
-					// echo $this->element('misc/cakepower', array('cache' => '1 week')); ?>
 					<br />
-					<?php
-					echo $html->image('neutrino.mirrored.png');
-					// echo $this->element('misc/getfirefox', array('cache' => '1 week'));
-					?>
+					<?php echo $html->image('neutrino.mirrored.png'); ?>
 				</div>
 			</div>
 

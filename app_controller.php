@@ -42,6 +42,10 @@ class AppController extends Controller
 			'Google'
 		);
 
+	/**
+	 *
+	 * @var NEUTRINO_CONFIG $_configuration
+	 */
 	var $_configuration = null;
 	var $_installed = null;
 	var $_needsMigration = false;
@@ -161,9 +165,9 @@ class AppController extends Controller
 		// check for an update
 		$this->_needsMigration = $this->Migration->needsMigration();
 
-		if ($this->_needsMigration && $this->params['controller'] != 'setup')
+		if ($this->_needsMigration && $this->params['controller'] != 'update')
 		{
-			$this->redirect(array('controller' => 'setup', 'action' => 'update'));
+			$this->redirect(array('controller' => 'update', 'action' => 'update'));
 		}
 
 		$this->_setupAuth();

@@ -209,19 +209,9 @@ class Migration extends MigrationsAppModel
 
 	function needsMigration()
 	{
-	//	$migrations = $this->getMigrations();
 		$neutrinoConfig = new NEUTRINO_CONFIG();
 		$dbMigration = $this->getDbMigration();
 
-		// no migrations, no need
-		// no woman, no cry
-		if (empty($migrations))
-		{
-			return false;
-		}
-
-	//	$migration = array_pop($migrations);
-	//	$migration->id()
 		if ($dbMigration->id() < $neutrinoConfig->requiredMigration())
 		{
 			return true;
@@ -230,5 +220,3 @@ class Migration extends MigrationsAppModel
 		return false;
 	}
 }
-
-?>
