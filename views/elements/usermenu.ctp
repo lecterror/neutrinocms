@@ -39,7 +39,12 @@
 
 		if ($auth->isAdmin())
 		{
-			$contentLinks[] = '<li>'.$html->link(__('User permissions', true), array('controller' => 'user_permissions', 'action' => 'permissions')).'</li>';
+			$contentLinks[] = '<li>'.$html->link(__('User permissions', true), array('controller' => 'user_permissions', 'action' => 'index')).'</li>';
+		}
+
+		if ($auth->isAdmin())
+		{
+			$contentLinks[] = '<li>'.$html->link(__('Group permissions', true), array('controller' => 'group_permissions', 'action' => 'index')).'</li>';
 		}
 
 		if ($auth->check('neutrino', 'configure'))
