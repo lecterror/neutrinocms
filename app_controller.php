@@ -120,7 +120,7 @@ class AppController extends Controller
 			return false;
 		}
 
-		$owner = $Model->getOwner($this->passedArgs[0]);
+		$owner = $Model->getOwner($this->passedArgs[0], $user['User']['id']);
 
 		if ($owner != $user['User']['id'])
 		{

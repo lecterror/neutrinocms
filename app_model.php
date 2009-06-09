@@ -43,8 +43,20 @@ class AppModel extends Model
 		return true;
 	}
 
-	function getOwner($slug)
+	function getOwner($slug, $currentUserId = null)
 	{
+		// special case for users, they have no user_id,
+		// but they are owners of their own profiles etc..
+		if ($this->name == 'User' && !empty($currentUserId))
+		{
+			$userId = Sanitize::escape($slug);
+
+			if ($userId == $currentUserId)
+			{
+				return $currentUserId;
+			}
+		}
+
 		if (!$this->hasField('slug') || !$this->hasField('user_id'))
 		{
 			return false;
