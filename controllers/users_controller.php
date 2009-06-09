@@ -38,8 +38,7 @@ class UsersController extends AppController
 		{
 			$this->Auth->allow
 				(
-					'logout',
-					'change_password'
+					'logout'
 				);
 		}
 		else
@@ -350,7 +349,9 @@ class UsersController extends AppController
 
 	public function change_password()
 	{
-		if (empty($this->data))
+		$this->set('user', $this->_user);
+
+		if (!$this->RequestHandler->isPost())
 		{
 			return;
 		}
