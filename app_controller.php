@@ -89,6 +89,11 @@ class AppController extends Controller
 			return true;
 		}
 
+		if (Configure::read('debug') > 0 && $this->name == 'ToolbarAccess')
+		{
+			return true;
+		}
+
 		$action = $this->action;
 
 		if (isset($this->Auth->actionMap[$action]))
