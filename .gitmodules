@@ -1,0 +1,3 @@
+[submodule "plugins/debug_kit"]
+	path = plugins/debug_kit
+	url = git@thechaw.com:debug_kit.git
