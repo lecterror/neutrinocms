@@ -260,7 +260,7 @@ class User extends AppModel
 
 		$this->id = $user['User']['id'];
 		$this->hit();
-		$this->save(array('last_login' => date('Y-m-d H:i:s')));
+		$this->saveField('last_login', date('Y-m-d H:i:s'));
 	}
 
 	function getTicket($set = false)
